@@ -21,12 +21,18 @@ export const quoteSlice = createSlice({
     initialState: {
         quotes: [],
         savedQuotes: [],
-        loading: false,
+        searchedSavedQuotes: [],
+        loading: false
     },
     reducers: {
         updateSavedQuotes: (state, action) => {
-            console.log(action.payload, "quoteslice action")
             return { ...state, savedQuotes: state.savedQuotes.filter(item => item._id !== action.payload) }
+        },
+        searchSavedQuotes: (state, action) => {
+            console.log(state.savedQuotes, "action.payload")
+            return {
+                ...state, searchedSavedQuotes: state.savedQuotes.filter(s => s.quote.toLowerCase().includes(action.payload.toLowerCase()))
+            }
         }
     },
     extraReducers: (builder) => {
@@ -48,6 +54,6 @@ export const quoteSlice = createSlice({
 })
 
 export const selectUserData = state => state.quotes;
-export const { updateSavedQuotes } = quoteSlice.actions
+export const { updateSavedQuotes, searchSavedQuotes } = quoteSlice.actions
 
 export default quoteSlice.reducer;
