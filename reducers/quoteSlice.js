@@ -23,6 +23,12 @@ export const quoteSlice = createSlice({
         savedQuotes: [],
         loading: false,
     },
+    reducers: {
+        updateSavedQuotes: (state, action) => {
+            console.log(action.payload, "quoteslice action")
+            return { ...state, savedQuotes: state.savedQuotes.filter(item => item._id !== action.payload) }
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchQuotesAsync.pending, (state, action) => {
             state.loading = true;
@@ -35,13 +41,13 @@ export const quoteSlice = createSlice({
                 state.loading = true
             }),
             builder.addCase(fetchQuotesByIdsAsync.fulfilled, (state, action) => {
-                console.log("hit")
                 state.loading = false
-                state.savedQuotes = [...state.savedQuotes, ...action.payload]
+                state.savedQuotes = action.payload
             })
     }
 })
 
 export const selectUserData = state => state.quotes;
+export const { updateSavedQuotes } = quoteSlice.actions
 
 export default quoteSlice.reducer;

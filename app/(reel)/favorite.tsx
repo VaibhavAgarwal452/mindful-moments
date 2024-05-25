@@ -1,11 +1,16 @@
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
-import React, { useEffect } from 'react';
+import { View, Text, SafeAreaView, ScrollView, Share } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAppSelector, useAppDispatch } from '@/hooks/hooks';
-import { fetchQuotesByIdsAsync } from '@/reducers/quoteSlice';
+import {
+  fetchQuotesByIdsAsync,
+  updateSavedQuotes,
+} from '@/reducers/quoteSlice';
 import { Feather } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
+import { removeQuotesFromUserAsync } from '@/reducers/userSlice';
+import { AntDesign } from '@expo/vector-icons';
 
 const Favorite = () => {
   const user: any = useAppSelector((state) => state.user);
@@ -14,25 +19,41 @@ const Favorite = () => {
   useEffect(() => {
     dispatch(fetchQuotesByIdsAsync(user.savedQuotes));
   }, []);
-  console.log(savedQuotes.length, 'savedQuotes', user.savedQuotes.length);
 
+  const handleLike = (quoteId: any) => {
+    console.log('heerev');
+    const userId = user._id;
+    const userData = { userId, quoteId };
+    dispatch(removeQuotesFromUserAsync(userData));
+    dispatch(updateSavedQuotes(quoteId));
+  };
+  const handleShare = async (shareText: string) => {
+    console.log('inside share');
+    try {
+      const result = await Share.share({
+        message: shareText,
+      });
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
   return (
     <SafeAreaView className='bg-primary h-full'>
       <View className='mt-12 mx-4'>
         <View className='flex-row start-1 gap-3 items-center'>
           <Ionicons
             name='arrow-back'
-            size={35}
+            size={25}
             color='white'
             onPress={() => {
               router.push('/profile');
             }}
           />
-          <Text className='text-white text-3xl'>Favorites</Text>
+          <Text className='text-white text-2xl'>Favorites</Text>
         </View>
       </View>
 
-      <ScrollView className='mt-6'>
+      <ScrollView className='mt-6 mx-4'>
         {savedQuotes &&
           savedQuotes &&
           savedQuotes.map((item: any, index: number) => {
@@ -40,29 +61,27 @@ const Favorite = () => {
               <View key={index} className='bg-primary-100 rounded-xl mt-5'>
                 <View className='p-4'>
                   <View>
-                    <Text className='text-white text-lg'>{item.quote}</Text>
+                    <Text className='text-white text-lg'>
+                      {' '}
+                      {index}
+                      {item.quote}
+                    </Text>
                   </View>
                   <View className='flex-row justify-between mt-2'>
                     <Text className='text-secondary-100 text-sm'> </Text>
-                    <View className='flex-row gap-2'>
+                    <View className='flex-row gap-3'>
                       <Fontisto
                         name='heart'
                         size={20}
                         color='white'
-                        onPress={
-                          () => {}
-                          // handleLike(
-                          //   quotesRedux[currentQuoteIndex]._id,
-                          //   'remove'
-                          // )
-                        }
+                        onPress={() => handleLike(item._id)}
                       />
 
                       <Feather
                         name='share'
                         size={20}
                         color='white'
-                        // onPress={handleShare}
+                        onPress={() => handleShare(item.quote)}
                       />
                     </View>
                   </View>

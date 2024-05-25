@@ -64,7 +64,7 @@ export function removeQuotesFromUser(userId, quoteId) {
                 }
             )
             const { data } = await response.json();
-            return resolve({ data });
+            return resolve({ quoteId });
         } catch (error) {
             console.log(error, "error")
             reject(error)
