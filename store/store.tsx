@@ -2,9 +2,11 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '../reducers/userSlice';
+import quoteReducer from '../reducers/quoteSlice';
 const store = configureStore({
   reducer: {
     user: userReducer,
+    quotes: quoteReducer,
     // Add more reducers here if needed
   },
 });

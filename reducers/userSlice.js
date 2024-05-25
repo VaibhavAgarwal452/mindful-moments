@@ -1,7 +1,7 @@
 // reducers/userSlice.js
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUser } from "./userAPI"
+import { createUser, fetchUser, addQuoteToUser, removeQuotesFromUser } from "./userAPI"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -15,6 +15,32 @@ export const createUserAsync = createAsyncThunk(
         return response.data;
     }
 );
+
+export const fetchCurrentUserAsync = createAsyncThunk(
+    'user/fetchCurrentUser',
+    async (id) => {
+        const response = await fetchUser(id);
+        return "Ok";
+    }
+)
+
+export const addQuoteToUserAsync = createAsyncThunk(
+    'user/savedQuotes',
+    async ({ userId, quoteId }) => {
+        console.log(userId, quoteId, "dd")
+        const response = await addQuoteToUser(userId, quoteId);
+        return response.data;
+    }
+)
+export const removeQuotesFromUserAsync = createAsyncThunk(
+    'user/removeQuotes',
+    async ({ userId, quoteId }) => {
+        console.log(userId, quoteId, "dd")
+        const response = await removeQuotesFromUser(userId, quoteId);
+        return response.data;
+    }
+)
+
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
@@ -26,7 +52,8 @@ export const userSlice = createSlice({
         feelingLately: "",
         notificationNumber: 10,
         notificationTimeStart: 0,
-        notificationTimeEnd: 12
+        notificationTimeEnd: 12,
+        savedQuotes: []
     },
     reducers: {
         updateUserData: (state, action) => {
@@ -39,6 +66,13 @@ export const userSlice = createSlice({
             })
             .addCase(createUserAsync.fulfilled, async (state, action) => {
             })
+            .addCase(fetchCurrentUserAsync.pending, (state, action) => {
+
+            })
+            .addCase(fetchCurrentUserAsync.fulfilled, (state, action) => {
+                return { ...state, ...action.payload };
+            })
+            .addCase(addQuoteToUserAsync.fulfilled, (state, action) => { })
     }
 });
 

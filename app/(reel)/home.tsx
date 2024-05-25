@@ -11,92 +11,56 @@ import React, { useEffect, useState } from 'react';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { createUserAsync, selectUserData } from '@/reducers/userSlice';
 import { Octicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import { fetchQuotesAsync } from '@/reducers/quoteSlice';
+import {
+  addQuoteToUserAsync,
+  removeQuotesFromUserAsync,
+} from '@/reducers/userSlice';
 // import Share from 'react-native-share';
 
 const home = () => {
-  const [quotesList, setQuotesList] = useState<any>([]);
+  // const [quotesList, setQuotesList] = useState<any>([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [liked, setLiked] = useState(false);
 
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
-
+  const user: any = useAppSelector((state) => state.user);
+  const quotesRedux: any = useAppSelector((state) => state.quotes.quotes);
+  const userId = user._id;
   useEffect(() => {
     if (
       currentQuoteIndex === 0 ||
-      currentQuoteIndex === quotesList.length - 3
+      currentQuoteIndex === quotesRedux.length - 3
     ) {
-      getPosts();
+      // getPosts();
+      dispatch(fetchQuotesAsync());
     }
   }, [currentQuoteIndex]);
 
-  const getPosts = () => {
-    fetch('http://15.206.72.239:8000/api/v1/quotes/random', {
-      method: 'POST',
-      body: JSON.stringify({
-        page: 1,
-        limit: 25,
-      }),
-      headers: { 'content-type': 'application/json' },
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        let tempQuotes: any = quotesList.concat(response.quotes);
-        setQuotesList([...tempQuotes]);
-      });
-  };
-
   const handleLike = (quoteId: any, value: any) => {
+    const userData = { userId, quoteId };
     if (value === 'add') {
-      addQuoteToUserSavedQuotes(quoteId);
+      addQuoteToUserSavedQuotes(userData);
     } else {
-      removeQuoteToUserSavedQuotes(quoteId);
+      removeQuoteToUserSavedQuotes(userData);
     }
   };
-  const addQuoteToUserSavedQuotes = (quoteId: any) => {
-    fetch(
-      `http://15.206.72.239:8000/api/v1/users/${user?._id}/addQuote/${quoteId}`,
-      {
-        method: 'PATCH',
-        headers: { 'content-type': 'application/json' },
-      }
-    )
-      .then((response) => response.json())
-      .then((response: any) => {
-        setLiked(!liked);
-        ToastAndroid.show('Quote add to saved quotes!', ToastAndroid.SHORT);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const addQuoteToUserSavedQuotes = (userData: any) => {
+    dispatch(addQuoteToUserAsync(userData));
+    setLiked(!liked);
+    ToastAndroid.show('Quote add to saved quotes!', ToastAndroid.SHORT);
   };
 
-  const removeQuoteToUserSavedQuotes = (quoteId: any) => {
-    fetch(
-      `http://15.206.72.239:8000/api/v1/users/${user?._id}/removeQuote/${quoteId}`,
-      {
-        method: 'PATCH',
-        headers: { 'content-type': 'application/json' },
-      }
-    )
-      .then((response) => response.json())
-      .then((response: any) => {
-        setLiked(!liked);
-        ToastAndroid.show(
-          'Quote removed from saved quotes!',
-          ToastAndroid.SHORT
-        );
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const removeQuoteToUserSavedQuotes = (userData: any) => {
+    dispatch(removeQuotesFromUserAsync(userData));
+    setLiked(!liked);
   };
 
   const handleQuoteChange = () => {
@@ -105,8 +69,6 @@ const home = () => {
   };
 
   const handleShare = async () => {
-    console.log('clicked');
-
     const options = {
       message:
         'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Animi, pariatur dignissimos molestiae similique recusandae natus. Asperiores aspernatur optio, voluptates ea tempore et cupiditate ratione accusamus fuga, molestias odio dolorum in?',
@@ -114,7 +76,7 @@ const home = () => {
 
     try {
       const result = await Share.share({
-        message: quotesList[currentQuoteIndex].quote,
+        message: quotesRedux[currentQuoteIndex].quote,
       });
     } catch (error: any) {
       console.log(error);
@@ -144,18 +106,18 @@ const home = () => {
             />
           </View>
           <View className='flex-1 items-center justify-center'>
-            {quotesList && quotesList.length > 0 ? (
-              quotesList.map((quote: any, index: any) => {
+            {quotesRedux && quotesRedux.length > 0 ? (
+              quotesRedux.map((quote: any, index: any) => {
                 if (index === currentQuoteIndex) {
                   return (
                     <View key={index}>
                       <View key={index} className='px-4'>
                         <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
-                          {quotesList[currentQuoteIndex]?.quote}
+                          {quotesRedux[currentQuoteIndex]?.quote}
                         </Text>
                         <Text className='text-secondary-100 text-lg mt-4 mx-4'>
-                          {quotesList[currentQuoteIndex]?.quote &&
-                            ' - ' + quotesList[currentQuoteIndex]?.author}
+                          {quotesRedux[currentQuoteIndex]?.quote &&
+                            ' - ' + quotesRedux[currentQuoteIndex]?.author}
                         </Text>
                       </View>
                     </View>
@@ -181,7 +143,7 @@ const home = () => {
                 size={35}
                 color={'white'}
                 onPress={() =>
-                  handleLike(quotesList[currentQuoteIndex]._id, 'add')
+                  handleLike(quotesRedux[currentQuoteIndex]._id, 'add')
                 }
               />
             ) : (
@@ -190,7 +152,7 @@ const home = () => {
                 size={35}
                 color='red'
                 onPress={() =>
-                  handleLike(quotesList[currentQuoteIndex]._id, 'remove')
+                  handleLike(quotesRedux[currentQuoteIndex]._id, 'remove')
                 }
               />
             )}
