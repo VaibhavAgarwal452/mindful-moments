@@ -12,8 +12,9 @@ const getName = () => {
   const user = useAppSelector((state) => state.user);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const saveuserName = () => {
-    dispatch(updateUserData({ name: name, email: email }));
+    dispatch(updateUserData({ name: name, email: email, password: password }));
     router.push('/getGender');
   };
   return (
@@ -43,6 +44,13 @@ const getName = () => {
                 placeholder='Your Email'
                 handleChangeText={setEmail}
                 value={email}
+                otherStyles={'mt-10'}
+              />
+              <FormField
+                title='Password'
+                placeholder='Your password'
+                handleChangeText={setPassword}
+                value={password}
                 otherStyles={'mt-10'}
               />
             </View>

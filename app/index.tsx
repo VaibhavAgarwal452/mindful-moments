@@ -5,12 +5,25 @@ import { images } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '@/components/CustomButton';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { updateUserData } from '@/reducers/userSlice';
+
 const index = () => {
-  // useEffect(() => {
-  //   router.push('/home');
-  // }, []);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    getUser();
+  }, []);
+  const getUser = async () => {
+    const user = await AsyncStorage.getItem('user');
+    if (user) {
+      dispatch(updateUserData(JSON.parse(user)));
+      router.push('/home');
+    }
+  };
   const handlePress = () => {
     router.push('/intro-screen2');
+    // router.push('/home');
   };
 
   return (

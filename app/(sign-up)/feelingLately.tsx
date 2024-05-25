@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,12 +6,10 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import { styled } from 'nativewind';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { updateUserData } from '@/reducers/userSlice';
+import { createUserAsync, updateUserData } from '@/reducers/userSlice';
 import CustomInputButton from '../../components/CustomInputButton';
 import { router } from 'expo-router';
-import { Feather } from '@expo/vector-icons';
 
 const GenderSelectionScreen = () => {
   const dispatch = useAppDispatch();
@@ -29,10 +27,14 @@ const GenderSelectionScreen = () => {
     { label: 'Other', value: 'other' },
   ];
 
-  const handleGender = (value: any) => {
-    console.log(value, 'value');
+  const handleGender = async (value: any) => {
     dispatch(updateUserData({ feelingLately: value }));
-    router.push('/home');
+
+    setTimeout(() => {
+      dispatch(createUserAsync({ user }));
+
+      router.push('/home');
+    }, 1000);
   };
   return (
     <SafeAreaView className='bg-primary h-full'>

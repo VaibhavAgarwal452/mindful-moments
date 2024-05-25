@@ -14,8 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "package": "com.jsm.reactnativeapp"
-
+      "package": "com.jsm.reactnativeapp",
+      "bundleIdentifier": "com.jsm.reactnativeapp"
     },
     "android": {
       "adaptiveIcon": {
