@@ -20,7 +20,7 @@ export const fetchCurrentUserAsync = createAsyncThunk(
     'user/fetchCurrentUser',
     async (id) => {
         const response = await fetchUser(id);
-        return "Ok";
+        return response.data;
     }
 )
 
