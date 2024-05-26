@@ -55,7 +55,6 @@ export function addQuoteToUser(userId, quoteId) {
 export function removeQuotesFromUser(userId, quoteId) {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log(userId, quoteId, "dddkjhd")
             const response = await fetch(
                 `http://15.206.72.239:8000/api/v1/users/${userId}/removeQuote/${quoteId}`,
                 {

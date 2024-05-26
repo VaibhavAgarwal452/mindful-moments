@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 const _layout = () => {
   return (
     <>
-      <Stack>
+      <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name='home' options={{ headerShown: false }} />
         <Stack.Screen name='profile' options={{ headerShown: false }} />
         <Stack.Screen name='favorite' options={{ headerShown: false }} />
@@ -14,6 +14,7 @@ const _layout = () => {
         <Stack.Screen name='myQuotes' options={{ headerShown: false }} />
         <Stack.Screen name='collection' options={{ headerShown: false }} />
         <Stack.Screen name='addCollection' options={{ headerShown: false }} />
+        <Stack.Screen name='collectionlist' options={{ headerShown: false }} />
       </Stack>
       <StatusBar backgroundColor='#161622' style='light' />
     </>

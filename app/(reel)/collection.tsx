@@ -44,11 +44,6 @@ const collection = () => {
     }
   };
 
-  const handleEdit = () => {
-    router.push({ pathname: '/addQuote', params: { quoteId: currentQuoteId } });
-  };
-
-  console.log(loading, 'collection', collections);
   return (
     <SafeAreaView className='bg-primary h-full'>
       <View className='mt-12 mx-4'>
@@ -73,7 +68,13 @@ const collection = () => {
             ) : collections && collections.length > 0 ? (
               collections.map((item: any, index: any) => {
                 return (
-                  <View key={index} className='bg-primary-100 rounded-xl mt-5'>
+                  <Pressable
+                    key={index}
+                    className='bg-primary-100 rounded-xl mt-5'
+                    onPress={() => {
+                      router.push('/collectionlist/' + item._id);
+                    }}
+                  >
                     <View className='p-4'>
                       <View className='flex-row justify-between items-center'>
                         <Text className='text-white text-lg'>
@@ -89,7 +90,7 @@ const collection = () => {
                         </View>
                       </View>
                     </View>
-                  </View>
+                  </Pressable>
                 );
               })
             ) : (
