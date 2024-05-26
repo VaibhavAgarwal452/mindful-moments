@@ -10,6 +10,9 @@ const _layout = () => {
         <Stack.Screen name='home' options={{ headerShown: false }} />
         <Stack.Screen name='profile' options={{ headerShown: false }} />
         <Stack.Screen name='favorite' options={{ headerShown: false }} />
+        <Stack.Screen name='addQuote' options={{ headerShown: false }} />
+        <Stack.Screen name='myQuotes' options={{ headerShown: false }} />
+        <Stack.Screen name='collection' options={{ headerShown: false }} />
       </Stack>
       <StatusBar backgroundColor='#161622' style='light' />
     </>

@@ -1,7 +1,7 @@
 // reducers/userSlice.js
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUser, fetchUser, addQuoteToUser, removeQuotesFromUser } from "./userAPI"
+import { createUser, fetchUser, addQuoteToUser, removeQuotesFromUser, updateQuoteFromMyQuotes, removeQuotesFromMyQuotes, addQuoteToMyQuotes } from "./userAPI"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -27,7 +27,6 @@ export const fetchCurrentUserAsync = createAsyncThunk(
 export const addQuoteToUserAsync = createAsyncThunk(
     'user/savedQuotes',
     async ({ userId, quoteId }) => {
-        console.log(userId, quoteId, "dd")
         const response = await addQuoteToUser(userId, quoteId);
         return response.data;
     }
@@ -35,9 +34,31 @@ export const addQuoteToUserAsync = createAsyncThunk(
 export const removeQuotesFromUserAsync = createAsyncThunk(
     'user/removeQuotes',
     async ({ userId, quoteId }) => {
-        console.log(userId, quoteId, "dd")
         const response = await removeQuotesFromUser(userId, quoteId);
         return response;
+    }
+)
+
+export const addQuoteToMyQuotesAsync = createAsyncThunk(
+    'user/addQuoteToMyQuotes',
+    async ({ userId, quote, author }) => {
+        const response = await addQuoteToMyQuotes(userId, quote, author);
+        return response.data;
+    }
+)
+
+export const removeQuotesFromMyQuotesAsync = createAsyncThunk(
+    'user/removeQuotesFromMyQuotes',
+    async ({ userId, quoteId }) => {
+        const response = await removeQuotesFromMyQuotes(userId, quoteId);
+        return response.data;
+    }
+)
+export const updateQuoteFromMyQuotesAsync = createAsyncThunk(
+    'user/updateQuoteFromMyQuotes',
+    async ({ userId, quoteId, quote, author }) => {
+        const response = await updateQuoteFromMyQuotes(userId, quoteId, quote, author);
+        return response.data;
     }
 )
 
@@ -53,12 +74,19 @@ export const userSlice = createSlice({
         notificationNumber: 10,
         notificationTimeStart: 0,
         notificationTimeEnd: 12,
-        savedQuotes: []
+        savedQuotes: [],
+        myQuotes: [],
+        searchedMyQuotes: []
     },
     reducers: {
         updateUserData: (state, action) => {
             return { ...state, ...action.payload };
         },
+        searchMyQuotes: (state, action) => {
+            return {
+                ...state, searchedMyQuotes: state.myQuotes.filter(s => s.quote.toLowerCase().includes(action.payload.toLowerCase()))
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -74,16 +102,22 @@ export const userSlice = createSlice({
             })
             .addCase(addQuoteToUserAsync.fulfilled, (state, action) => { })
             .addCase(removeQuotesFromUserAsync.fulfilled, (state, action) => {
-                const savedQutoes = state.savedQuotes.filter(item => item !== action.payload.quoteId)
-                console.log(savedQutoes, "davdsuihd")
-                // state.savedQuotes.filter(item !== action.payload.quoteId)
                 return { ...state, savedQuotes: [...state.savedQuotes].filter(item => item !== action.payload.quoteId) }
+            })
+            .addCase(addQuoteToMyQuotesAsync.fulfilled, (state, action) => {
+                return { ...state, ...action.payload };
+            })
+            .addCase(removeQuotesFromMyQuotesAsync.fulfilled, (state, action) => {
+                return { ...state, ...action.payload };
+            })
+            .addCase(updateQuoteFromMyQuotesAsync.fulfilled, (state, action) => {
+                return { ...state, ...action.payload };
             })
 
     }
 });
 
-export const { updateUserData } = userSlice.actions;
+export const { updateUserData, searchMyQuotes } = userSlice.actions;
 
 export const selectUserData = state => state.user;
 

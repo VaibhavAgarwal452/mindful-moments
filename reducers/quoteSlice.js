@@ -29,7 +29,6 @@ export const quoteSlice = createSlice({
             return { ...state, savedQuotes: state.savedQuotes.filter(item => item._id !== action.payload) }
         },
         searchSavedQuotes: (state, action) => {
-            console.log(state.savedQuotes, "action.payload")
             return {
                 ...state, searchedSavedQuotes: state.savedQuotes.filter(s => s.quote.toLowerCase().includes(action.payload.toLowerCase()))
             }

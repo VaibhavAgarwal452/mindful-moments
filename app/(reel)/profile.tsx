@@ -63,7 +63,7 @@ const Profile = () => {
             <View>
               <Text className='text-white text-xl'>Your Quotes</Text>
             </View>
-            <View className='bg-primary-100 rounded-xl mt-5'>
+            <Pressable className='bg-primary-100 rounded-xl mt-5'>
               <View className='flex-row py-2 justify-between items-center border border-top-2 px-4'>
                 <View className='flex-row gap-2 items-center'>
                   <Entypo name='bookmarks' size={20} color='white' />
@@ -71,13 +71,18 @@ const Profile = () => {
                 </View>
                 <AntDesign name='right' size={20} color='white' />
               </View>
-              <View className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'>
+              <Pressable
+                className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'
+                onPress={() => {
+                  router.push('/myQuotes');
+                }}
+              >
                 <View className='flex-row gap-2 items-center'>
                   <Foundation name='clipboard-pencil' size={20} color='white' />
                   <Text className='text-white p-2 text-xl'>Add Your Own</Text>
                 </View>
                 <AntDesign name='right' size={20} color='white' />
-              </View>
+              </Pressable>
               <Pressable
                 className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'
                 onPress={() => {
@@ -92,7 +97,7 @@ const Profile = () => {
                 </View>
                 <AntDesign name='right' size={20} color='white' />
               </Pressable>
-            </View>
+            </Pressable>
           </View>
         </View>
       </ScrollView>

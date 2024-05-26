@@ -46,14 +46,12 @@ const Favorite = () => {
   }, [inputText]);
 
   const handleLike = (quoteId: any) => {
-    console.log('heerev');
     const userId = user._id;
     const userData = { userId, quoteId };
     dispatch(removeQuotesFromUserAsync(userData));
     dispatch(updateSavedQuotes(quoteId));
   };
   const handleShare = async (shareText: string) => {
-    console.log('inside share');
     try {
       const result = await Share.share({
         message: shareText,
@@ -62,7 +60,6 @@ const Favorite = () => {
       console.log(error);
     }
   };
-  console.log(searchedSavedQuotes, 'searchedSavedQ');
   return (
     <SafeAreaView className='bg-primary h-full'>
       <View className='mt-12 mx-4'>
