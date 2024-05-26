@@ -16,37 +16,22 @@ import {
   addQuoteToMyQuotesAsync,
   updateQuoteFromMyQuotesAsync,
 } from '@/reducers/userSlice';
+import { createAsync } from '@/reducers/collectionSlice';
 
-const AddQuote = () => {
-  const [searchInputVisible, setSearchInputVisible] = useState(false);
-  const [quote, setQuote] = useState('');
-  const [author, setAuthor] = useState('');
+const AddCollection = () => {
+  const [collectionName, setCollectionName] = useState('');
   const dispatch = useAppDispatch();
   const user: any = useAppSelector((state) => state.user);
+  const collection: any = useAppSelector((state) => state.collection);
   const userId = user._id;
 
   const params = useLocalSearchParams();
-  const { quoteId } = params;
-  useEffect(() => {
-    if (quoteId) {
-      user.myQuotes.forEach((item: any) => {
-        if (item._id === quoteId) {
-          setQuote(item.quote);
-          setAuthor(item.author);
-        }
-      });
-    }
-  }, []);
 
   const saveQuote = async () => {
-    if (quoteId) {
-      dispatch(
-        updateQuoteFromMyQuotesAsync({ userId, quoteId, quote, author })
-      );
-    } else {
-      dispatch(addQuoteToMyQuotesAsync({ userId, quote, author }));
+    dispatch(createAsync({ userId, collectionName }));
+    if (!collection.loading) {
+      router.push('/collection');
     }
-    router.push('/myQuotes');
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -58,43 +43,32 @@ const AddQuote = () => {
               size={30}
               color='white'
               onPress={() => {
-                if (searchInputVisible) {
-                  setSearchInputVisible(false);
-                } else {
-                  router.push('/myQuotes');
-                }
+                router.push('/collection');
               }}
             />
           </View>
           <View>
-            <Text className='text-white text-2xl'>Add New Quote</Text>
+            <Text className='text-white text-2xl'>New Collection</Text>
           </View>
         </View>
 
         <View className='mt-8'>
           <Text className='text-gray-100 text-xl'>
-            Write and share your own quotes. There will be only visible to you.
+            Write a name for your new collection. You can rename it later.
           </Text>
         </View>
 
         <View>
           <FormField
-            title='Quote'
-            placeholder='Enter Quote'
-            handleChangeText={setQuote}
-            value={quote}
-            otherStyles={'mt-10'}
-          />
-          <FormField
-            title='Author'
-            placeholder='Enter Author (optional)'
-            handleChangeText={setAuthor}
-            value={author}
+            title=''
+            placeholder='My New Collection'
+            handleChangeText={setCollectionName}
+            value={collectionName}
             otherStyles={'mt-10'}
           />
         </View>
         <CustomButton
-          title={quoteId ? 'Update' : 'Save'}
+          title={'Save'}
           containerStyles={'absolute bottom-10 text-white w-full'}
           handlePress={saveQuote}
         />
@@ -103,4 +77,4 @@ const AddQuote = () => {
   );
 };
 
-export default AddQuote;
+export default AddCollection;

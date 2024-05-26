@@ -63,7 +63,12 @@ const Profile = () => {
             <View>
               <Text className='text-white text-xl'>Your Quotes</Text>
             </View>
-            <Pressable className='bg-primary-100 rounded-xl mt-5'>
+            <Pressable
+              className='bg-primary-100 rounded-xl mt-5'
+              onPress={() => {
+                router.push('/collection');
+              }}
+            >
               <View className='flex-row py-2 justify-between items-center border border-top-2 px-4'>
                 <View className='flex-row gap-2 items-center'>
                   <Entypo name='bookmarks' size={20} color='white' />
