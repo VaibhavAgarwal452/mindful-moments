@@ -7,6 +7,7 @@ import {
   ScrollView,
   Share,
   Pressable,
+  ToastAndroid,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,17 +18,26 @@ import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { Feather } from '@expo/vector-icons';
 import Modal from 'react-native-modal';
+import { Fontisto } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import {
+  addQuoteToUserAsync,
   removeQuotesFromMyQuotesAsync,
+  removeQuotesFromUserAsync,
   searchMyQuotes,
 } from '@/reducers/userSlice';
+import {
+  removeCollectionAsync,
+  removeQuotesFromCollectionAsync,
+} from '@/reducers/collectionSlice';
+import collection from '../collection';
 
 const collectionlist = () => {
   const dispatch = useAppDispatch();
   const user: any = useAppSelector((state) => state.user);
   const userCollections: any = useAppSelector((state) => state.collection);
   const { collectionId } = useLocalSearchParams();
-  const currentCollection = userCollections?.collections.filter(
+  const currentCollection = userCollections?.collections?.filter(
     (item: any) => item._id === collectionId
   );
   const [searchInputVisible, setSearchInputVisible] = useState(false);
@@ -35,7 +45,6 @@ const collectionlist = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentQuoteId, setCurrentQuoteId] = useState('');
   const userId = user._id;
-  console.log(collectionId, 'collectionID', currentCollection);
   useEffect(() => {
     const searchQuote = setTimeout(() => {
       if (inputText) {
@@ -56,17 +65,37 @@ const collectionlist = () => {
   };
 
   const handleRemove = () => {
-    dispatch(
-      removeQuotesFromMyQuotesAsync({ userId, quoteId: currentQuoteId })
-    );
-    setIsModalVisible(false);
-    setCurrentQuoteId('');
+    dispatch(removeCollectionAsync({ collectionId: collectionId }));
+    router.push('/collection');
   };
 
   const handleEdit = () => {
-    router.push({ pathname: '/addQuote', params: { quoteId: currentQuoteId } });
+    router.push({
+      pathname: '/addCollection',
+      params: { collectionId: collectionId },
+    });
+  };
+  const handleLike = (quoteId: any, value: any) => {
+    const userData = { userId, quoteId };
+    if (value === 'add') {
+      addQuoteToUserSavedQuotes(userData);
+    } else {
+      removeQuoteToUserSavedQuotes(userData);
+    }
+  };
+  const addQuoteToUserSavedQuotes = (userData: any) => {
+    dispatch(addQuoteToUserAsync(userData));
+    ToastAndroid.show('Quote add to saved quotes!', ToastAndroid.SHORT);
   };
 
+  const removeQuoteToUserSavedQuotes = (userData: any) => {
+    dispatch(removeQuotesFromUserAsync(userData));
+    ToastAndroid.show('Quote Removed from saved quotes!', ToastAndroid.SHORT);
+  };
+
+  const handleCollection = (quoteId: any) => {
+    dispatch(removeQuotesFromCollectionAsync({ collectionId, quoteId }));
+  };
   return (
     <SafeAreaView className='bg-primary h-full'>
       <View className='mt-12 mx-4'>
@@ -113,14 +142,25 @@ const collectionlist = () => {
             ) : (
               <View className='flex-row w-auto justify-between items-center'>
                 <Text className='text-white text-2xl'>
-                  {currentCollection[0].collectionName}
+                  {currentCollection[0]?.collectionName}
                 </Text>
-                <AntDesign
-                  name='search1'
-                  size={25}
-                  color='white'
-                  onPress={() => setSearchInputVisible(true)}
-                />
+                <View className='flex-row items-center gap-3'>
+                  <AntDesign
+                    name='search1'
+                    size={25}
+                    color='white'
+                    onPress={() => setSearchInputVisible(true)}
+                  />
+
+                  <Entypo
+                    name='dots-three-vertical'
+                    size={20}
+                    color='white'
+                    onPress={() => {
+                      setIsModalVisible(!isModalVisible);
+                    }}
+                  />
+                </View>
               </View>
             )}
           </View>
@@ -136,7 +176,7 @@ const collectionlist = () => {
                 return (
                   <View key={index} className='bg-primary-100 rounded-xl mt-5'>
                     <View className='p-4'>
-                      <View className='flex-row justify-between'>
+                      <View className='flex-row justify-b etween'>
                         <Text className='text-white text-lg'>{item.quote}</Text>
                         <Entypo
                           name='dots-three-vertical'
@@ -176,15 +216,6 @@ const collectionlist = () => {
                         <Text className='text-white text-lg w-[80%]'>
                           {item.quote}
                         </Text>
-                        <Entypo
-                          name='dots-three-vertical'
-                          size={15}
-                          color='white'
-                          onPress={() => {
-                            setIsModalVisible(!isModalVisible);
-                            setCurrentQuoteId(item._id);
-                          }}
-                        />
                       </View>
                       <View className='flex-row justify-between mt-2'>
                         {item.author && (
@@ -192,7 +223,30 @@ const collectionlist = () => {
                             -{item.author}
                           </Text>
                         )}
-                        <View className='flex-row'>
+                        <View className='flex-row gap-3'>
+                          {user.savedQuotes.includes(item._id) ? (
+                            <Fontisto
+                              name='heart'
+                              size={20}
+                              color='white'
+                              onPress={() => handleLike(item._id, 'remove')}
+                            />
+                          ) : (
+                            <AntDesign
+                              name='hearto'
+                              size={20}
+                              color={'white'}
+                              onPress={() => handleLike(item._id, 'add')}
+                            />
+                          )}
+                          <FontAwesome
+                            name='bookmark'
+                            size={20}
+                            color='white'
+                            onPress={() => {
+                              handleCollection(item._id);
+                            }}
+                          />
                           <Feather
                             name='share'
                             size={20}
@@ -208,7 +262,7 @@ const collectionlist = () => {
             ) : (
               <Text>No Quotes Found</Text>
             )}
-            {/* <Modal
+            <Modal
               isVisible={isModalVisible}
               onBackdropPress={() => setIsModalVisible(false)}
             >
@@ -222,17 +276,8 @@ const collectionlist = () => {
                   </Pressable>
                 </View>
               </View>
-            </Modal> */}
+            </Modal>
           </ScrollView>
-        </View>
-        <View>
-          <CustomButton
-            title='Add'
-            containerStyles={'text-white mt-10 w-full'}
-            handlePress={() => {
-              router.push('/addQuote');
-            }}
-          />
         </View>
       </View>
     </SafeAreaView>

@@ -16,7 +16,7 @@ import {
   addQuoteToMyQuotesAsync,
   updateQuoteFromMyQuotesAsync,
 } from '@/reducers/userSlice';
-import { createAsync } from '@/reducers/collectionSlice';
+import { createAsync, updateNameAsync } from '@/reducers/collectionSlice';
 
 const AddCollection = () => {
   const [collectionName, setCollectionName] = useState('');
@@ -27,8 +27,27 @@ const AddCollection = () => {
 
   const params = useLocalSearchParams();
 
+  const { collectionId } = params;
+
+  useEffect(() => {
+    if (collectionId) {
+      collection?.collections?.map((item: any) => {
+        console.log(item, 'item');
+        if (item._id === collectionId) {
+          setCollectionName(item.collectionName);
+        }
+      });
+    }
+  }, []);
+
   const saveQuote = async () => {
-    dispatch(createAsync({ userId, collectionName }));
+    if (collectionId) {
+      dispatch(
+        updateNameAsync({ collectionId, newCollectionName: collectionName })
+      );
+    } else {
+      dispatch(createAsync({ userId, collectionName }));
+    }
     if (!collection.loading) {
       router.push('/collection');
     }
@@ -68,7 +87,7 @@ const AddCollection = () => {
           />
         </View>
         <CustomButton
-          title={'Save'}
+          title={collectionId ? 'Update' : 'Save'}
           containerStyles={'absolute bottom-10 text-white w-full'}
           handlePress={saveQuote}
         />

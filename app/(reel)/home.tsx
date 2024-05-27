@@ -61,6 +61,7 @@ const home = () => {
   const removeQuoteToUserSavedQuotes = (userData: any) => {
     dispatch(removeQuotesFromUserAsync(userData));
     setLiked(!liked);
+    ToastAndroid.show('Quote Removed from saved quotes!', ToastAndroid.SHORT);
   };
 
   const handleQuoteChange = () => {

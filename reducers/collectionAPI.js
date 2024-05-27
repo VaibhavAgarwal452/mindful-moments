@@ -30,3 +30,54 @@ export function create(userId, collectionName) {
         }
     });
 }
+
+
+export function updateName(collectionId, newCollectionName) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetch('http://15.206.72.239:8000/api/v1/collections/updateName/' + collectionId, {
+                method: 'PATCH',
+                body: JSON.stringify({ newCollectionName: newCollectionName }),
+                headers: { 'content-type': 'application/json' },
+            });
+            const { data } = await response.json();
+            resolve(data);
+        } catch (error) {
+            console.log(error, "error")
+            reject(error);
+        }
+    });
+}
+
+export function removeCollection(collectionId) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetch('http://15.206.72.239:8000/api/v1/collections/updateName/' + collectionId, {
+                method: 'DELETE',
+                headers: { 'content-type': 'application/json' },
+            });
+            const { data } = await response.json();
+            resolve(data);
+        } catch (error) {
+            console.log(error, "error")
+            reject(error);
+        }
+    });
+}
+
+export function removeQuotesFromCollection(collectionId, quoteId) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetch('http://15.206.72.239:8000/api/v1/collections/removeQuotesFromCollection', {
+                method: 'PATCH',
+                body: JSON.stringify({ collectionId, quoteId }),
+                headers: { 'content-type': 'application/json' },
+            });
+            const { data } = await response.json();
+            resolve(data);
+        } catch (error) {
+            console.log(error, "error")
+            reject(error);
+        }
+    });
+}

@@ -85,7 +85,7 @@ const collection = () => {
                       <View className='flex-row justify-between mt-2'>
                         <View className='flex-row'>
                           <Text className='text-white text-md'>
-                            {item.quotes.length} quotes
+                            {item?.quotes?.length} quotes
                           </Text>
                         </View>
                       </View>

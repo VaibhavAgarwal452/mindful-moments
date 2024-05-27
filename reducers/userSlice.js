@@ -28,7 +28,7 @@ export const addQuoteToUserAsync = createAsyncThunk(
     'user/savedQuotes',
     async ({ userId, quoteId }) => {
         const response = await addQuoteToUser(userId, quoteId);
-        return response.data;
+        return { response, quoteId };
     }
 )
 export const removeQuotesFromUserAsync = createAsyncThunk(
@@ -100,7 +100,9 @@ export const userSlice = createSlice({
             .addCase(fetchCurrentUserAsync.fulfilled, (state, action) => {
                 return { ...state, ...action.payload };
             })
-            .addCase(addQuoteToUserAsync.fulfilled, (state, action) => { })
+            .addCase(addQuoteToUserAsync.fulfilled, (state, action) => {
+                state.savedQuotes.push(action.payload.quoteId);
+            })
             .addCase(removeQuotesFromUserAsync.fulfilled, (state, action) => {
                 return { ...state, savedQuotes: [...state.savedQuotes].filter(item => item !== action.payload.quoteId) }
             })
