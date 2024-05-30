@@ -21,16 +21,22 @@ import { Fontisto } from '@expo/vector-icons';
 import { removeQuotesFromUserAsync } from '@/reducers/userSlice';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { InterruptionModeAndroid } from 'expo-av';
+import { getQuotesIdsForCurrentUSer } from '@/common/utils';
+import { FontAwesome } from '@expo/vector-icons';
 
 const Favorite = () => {
   const user: any = useAppSelector((state) => state.user);
   const savedQuotes = useAppSelector((state) => state.quotes.savedQuotes);
+  const collection: any = useAppSelector((state) => state.collection);
+
   const searchedSavedQuotes = useAppSelector(
     (state) => state.quotes.searchedSavedQuotes
   );
   const dispatch = useAppDispatch();
   const [searchInputVisible, setSearchInputVisible] = useState(false);
   const [inputText, setInputText] = useState('');
+
   useEffect(() => {
     dispatch(fetchQuotesByIdsAsync(user.savedQuotes));
   }, []);
@@ -44,7 +50,9 @@ const Favorite = () => {
 
     return () => clearTimeout(searchQuote);
   }, [inputText]);
-
+  const quoteIdsForCollections = getQuotesIdsForCurrentUSer(
+    collection.collections
+  );
   const handleLike = (quoteId: any) => {
     const userId = user._id;
     const userData = { userId, quoteId };
@@ -59,6 +67,13 @@ const Favorite = () => {
     } catch (error: any) {
       console.log(error);
     }
+  };
+
+  const handleCollection = (quote: any) => {
+    router.push({ pathname: '/collection', params: quote });
+  };
+  const checkIfQuoteIsInCollection = (quoteId: any) => {
+    return quoteIdsForCollections.includes(quoteId);
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -118,7 +133,7 @@ const Favorite = () => {
         </View>
       </View>
 
-      <ScrollView className='mt-6 mx-4'>
+      <ScrollView className='my-6 mx-4'>
         {!inputText
           ? savedQuotes &&
             savedQuotes.map((item: any, index: number) => {
@@ -137,7 +152,25 @@ const Favorite = () => {
                           color='white'
                           onPress={() => handleLike(item._id)}
                         />
-
+                        {checkIfQuoteIsInCollection(item._id) ? (
+                          <FontAwesome
+                            name='bookmark'
+                            size={20}
+                            color='white'
+                            onPress={() => {
+                              // handleCollection(item._id);
+                            }}
+                          />
+                        ) : (
+                          <Feather
+                            name='bookmark'
+                            size={20}
+                            color='white'
+                            onPress={() => {
+                              handleCollection(item);
+                            }}
+                          />
+                        )}
                         <Feather
                           name='share'
                           size={20}
@@ -166,7 +199,14 @@ const Favorite = () => {
                           color='white'
                           onPress={() => handleLike(item._id)}
                         />
-
+                        <Feather
+                          name='bookmark'
+                          size={20}
+                          color='white'
+                          onPress={() => {
+                            handleCollection(item);
+                          }}
+                        />
                         <Feather
                           name='share'
                           size={20}

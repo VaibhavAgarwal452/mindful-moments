@@ -32,7 +32,6 @@ const AddCollection = () => {
   useEffect(() => {
     if (collectionId) {
       collection?.collections?.map((item: any) => {
-        console.log(item, 'item');
         if (item._id === collectionId) {
           setCollectionName(item.collectionName);
         }

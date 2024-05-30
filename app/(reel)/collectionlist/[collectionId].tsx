@@ -29,6 +29,7 @@ import {
 import {
   removeCollectionAsync,
   removeQuotesFromCollectionAsync,
+  searchCollections,
 } from '@/reducers/collectionSlice';
 import collection from '../collection';
 
@@ -40,6 +41,7 @@ const collectionlist = () => {
   const currentCollection = userCollections?.collections?.filter(
     (item: any) => item._id === collectionId
   );
+  const { searchedCollectionQuotes } = userCollections;
   const [searchInputVisible, setSearchInputVisible] = useState(false);
   const [inputText, setInputText] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -48,7 +50,7 @@ const collectionlist = () => {
   useEffect(() => {
     const searchQuote = setTimeout(() => {
       if (inputText) {
-        dispatch(searchMyQuotes(inputText));
+        dispatch(searchCollections({ collectionId, inputText }));
       }
     }, 100);
 
@@ -166,27 +168,18 @@ const collectionlist = () => {
           </View>
         </View>
 
-        <View className='h-[80vh] '>
+        <View className='h-[90vh] '>
           <ScrollView className='mt-4'>
-            {false ? (
-              user &&
-              user?.myQuotes &&
-              user.myQuotes.length > 0 &&
-              user.myQuotes.map((item: any, index: any) => {
+            {inputText ? (
+              searchedCollectionQuotes &&
+              searchedCollectionQuotes.map((item: any, index: any) => {
                 return (
                   <View key={index} className='bg-primary-100 rounded-xl mt-5'>
                     <View className='p-4'>
-                      <View className='flex-row justify-b etween'>
-                        <Text className='text-white text-lg'>{item.quote}</Text>
-                        <Entypo
-                          name='dots-three-vertical'
-                          size={15}
-                          color='white'
-                          onPress={() => {
-                            setIsModalVisible(!isModalVisible);
-                            setCurrentQuoteId(item._id);
-                          }}
-                        />
+                      <View className='flex-row justify-between'>
+                        <Text className='text-white text-lg w-[80%]'>
+                          {item.quote}
+                        </Text>
                       </View>
                       <View className='flex-row justify-between mt-2'>
                         {item.author && (
@@ -194,7 +187,30 @@ const collectionlist = () => {
                             -{item.author}
                           </Text>
                         )}
-                        <View className='flex-row'>
+                        <View className='flex-row gap-3'>
+                          {user.savedQuotes.includes(item._id) ? (
+                            <Fontisto
+                              name='heart'
+                              size={20}
+                              color='white'
+                              onPress={() => handleLike(item._id, 'remove')}
+                            />
+                          ) : (
+                            <AntDesign
+                              name='hearto'
+                              size={20}
+                              color={'white'}
+                              onPress={() => handleLike(item._id, 'add')}
+                            />
+                          )}
+                          <FontAwesome
+                            name='bookmark'
+                            size={20}
+                            color='white'
+                            onPress={() => {
+                              handleCollection(item._id);
+                            }}
+                          />
                           <Feather
                             name='share'
                             size={20}

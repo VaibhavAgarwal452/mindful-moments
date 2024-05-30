@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCollections, create, updateName, removeCollection, removeQuotesFromCollection } from './collectionAPI';
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
+import { getCollections, create, updateName, removeCollection, removeQuotesFromCollection, addQuotesToCollection } from './collectionAPI';
 
 export const getCollectionsAsync = createAsyncThunk(
     'collections/getCollections',
@@ -20,7 +20,6 @@ export const createAsync = createAsyncThunk(
 export const updateNameAsync = createAsyncThunk(
     'collections/updateName',
     async ({ collectionId, newCollectionName }) => {
-        console.log(collectionId, newCollectionName, "bc")
         const response = await updateName(collectionId, newCollectionName)
         return response
     }
@@ -42,11 +41,26 @@ export const removeQuotesFromCollectionAsync = createAsyncThunk(
     }
 )
 
+export const addQuotesToCollectionAsync = createAsyncThunk(
+    'collections/addQuotesToCollections',
+    async ({ quotesData }) => {
+        const response = await addQuotesToCollection(quotesData)
+        return response
+    }
+)
+
 export const collectionSlice = createSlice({
     name: "collection",
     initialState: {
         loading: false,
-        collections: {}
+        collections: {},
+        searchedCollectionQuotes: []
+    },
+    reducers: {
+        searchCollections: (state, action) => {
+            const currentCollection = state.collections.filter(item => item._id === action.payload.collectionId)
+            state.searchedCollectionQuotes = currentCollection[0]?.quotes?.filter(s => s.quote.toLowerCase().includes(action.payload.inputText.toLowerCase()))
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -98,8 +112,22 @@ export const collectionSlice = createSlice({
                 }))
                 state.collections = tempCollection
             })
+            .addCase(addQuotesToCollectionAsync.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(addQuotesToCollectionAsync.fulfilled, (state, action) => {
+                state.loading = false
+                state.collections = state.collections.map(item => {
+                    if (item._id === action.payload._id) {
+                        item.quotes = action.payload.quotes
+                    }
+                    return item
+                })
+            })
     }
 })
+
+export const { searchCollections } = collectionSlice.actions;
 
 
 export default collectionSlice.reducer;

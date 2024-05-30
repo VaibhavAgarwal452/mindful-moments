@@ -10,18 +10,21 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { Feather } from '@expo/vector-icons';
-import Modal from 'react-native-modal';
+// import { Feather } from '@expo/vector-icons';
+// import Modal from 'react-native-modal';
+// import {
+//   removeQuotesFromMyQuotesAsync,
+//   searchMyQuotes,
+// } from '@/reducers/userSlice';
 import {
-  removeQuotesFromMyQuotesAsync,
-  searchMyQuotes,
-} from '@/reducers/userSlice';
-import { getCollectionsAsync } from '@/reducers/collectionSlice';
+  addQuotesToCollectionAsync,
+  getCollectionsAsync,
+} from '@/reducers/collectionSlice';
 
 const collection = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +33,7 @@ const collection = () => {
   const { loading, collections } = collection;
   const [currentQuoteId, setCurrentQuoteId] = useState('');
   const userId = user._id;
-
+  const quote = useLocalSearchParams();
   useEffect(() => {
     dispatch(getCollectionsAsync({ userId }));
   }, []);
@@ -44,6 +47,17 @@ const collection = () => {
     }
   };
 
+  const addQuoteToCollection = (collectionId: any) => {
+    const quotesData = {
+      collectionId: collectionId,
+      quoteId: quote._id,
+      quote: quote.quote,
+      author: quote.author,
+    };
+    dispatch(addQuotesToCollectionAsync({ quotesData }));
+    router.back();
+  };
+
   return (
     <SafeAreaView className='bg-primary h-full'>
       <View className='mt-12 mx-4'>
@@ -54,7 +68,7 @@ const collection = () => {
               size={25}
               color='white'
               onPress={() => {
-                router.push('/profile');
+                router.back();
               }}
             />
             <Text className='text-white text-2xl'>Collections</Text>
@@ -72,7 +86,9 @@ const collection = () => {
                     key={index}
                     className='bg-primary-100 rounded-xl mt-5'
                     onPress={() => {
-                      router.push('/collectionlist/' + item._id);
+                      quote?._id
+                        ? addQuoteToCollection(item._id)
+                        : router.push('/collectionlist/' + item._id);
                     }}
                   >
                     <View className='p-4'>
