@@ -9,11 +9,18 @@ import { Fontisto } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { fetchCurrentUserAsync } from '@/reducers/userSlice';
+import * as Notifications from 'expo-notifications';
+import {
+  usePushNotifications,
+  sendNotification,
+} from '@/hooks/usePushNotifications';
 
 const Profile = () => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-
+  const { expoPushToken, notification } = usePushNotifications();
+  const data = JSON.stringify(notification, undefined, 2);
+  console.log(expoPushToken, data);
   useEffect(() => {
     dispatch(fetchCurrentUserAsync(user._id));
   }, []);
@@ -45,7 +52,13 @@ const Profile = () => {
                 </View>
                 <AntDesign name='right' size={20} color='white' />
               </View>
-              <View className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'>
+              <Pressable
+                className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'
+                onPress={() => {
+                  console.log('here');
+                  sendNotification(expoPushToken);
+                }}
+              >
                 <View className='flex-row gap-2 items-center'>
                   <MaterialCommunityIcons
                     name='widgets'
@@ -55,7 +68,7 @@ const Profile = () => {
                   <Text className='text-white p-2 text-xl'>Widgets</Text>
                 </View>
                 <AntDesign name='right' size={20} color='white' />
-              </View>
+              </Pressable>
             </View>
           </View>
 

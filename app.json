@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-native-app",
-    "slug": "react-native-app",
+    "name": "mindful-moments",
+    "slug": "mindful-moments",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +22,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.jsm.reactnativeapp"
+      "package": "com.jsm.mindfulmoments",
+      "googleServicesFile": "./android/google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -34,6 +35,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7034eba8-1cf7-47ca-b054-ced95a792432"
+      }
+    },
+    "owner": "maggierocker"
   }
 }

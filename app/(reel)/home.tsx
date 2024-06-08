@@ -102,7 +102,7 @@ const home = () => {
               color='white'
               onPress={() => {
                 AsyncStorage.removeItem('user');
-                router.push('/index');
+                router.push('/getName');
               }}
             />
           </View>
