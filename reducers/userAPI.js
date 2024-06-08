@@ -16,6 +16,23 @@ export function createUser(userData) {
         }
     });
 }
+
+export function login(email, password) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetch('http://15.206.72.239:8000/api/v1/users/login', {
+                method: 'POST',
+                body: JSON.stringify({ email: email, password: password }),
+                headers: { 'content-type': 'application/json' },
+            });
+            const { data } = await response.json();
+            resolve({ data });
+        } catch (error) {
+            console.log(error, "error")
+            reject(error);
+        }
+    })
+}
 export function checkIfUserEmailExists(email) {
     return new Promise(async (resolve, reject) => {
         try {
@@ -24,7 +41,7 @@ export function checkIfUserEmailExists(email) {
                 body: JSON.stringify({ email: email }),
                 headers: { 'content-type': 'application/json' },
             });
-            const data = await response.json();
+            const { data } = await response.json();
             resolve({ data });
         } catch (error) {
             console.log(error, "error")

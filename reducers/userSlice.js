@@ -1,9 +1,16 @@
 // reducers/userSlice.js
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUser, fetchUser, addQuoteToUser, removeQuotesFromUser, updateQuoteFromMyQuotes, removeQuotesFromMyQuotes, addQuoteToMyQuotes } from "./userAPI"
+import { createUser, fetchUser, addQuoteToUser, removeQuotesFromUser, updateQuoteFromMyQuotes, removeQuotesFromMyQuotes, addQuoteToMyQuotes, login } from "./userAPI"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export const loginAsync = createAsyncThunk(
+    'user/login',
+    async ({ email, password }) => {
+        const response = await login(email, password)
+        return response.data
+    }
+)
 
 export const createUserAsync = createAsyncThunk(
     'user/createUser',
@@ -61,23 +68,23 @@ export const updateQuoteFromMyQuotesAsync = createAsyncThunk(
         return response.data;
     }
 )
-
+const initialState = {
+    name: "",
+    email: "",
+    gender: "",
+    areasOfImprovement: [],
+    reasonForImprovement: [],
+    feelingLately: "",
+    notificationNumber: 10,
+    notificationTimeStart: 0,
+    notificationTimeEnd: 12,
+    savedQuotes: [],
+    myQuotes: [],
+    searchedMyQuotes: []
+}
 export const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        name: "",
-        email: "",
-        gender: "",
-        areasOfImprovement: [],
-        reasonForImprovement: [],
-        feelingLately: "",
-        notificationNumber: 10,
-        notificationTimeStart: 0,
-        notificationTimeEnd: 12,
-        savedQuotes: [],
-        myQuotes: [],
-        searchedMyQuotes: []
-    },
+    initialState: initialState,
     reducers: {
         updateUserData: (state, action) => {
             return { ...state, ...action.payload };
@@ -86,6 +93,9 @@ export const userSlice = createSlice({
             return {
                 ...state, searchedMyQuotes: state.myQuotes.filter(s => s.quote.toLowerCase().includes(action.payload.toLowerCase()))
             }
+        },
+        resetState: (state, action) => {
+            return initialState
         }
     },
     extraReducers: (builder) => {
@@ -115,11 +125,14 @@ export const userSlice = createSlice({
             .addCase(updateQuoteFromMyQuotesAsync.fulfilled, (state, action) => {
                 return { ...state, ...action.payload };
             })
+            .addCase(loginAsync.fulfilled, (state, action) => {
+                return action.payload.user
+            })
 
     }
 });
 
-export const { updateUserData, searchMyQuotes } = userSlice.actions;
+export const { updateUserData, searchMyQuotes, resetState } = userSlice.actions;
 
 export const selectUserData = state => state.user;
 

@@ -22,7 +22,9 @@ import { fetchQuotesAsync } from '@/reducers/quoteSlice';
 import {
   addQuoteToUserAsync,
   removeQuotesFromUserAsync,
+  resetState,
 } from '@/reducers/userSlice';
+import { BackHandler } from 'react-native';
 // import Share from 'react-native-share';
 
 const home = () => {
@@ -44,6 +46,19 @@ const home = () => {
     }
   }, [currentQuoteIndex]);
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick
+      );
+    };
+  }, []);
+
+  const handleBackButtonClick = (): any => {
+    return true;
+  };
   const handleLike = (quoteId: any, value: any) => {
     const userData = { userId, quoteId };
     if (value === 'add') {
@@ -102,7 +117,8 @@ const home = () => {
               color='white'
               onPress={() => {
                 AsyncStorage.removeItem('user');
-                router.push('/getName');
+                dispatch(resetState());
+                router.push('/login');
               }}
             />
           </View>

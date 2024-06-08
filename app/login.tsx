@@ -4,45 +4,25 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { updateUserData } from '@/reducers/userSlice';
-import { Link, router } from 'expo-router';
-import { checkIfUserEmailExists } from '@/reducers/userAPI';
+import { loginAsync, updateUserData } from '@/reducers/userSlice';
+import { router, Link } from 'expo-router';
 import { checkValidEmail } from '@/common/utils';
 
-const getName = () => {
+const Login = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState({ value: false, message: '' });
-  const [passwordError, setPasswordError] = useState({
-    value: false,
-    message: '',
-  });
-  const saveuserName = async () => {
-    if (checkValidEmail(email) && password.length > 8) {
-      const { data } = await checkIfUserEmailExists(email);
-      console.log(data, 'data');
-      if (data) {
-        setEmailError({ value: true, message: 'Email Already Exists' });
-      } else {
-        dispatch(
-          updateUserData({ name: name, email: email, password: password })
-        );
-        router.push('/getGender');
-      }
+  const user: any = useAppSelector((state) => state.user);
+
+  const login = async () => {
+    if (checkValidEmail(email)) {
+      dispatch(loginAsync({ email, password }));
     } else {
       if (!checkValidEmail(email)) {
         setEmailError({
           value: true,
           message: 'Please enter correct email Address',
-        });
-      }
-      if (password.length < 8) {
-        setPasswordError({
-          value: true,
-          message: 'Please enter the password with 8 digits',
         });
       }
     }
@@ -55,29 +35,21 @@ const getName = () => {
   }, [email]);
 
   useEffect(() => {
-    if (password) {
-      setPasswordError({ value: false, message: '' });
+    if (user._id) {
+      router.push('/home');
     }
-  }, [password]);
+  }, [user]);
+
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView>
         <View className='relative'>
-          <View className='p-4 '>
-            <Text className='text-white text-3xl text-center mt-5'>
-              Let's take it one step at a time. How do you want to be called
-            </Text>
+          <View className='p-4'>
+            <Text className='text-white text-3xl text-center mt-5'>Login</Text>
             <Text className='text-gray-100 text-xl text-center mt-5'>
               Your name will be displayed in your motivational quotes
             </Text>
             <View className='pt-6'>
-              <FormField
-                title='Name'
-                placeholder='Your Name'
-                handleChangeText={setName}
-                value={name}
-                otherStyles={'mt-10'}
-              />
               <FormField
                 title='Email'
                 placeholder='Your Email'
@@ -92,20 +64,20 @@ const getName = () => {
                 handleChangeText={setPassword}
                 value={password}
                 otherStyles={'mt-10'}
-                customError={passwordError}
+                // customError={passwordError}
               />
             </View>
           </View>
           <CustomButton
             title='Continue'
-            containerStyles={'text-white mt-10 mb-5 w-full'}
-            handlePress={saveuserName}
+            containerStyles={'text-white my-10 w-full'}
+            handlePress={login}
           />
           <View className='flex-row mb-10 justify-center'>
             <Text className='text-md text-white'>
-              Already have an account{' '}
-              <Link href='/login' className='text-blue-500'>
-                Login
+              Create an Account{' '}
+              <Link href='/getName' className='text-blue-500'>
+                Sign Up
               </Link>
             </Text>
           </View>
@@ -115,4 +87,4 @@ const getName = () => {
   );
 };
 
-export default getName;
+export default Login;

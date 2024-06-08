@@ -31,10 +31,15 @@ const GenderSelectionScreen = () => {
     dispatch(updateUserData({ feelingLately: value }));
 
     setTimeout(() => {
-      dispatch(createUserAsync({ user }));
+      dispatch(
+        // createUserAsync({
+        //   userData: { user: { ...user, feelingLately: value } },
+        // })
+        createUserAsync({ user: { ...user, feelingLately: value } })
+      );
 
       router.push('/home');
-    }, 2000);
+    }, 100);
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
