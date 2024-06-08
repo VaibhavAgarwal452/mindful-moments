@@ -97,7 +97,6 @@ export const usePushNotifications = (): PushNotificationState => {
 };
 
 export const sendNotification = async (expoPushToken:any) => {
-  console.log("Sending push notification...");
 
   // notification message
   const message = {

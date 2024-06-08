@@ -25,7 +25,6 @@ const index = () => {
     router.push('/intro-screen2');
     // router.push('/home');
   };
-  console.log("hheeh")
 
   return (
     <SafeAreaView className='bg-primary h-full'>

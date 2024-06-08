@@ -34,7 +34,7 @@ const GenderSelectionScreen = () => {
       dispatch(createUserAsync({ user }));
 
       router.push('/home');
-    }, 1000);
+    }, 2000);
   };
   return (
     <SafeAreaView className='bg-primary h-full'>

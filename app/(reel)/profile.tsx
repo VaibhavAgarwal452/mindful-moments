@@ -55,7 +55,6 @@ const Profile = () => {
               <Pressable
                 className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'
                 onPress={() => {
-                  console.log('here');
                   sendNotification(expoPushToken);
                 }}
               >
@@ -110,7 +109,12 @@ const Profile = () => {
                 <View className='flex-row gap-2 items-center'>
                   <Fontisto name='favorite' size={20} color='white' />
                   <Text className='text-white p-2 text-xl'>
-                    Favorites ({user.savedQuotes?.length})
+                    Favorites{' '}
+                    {user &&
+                      user.savedQuotes &&
+                      user.savedQuotes.length > 0 && (
+                        <Text>({user.savedQuotes?.length})</Text>
+                      )}
                   </Text>
                 </View>
                 <AntDesign name='right' size={20} color='white' />
