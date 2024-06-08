@@ -66,7 +66,13 @@ const reasonForImprovementScreen = () => {
   };
 
   const handleSubmitButton = () => {
-    const selectedValues = reasonForImprovement.map((item: any) => item.value);
+    const selectedValues = reasonForImprovement
+      .filter((item: any) => {
+        if (item.isActive) {
+          return item.value;
+        }
+      })
+      .map((item: any) => item.value);
     dispatch(updateUserData({ reasonForImprovement: selectedValues }));
     router.push('/feelingLately');
   };

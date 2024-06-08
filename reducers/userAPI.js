@@ -33,6 +33,24 @@ export function login(email, password) {
         }
     })
 }
+
+export function updateUser(user) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetch('http://15.206.72.239:8000/api/v1/users/updateUser/' + user._id, {
+                method: 'PATCH',
+                body: JSON.stringify({ user: user }),
+                headers: { 'content-type': 'application/json' },
+            });
+            const { data } = await response.json();
+            resolve({ data });
+        } catch (error) {
+            console.log(error, "error")
+            reject(error);
+        }
+    })
+}
+
 export function checkIfUserEmailExists(email) {
     return new Promise(async (resolve, reject) => {
         try {

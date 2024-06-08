@@ -1,7 +1,7 @@
 // reducers/userSlice.js
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUser, fetchUser, addQuoteToUser, removeQuotesFromUser, updateQuoteFromMyQuotes, removeQuotesFromMyQuotes, addQuoteToMyQuotes, login } from "./userAPI"
+import { createUser, fetchUser, updateUser, addQuoteToUser, removeQuotesFromUser, updateQuoteFromMyQuotes, removeQuotesFromMyQuotes, addQuoteToMyQuotes, login } from "./userAPI"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const loginAsync = createAsyncThunk(
@@ -22,6 +22,14 @@ export const createUserAsync = createAsyncThunk(
         return response.data;
     }
 );
+
+export const updateUserAsync = createAsyncThunk(
+    'user/updateUser',
+    async (user) => {
+        const response = await updateUser(user);
+        return response.data;
+    }
+)
 
 export const fetchCurrentUserAsync = createAsyncThunk(
     'user/fetchCurrentUser',
@@ -128,6 +136,10 @@ export const userSlice = createSlice({
             .addCase(loginAsync.fulfilled, (state, action) => {
                 return action.payload.user
             })
+            .addCase(updateUserAsync.fulfilled, (state, action) => {
+                return action.payload
+            })
+
 
     }
 });

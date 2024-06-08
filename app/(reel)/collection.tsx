@@ -2,8 +2,6 @@ import {
   View,
   Text,
   SafeAreaView,
-  TouchableHighlight,
-  TextInput,
   ScrollView,
   Share,
   Pressable,
@@ -15,12 +13,7 @@ import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-// import { Feather } from '@expo/vector-icons';
-// import Modal from 'react-native-modal';
-// import {
-//   removeQuotesFromMyQuotesAsync,
-//   searchMyQuotes,
-// } from '@/reducers/userSlice';
+
 import {
   addQuotesToCollectionAsync,
   getCollectionsAsync,

@@ -45,13 +45,18 @@ const Profile = () => {
               <Text className='text-white text-xl'>SETTINGS</Text>
             </View>
             <View className='bg-primary-100 rounded-xl mt-5'>
-              <View className='flex-row py-2 justify-between items-center border border-top-2 px-4'>
+              <Pressable
+                className='flex-row py-2 justify-between items-center border border-top-2 px-4'
+                onPress={() => {
+                  router.push('/general');
+                }}
+              >
                 <View className='flex-row gap-2 items-center'>
                   <SimpleLineIcons name='settings' size={20} color='white' />
                   <Text className='text-white p-2 text-xl'>General</Text>
                 </View>
                 <AntDesign name='right' size={20} color='white' />
-              </View>
+              </Pressable>
               <Pressable
                 className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'
                 onPress={() => {

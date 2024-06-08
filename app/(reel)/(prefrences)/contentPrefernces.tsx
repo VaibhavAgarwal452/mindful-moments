@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { styled } from 'nativewind';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { updateUserData } from '@/reducers/userSlice';
+import { updateUserAsync, updateUserData } from '@/reducers/userSlice';
 import Entypo from '@expo/vector-icons/Entypo';
 import CustomMultiSelectInputButton from '@/components/customMultiSelectButton';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -17,6 +17,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 const areasOfImprovementList = [
   {
@@ -60,13 +61,23 @@ const areasOfImprovementList = [
     isActive: false,
   },
 ];
-const AreaOfImprovementScreen = () => {
+
+const ContentPrefernces = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [areaOfImprovements, setAreaOfImprovements] = useState<any>(
     areasOfImprovementList
   );
 
+  useEffect(() => {
+    const tempAreaOfImprovements = areaOfImprovements.map((item: any) => {
+      if (user?.areasOfImprovement?.includes(item?.value)) {
+        return { ...item, isActive: true };
+      }
+      return item;
+    });
+    setAreaOfImprovements(tempAreaOfImprovements);
+  }, []);
   const handleAreaOfImprovements = (value: any) => {
     const tempGenderOptions = areaOfImprovements.map((item: any) => {
       if (item.value === value) {
@@ -85,14 +96,26 @@ const AreaOfImprovementScreen = () => {
         }
       })
       .map((item: any) => item.value);
-    dispatch(updateUserData({ areasOfImprovement: selectedValues }));
-    router.push('/Reason');
+    // dispatch(updateUserData({ areasOfImprovement: selectedValues }));
+    dispatch(updateUserAsync({ ...user, areasOfImprovement: selectedValues }));
+    router.push('/general');
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className='mt-20 px-7'>
-        <View>
-          <Text className='text-white text-3xl text-center'>
+      <ScrollView className='mt-12 px-7'>
+        <View className='flex-row start-1 gap-3 items-center'>
+          <Ionicons
+            name='arrow-back'
+            size={30}
+            color='white'
+            onPress={() => {
+              router.back();
+            }}
+          />
+          <Text className='text-white text-3xl'>Content Prefernces</Text>
+        </View>
+        <View className='mt-5'>
+          <Text className='text-white text-2xl text-center'>
             What areas of life, would you like to improve?
           </Text>
         </View>
@@ -122,4 +145,4 @@ const AreaOfImprovementScreen = () => {
   );
 };
 
-export default AreaOfImprovementScreen;
+export default ContentPrefernces;

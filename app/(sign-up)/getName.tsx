@@ -23,7 +23,6 @@ const getName = () => {
   const saveuserName = async () => {
     if (checkValidEmail(email) && password.length > 8) {
       const { data } = await checkIfUserEmailExists(email);
-      console.log(data, 'data');
       if (data) {
         setEmailError({ value: true, message: 'Email Already Exists' });
       } else {

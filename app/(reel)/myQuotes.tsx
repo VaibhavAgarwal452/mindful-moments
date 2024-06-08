@@ -189,7 +189,7 @@ const MyQuotes = () => {
                         <View className='flex-row justify-between mt-2'>
                           {item.author && (
                             <Text className='text-white text-md'>
-                              -{item.author}
+                              - {item.author}
                             </Text>
                           )}
                           <View className='flex-row'>
