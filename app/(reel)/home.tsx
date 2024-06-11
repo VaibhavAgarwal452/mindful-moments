@@ -36,29 +36,19 @@ const home = () => {
   const user: any = useAppSelector((state) => state.user);
   const quotesRedux: any = useAppSelector((state) => state.quotes.quotes);
   const userId = user._id;
+
   useEffect(() => {
+    const userQuotesPrefrences = user?.areasOfImprovement?.concat(
+      user?.reasonForImprovement
+    );
     if (
       currentQuoteIndex === 0 ||
       currentQuoteIndex === quotesRedux.length - 3
     ) {
-      // getPosts();
-      dispatch(fetchQuotesAsync());
+      dispatch(fetchQuotesAsync({ userQuotesPrefrences }));
     }
   }, [currentQuoteIndex]);
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    () => {
-      BackHandler.removeEventListener(
-        'hardwareBackPress',
-        handleBackButtonClick
-      );
-    };
-  }, []);
-
-  const handleBackButtonClick = (): any => {
-    return true;
-  };
   const handleLike = (quoteId: any, value: any) => {
     const userData = { userId, quoteId };
     if (value === 'add') {

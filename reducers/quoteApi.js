@@ -1,9 +1,10 @@
-export function fetchQuotes() {
+export function fetchQuotes(userQuotesPrefrences) {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetch('http://15.206.72.239:8000/api/v1/quotes/random', {
                 method: 'POST',
                 body: JSON.stringify({
+                    quoteCategory: userQuotesPrefrences,
                     page: 1,
                     limit: 25,
                 }),

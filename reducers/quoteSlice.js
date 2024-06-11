@@ -3,8 +3,8 @@ import { fetchQuotes, fetchQuotesByIds } from "./quoteApi";
 
 export const fetchQuotesAsync = createAsyncThunk(
     'quotes/fetchQuotes',
-    async () => {
-        const response = await fetchQuotes();
+    async ({ userQuotesPrefrences }) => {
+        const response = await fetchQuotes(userQuotesPrefrences);
         return response;
     }
 )

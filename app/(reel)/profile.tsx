@@ -20,7 +20,6 @@ const Profile = () => {
   const dispatch = useAppDispatch();
   const { expoPushToken, notification } = usePushNotifications();
   const data = JSON.stringify(notification, undefined, 2);
-  console.log(expoPushToken, data);
   useEffect(() => {
     dispatch(fetchCurrentUserAsync(user._id));
   }, []);

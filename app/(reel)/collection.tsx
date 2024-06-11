@@ -53,7 +53,7 @@ const collection = () => {
 
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <View className='mt-12 mx-4'>
+      <View className='mt-8 mx-4'>
         <View className='flex-row items-center gap-3'>
           <View className='w-full flex-row items-center gap-3'>
             <Ionicons
@@ -103,7 +103,12 @@ const collection = () => {
                 );
               })
             ) : (
-              <Text>No Collection Found</Text>
+              <View className='mt-12'>
+                <Text className='text-white text-2xl text-center'>
+                  {' '}
+                  No Collection Found
+                </Text>
+              </View>
             )}
           </ScrollView>
         </View>
