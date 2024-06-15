@@ -14,7 +14,6 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
-import { createUserAsync, selectUserData } from '@/reducers/userSlice';
 import { Octicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
@@ -24,11 +23,8 @@ import {
   removeQuotesFromUserAsync,
   resetState,
 } from '@/reducers/userSlice';
-import { BackHandler } from 'react-native';
-// import Share from 'react-native-share';
 
 const home = () => {
-  // const [quotesList, setQuotesList] = useState<any>([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [liked, setLiked] = useState(false);
 
@@ -72,6 +68,9 @@ const home = () => {
   const handleQuoteChange = () => {
     setCurrentQuoteIndex((index) => index + 1);
     setLiked(false);
+  };
+  const handlePreviousQuoteChange = () => {
+    setCurrentQuoteIndex((index) => index - 1);
   };
 
   const handleShare = async () => {
@@ -164,11 +163,19 @@ const home = () => {
               />
             )}
           </View>
-          <CustomButton
-            title={'Next Quote'}
-            className=''
-            handlePress={() => handleQuoteChange()}
-          />
+          <View className='flex-row justify-between w-full px-4'>
+            <CustomButton
+              title={'Previous'}
+              containerStyles={'w-2/5'}
+              isLoading={currentQuoteIndex === 0}
+              handlePress={() => handlePreviousQuoteChange()}
+            />
+            <CustomButton
+              title={'Next'}
+              containerStyles={'w-2/5'}
+              handlePress={() => handleQuoteChange()}
+            />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

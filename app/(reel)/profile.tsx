@@ -18,11 +18,13 @@ import {
 const Profile = () => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const { expoPushToken, notification } = usePushNotifications();
-  const data = JSON.stringify(notification, undefined, 2);
+  // const { expoPushToken, notification } = usePushNotifications();
+  // const data = JSON.stringify(notification, undefined, 2);
   useEffect(() => {
     dispatch(fetchCurrentUserAsync(user._id));
   }, []);
+
+  // console.log(expoPushToken, data);
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView className=''>
