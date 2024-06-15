@@ -16,12 +16,11 @@ import { Feather } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { fetchQuotesAsync } from '@/reducers/quoteSlice';
 import {
   addQuoteToUserAsync,
   removeQuotesFromUserAsync,
-  resetState,
 } from '@/reducers/userSlice';
 
 const home = () => {
@@ -31,7 +30,9 @@ const home = () => {
   const user: any = useAppSelector((state) => state.user);
   const quotesRedux: any = useAppSelector((state) => state.quotes.quotes);
   const userId = user._id;
+  const { page, category } = useLocalSearchParams();
 
+  //   console.log(page, category, 'abcd');
   useEffect(() => {
     const userQuotesPrefrences = user?.areasOfImprovement?.concat(
       user?.reasonForImprovement
@@ -99,16 +100,6 @@ const home = () => {
                 router.push('/profile');
               }}
             />
-            <Octicons
-              name='sign-out'
-              size={35}
-              color='white'
-              onPress={() => {
-                AsyncStorage.removeItem('user');
-                dispatch(resetState());
-                router.push('/login');
-              }}
-            />
           </View>
           <View className='flex-1 items-center justify-center'>
             {quotesRedux && quotesRedux.length > 0 ? (
@@ -136,12 +127,6 @@ const home = () => {
             )}
           </View>
           <View className='flex gap-8 py-6 flex-row justify-center'>
-            <AntDesign
-              name='search1'
-              size={35}
-              color='white'
-              onPress={() => router.push('/category')}
-            />
             <Feather
               name='share'
               size={35}

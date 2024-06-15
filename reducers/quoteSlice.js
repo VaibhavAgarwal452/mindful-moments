@@ -32,6 +32,9 @@ export const quoteSlice = createSlice({
             return {
                 ...state, searchedSavedQuotes: state.savedQuotes.filter(s => s.quote.toLowerCase().includes(action.payload.toLowerCase()))
             }
+        },
+        addQuoteToQuotes: (state, action) => {
+            return { ...state, quotes: [action.payload, ...state.quotes] }
         }
     },
     extraReducers: (builder) => {
@@ -53,6 +56,6 @@ export const quoteSlice = createSlice({
 })
 
 export const selectUserData = state => state.quotes;
-export const { updateSavedQuotes, searchSavedQuotes } = quoteSlice.actions
+export const { updateSavedQuotes, searchSavedQuotes, addQuoteToQuotes } = quoteSlice.actions
 
 export default quoteSlice.reducer;

@@ -6,6 +6,7 @@ import {
   Share,
   TextInput,
   TouchableHighlight,
+  Pressable,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,13 +16,13 @@ import {
   fetchQuotesByIdsAsync,
   updateSavedQuotes,
   searchSavedQuotes,
+  addQuoteToQuotes,
 } from '@/reducers/quoteSlice';
 import { Feather } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { removeQuotesFromUserAsync } from '@/reducers/userSlice';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import { InterruptionModeAndroid } from 'expo-av';
 import { getQuotesIdsForCurrentUSer } from '@/common/utils';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -138,7 +139,17 @@ const Favorite = () => {
           ? savedQuotes &&
             savedQuotes.map((item: any, index: number) => {
               return (
-                <View key={index} className='bg-primary-100 rounded-xl mt-5'>
+                <Pressable
+                  key={index}
+                  className='bg-primary-100 rounded-xl mt-5'
+                  onPress={() => {
+                    dispatch(addQuoteToQuotes(item));
+                    router.push({
+                      pathname: `/quotesList`,
+                      params: { page: 'favorite', category: '' },
+                    });
+                  }}
+                >
                   <View className='p-4'>
                     <View>
                       <Text className='text-white text-lg'>{item.quote}</Text>
@@ -180,12 +191,22 @@ const Favorite = () => {
                       </View>
                     </View>
                   </View>
-                </View>
+                </Pressable>
               );
             })
           : searchedSavedQuotes.map((item: any, index: any) => {
               return (
-                <View key={index} className='bg-primary-100 rounded-xl mt-5'>
+                <Pressable
+                  key={index}
+                  className='bg-primary-100 rounded-xl mt-5'
+                  onPress={() => {
+                    dispatch(addQuoteToQuotes(item));
+                    router.push({
+                      pathname: `/quotesList`,
+                      params: { page: 'favorite', category: '' },
+                    });
+                  }}
+                >
                   <View className='p-4'>
                     <View>
                       <Text className='text-white text-lg'>{item.quote}</Text>
@@ -216,7 +237,7 @@ const Favorite = () => {
                       </View>
                     </View>
                   </View>
-                </View>
+                </Pressable>
               );
             })}
       </ScrollView>
