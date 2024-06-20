@@ -14,7 +14,10 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import { fetchQuotesAsync } from '@/reducers/quoteSlice';
+import {
+  fetchQuotesAsync,
+  fetchQuotesByCategoriesAsync,
+} from '@/reducers/quoteSlice';
 import {
   addQuoteToUserAsync,
   removeQuotesFromUserAsync,
@@ -28,7 +31,9 @@ const home = () => {
   const dispatch = useAppDispatch();
   const user: any = useAppSelector((state) => state.user);
   const savedQuotes = useAppSelector((state) => state.quotes.savedQuotes);
+  const categoryQuotes = useAppSelector((state) => state.quotes.categoryQuotes);
   let quotesRedux: any = useAppSelector((state) => state.quotes.quotes);
+
   const userId = user._id;
   const { page, category } = useLocalSearchParams();
 
@@ -43,6 +48,13 @@ const home = () => {
       } else {
         setQuotesToShow(savedQuotes);
       }
+    } else if (page === 'categories') {
+      if (
+        currentQuoteIndex === 0 ||
+        currentQuoteIndex === categoryQuotes.length - 3
+      ) {
+        dispatch(fetchQuotesByCategoriesAsync({ category }));
+      }
     } else {
       if (
         currentQuoteIndex === 0 ||
@@ -53,7 +65,14 @@ const home = () => {
     }
   }, [currentQuoteIndex]);
   useEffect(() => {
-    setQuotesToShow(quotesRedux);
+    if (page === 'categories') {
+      setQuotesToShow(categoryQuotes);
+    }
+  }, [categoryQuotes]);
+  useEffect(() => {
+    if (page !== 'categories') {
+      setQuotesToShow(quotesRedux);
+    }
   }, [quotesRedux]);
   useEffect(() => {
     if (
@@ -107,6 +126,7 @@ const home = () => {
       console.log(error);
     }
   };
+  console.log(categoryQuotes, 'categoryQuot');
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView className=''>

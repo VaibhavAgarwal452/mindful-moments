@@ -1,11 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchQuotes, fetchQuotesByIds } from "./quoteApi";
+import { fetchQuotes, fetchQuotesByIds, fetchQuotesByCategories } from "./quoteApi";
 
 export const fetchQuotesAsync = createAsyncThunk(
     'quotes/fetchQuotes',
     async ({ userQuotesPrefrences }) => {
         const response = await fetchQuotes(userQuotesPrefrences);
         return response;
+    }
+)
+
+export const fetchQuotesByCategoriesAsync = createAsyncThunk(
+    'quotes/fetchQuotesByCategories',
+    async ({ category }) => {
+        console.log("categr", category);
+        const response = await fetchQuotesByCategories(category)
+        return response
     }
 )
 export const fetchQuotesByIdsAsync = createAsyncThunk(
@@ -22,7 +31,8 @@ export const quoteSlice = createSlice({
         quotes: [],
         savedQuotes: [],
         searchedSavedQuotes: [],
-        loading: false
+        loading: false,
+        categoryQuotes: []
     },
     reducers: {
         updateSavedQuotes: (state, action) => {
@@ -35,6 +45,9 @@ export const quoteSlice = createSlice({
         },
         addQuoteToQuotes: (state, action) => {
             return { ...state, quotes: [action.payload, ...state.quotes] }
+        },
+        resetCategoriesQuotes: (state) => {
+            return { ...state, categoryQuotes: [] }
         }
     },
     extraReducers: (builder) => {
@@ -51,11 +64,19 @@ export const quoteSlice = createSlice({
             builder.addCase(fetchQuotesByIdsAsync.fulfilled, (state, action) => {
                 state.loading = false
                 state.savedQuotes = action.payload
+            }),
+            builder.addCase(fetchQuotesByCategoriesAsync.pending, (state, action) => {
+                state.loading = true
+            }),
+            builder.addCase(fetchQuotesByCategoriesAsync.fulfilled, (state, action) => {
+                state.loading = false
+                console.log(action.payload, "dsi")
+                state.categoryQuotes = [...state.categoryQuotes, ...action.payload];
             })
     }
 })
 
 export const selectUserData = state => state.quotes;
-export const { updateSavedQuotes, searchSavedQuotes, addQuoteToQuotes } = quoteSlice.actions
+export const { updateSavedQuotes, searchSavedQuotes, addQuoteToQuotes, resetCategoriesQuotes } = quoteSlice.actions
 
 export default quoteSlice.reducer;

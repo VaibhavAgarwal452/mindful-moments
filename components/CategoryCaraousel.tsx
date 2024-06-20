@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, ScrollView, Dimensions, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { addQuoteToQuotes } from '@/reducers/quoteSlice';
+import { addQuoteToQuotes, resetCategoriesQuotes } from '@/reducers/quoteSlice';
 
 const screenWidth = Dimensions.get('window').width;
 const caraouselItemWidth = Math.round(screenWidth / 2 - 35);
@@ -25,6 +25,12 @@ const TopPlacesCarousel = ({ list, headline }: any) => {
       if (item.subCategory === 'myOwnQuotes') {
         router.push('/myQuotes');
       }
+    } else {
+      dispatch(resetCategoriesQuotes());
+      router.push({
+        pathname: '/quotesList',
+        params: { page: 'categories', category: item.filterCategoryBy },
+      });
     }
   };
 
