@@ -39,16 +39,16 @@ export const quotes = [
 ]
 
 export const GeneralCategory = [
-    { id: 1, name: "General", icon: <Ionicons name="planet" size={25} color="white" /> },
+    { id: 1, name: "General", category: "general", subCategory: "general", icon: <Ionicons name="planet" size={25} color="white" /> },
     {
-        id: 2, name: "My Favorites", icon: <Fontisto name='favorite' size={25} color='white' />
+        id: 2, name: "My Favorites", category: "general", subCategory: "favorites", icon: <Fontisto name='favorite' size={25} color='white' />
     },
-    { id: 3, name: "Based on your Mood", icon: <MaterialIcons name="mood" size={25} color="white" /> },
+    { id: 3, name: "Based on your Mood", category: "general", subCategory: "basedOnMood", icon: <MaterialIcons name="mood" size={25} color="white" /> },
     {
-        id: 4, name: "My own quotes", icon: <Foundation name='clipboard-pencil' size={25} color='white' />
+        id: 4, name: "My own quotes", category: "general", subCategory: "myOwnQuotes", icon: <Foundation name='clipboard-pencil' size={25} color='white' />
     },
     {
-        id: 5, name: "Your collections", icon: <Entypo name='bookmarks' size={25} color='white' />
+        id: 5, name: "Your collections", category: "general", subCategory: "collections", icon: <Entypo name='bookmarks' size={25} color='white' />
     },
 ]
 

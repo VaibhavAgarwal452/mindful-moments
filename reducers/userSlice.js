@@ -8,6 +8,11 @@ export const loginAsync = createAsyncThunk(
     'user/login',
     async ({ email, password }) => {
         const response = await login(email, password)
+        const user = await AsyncStorage.getItem("user")
+        if (user) {
+            await AsyncStorage.removeItem("user")
+        }
+        await AsyncStorage.setItem("user", JSON.stringify(response.data.user))
         return response.data
     }
 )

@@ -61,7 +61,7 @@ const Profile = () => {
               <Pressable
                 className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'
                 onPress={() => {
-                  sendNotification(expoPushToken);
+                  // sendNotification(expoPushToken);
                 }}
               >
                 <View className='flex-row gap-2 items-center'>

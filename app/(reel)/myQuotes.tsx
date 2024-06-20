@@ -75,7 +75,7 @@ const MyQuotes = () => {
                 if (searchInputVisible) {
                   setSearchInputVisible(false);
                 } else {
-                  router.push('/profile');
+                  router.back();
                 }
               }}
             />
@@ -107,7 +107,7 @@ const MyQuotes = () => {
               </View>
             ) : (
               <View className='flex-row w-auto justify-between items-center'>
-                <Text className='text-white text-2xl'>Added</Text>
+                <Text className='text-white text-2xl'>My Quotes</Text>
                 <AntDesign
                   name='search1'
                   size={25}
