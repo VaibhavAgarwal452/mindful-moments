@@ -42,7 +42,6 @@ const home = () => {
       user?.reasonForImprovement
     );
     if (page === 'categories' && category === 'favorites') {
-      console.log('here2');
       if (user?.savedQuotes?.length > 0 && savedQuotes?.length === 0) {
         dispatch(fetchQuotesByIdsAsync(user.savedQuotes));
       } else {
@@ -126,7 +125,6 @@ const home = () => {
       console.log(error);
     }
   };
-  console.log(categoryQuotes, 'categoryQuot');
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView className=''>

@@ -44,7 +44,7 @@ const index = () => {
                 color='white'
                 // onPress={() => router.push('/category')}
               />
-              <Text className='text-white text-2xl'>Edit</Text>
+              {/* <Text className='text-white text-2xl'>Edit</Text> */}
             </View>
           </View>
 
@@ -110,12 +110,12 @@ const index = () => {
             />
           </View>
 
-          <View className='w-full mt-6'>
+          {/* <View className='w-full mt-6'>
             <CategoryCaraousel
               list={HealthAndFitnessCategory}
               headline='Health & fitness'
             />
-          </View>
+          </View> */}
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -12,7 +12,6 @@ export const fetchQuotesAsync = createAsyncThunk(
 export const fetchQuotesByCategoriesAsync = createAsyncThunk(
     'quotes/fetchQuotesByCategories',
     async ({ category }) => {
-        console.log("categr", category);
         const response = await fetchQuotesByCategories(category)
         return response
     }
@@ -70,7 +69,6 @@ export const quoteSlice = createSlice({
             }),
             builder.addCase(fetchQuotesByCategoriesAsync.fulfilled, (state, action) => {
                 state.loading = false
-                console.log(action.payload, "dsi")
                 state.categoryQuotes = [...state.categoryQuotes, ...action.payload];
             })
     }
