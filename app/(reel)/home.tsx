@@ -23,7 +23,8 @@ import {
   removeQuotesFromUserAsync,
   resetState,
 } from '@/reducers/userSlice';
-
+import Animated, { SlideInUp, SlideInDown } from 'react-native-reanimated';
+import { SlideInUpAnimation } from '../../constants/animations';
 const home = () => {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -88,7 +89,7 @@ const home = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className=''>
+      <Animated.ScrollView entering={SlideInUpAnimation}>
         <View className='border h-[100vh] relative'>
           <View className='absolute top-12 flex-row gap-3 w-full justify-between px-4'>
             <MaterialCommunityIcons
@@ -182,7 +183,7 @@ const home = () => {
             />
           </View>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

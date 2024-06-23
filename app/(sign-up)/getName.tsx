@@ -9,6 +9,7 @@ import { Link, router } from 'expo-router';
 import { checkIfUserEmailExists } from '@/reducers/userAPI';
 import { checkValidEmail } from '@/common/utils';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
+import { SlideInDownAnimation } from '@/constants/animations';
 
 const getName = () => {
   const dispatch = useAppDispatch();
@@ -61,7 +62,7 @@ const getName = () => {
   }, [password]);
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <Animated.ScrollView entering={FadeInLeft.delay(400)}>
+      <Animated.ScrollView entering={SlideInDownAnimation}>
         <View className='relative'>
           <View className='p-4'>
             <Text className='text-white text-2xl text-center mt-5'>

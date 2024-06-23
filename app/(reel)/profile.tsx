@@ -14,6 +14,17 @@ import {
   usePushNotifications,
   sendNotification,
 } from '@/hooks/usePushNotifications';
+import Animated, {
+  FadeInDown,
+  BounceInUp,
+  BounceInDown,
+  ReduceMotion,
+  SlideInDown,
+  SlideInUp,
+  SlideOutLeft,
+  Easing,
+} from 'react-native-reanimated';
+import { SlideInDownAnimation } from '@/constants/animations';
 
 const Profile = () => {
   const user = useAppSelector((state) => state.user);
@@ -27,7 +38,10 @@ const Profile = () => {
   // console.log(expoPushToken, data);
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className=''>
+      <Animated.ScrollView
+        entering={SlideInDownAnimation}
+        exiting={SlideOutLeft.duration(1500).easing(Easing.ease)}
+      >
         <View className='mt-12 mx-4'>
           <View className='flex-row start-1 gap-3 items-center'>
             <Entypo
@@ -128,7 +142,7 @@ const Profile = () => {
             </Pressable>
           </View>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

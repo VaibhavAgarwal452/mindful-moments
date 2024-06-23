@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import React from 'react';
+import { View, Text, SafeAreaView } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { createUserAsync, updateUserData } from '@/reducers/userSlice';
 import CustomInputButton from '../../components/CustomInputButton';
 import { router } from 'expo-router';
+import Animated from 'react-native-reanimated';
+import { SlideInDownAnimation } from '@/constants/animations';
 
 const GenderSelectionScreen = () => {
   const dispatch = useAppDispatch();
@@ -43,7 +39,10 @@ const GenderSelectionScreen = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className='mt-20 px-7'>
+      <Animated.ScrollView
+        className='mt-20 px-7'
+        entering={SlideInDownAnimation}
+      >
         <View>
           <Text className='text-white text-3xl text-center'>
             How have you been feeling lately?
@@ -64,7 +63,7 @@ const GenderSelectionScreen = () => {
             </CustomInputButton>
           ))}
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

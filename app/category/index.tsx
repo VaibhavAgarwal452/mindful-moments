@@ -3,6 +3,7 @@ import React from 'react';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import CategoryCaraousel from '@/components/CategoryCaraousel';
+import Animated from 'react-native-reanimated';
 import {
   CalmDownCategory,
   ForYouCategory,
@@ -17,11 +18,15 @@ import {
   TopPicksCategory,
   WorkProductiveCategry,
 } from '../../data';
+import {
+  SlideInDownAnimation,
+  SlideInUpAnimation,
+} from '@/constants/animations';
 
 const index = () => {
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView>
+      <Animated.ScrollView entering={SlideInDownAnimation}>
         <View className='m-4 mt-12'>
           <View className='flex-row start-1 justify-between items-center'>
             <View className='flex-row gap-3 items-center'>
@@ -117,7 +122,7 @@ const index = () => {
             />
           </View> */}
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

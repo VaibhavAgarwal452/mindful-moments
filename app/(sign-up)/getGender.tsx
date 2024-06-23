@@ -11,6 +11,7 @@ import { updateUserData } from '@/reducers/userSlice';
 import CustomInputButton from '../../components/CustomInputButton';
 import { router } from 'expo-router';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
+import { SlideInDownAnimation } from '@/constants/animations';
 
 const GenderSelectionScreen = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +32,7 @@ const GenderSelectionScreen = () => {
     <SafeAreaView className='bg-primary h-full'>
       <Animated.ScrollView
         className='mt-20 px-7'
-        entering={FadeInLeft.delay(600)}
+        entering={SlideInDownAnimation}
       >
         <View>
           <Text className='text-white text-3xl text-center'>

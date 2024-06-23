@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  ToastAndroid,
-  Share,
-} from 'react-native';
+import { View, Text, SafeAreaView, ToastAndroid, Share } from 'react-native';
 import React, { useEffect, useState } from 'react';
-// import { quotes } from '../../data';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { AntDesign } from '@expo/vector-icons';
@@ -23,6 +15,8 @@ import {
   removeQuotesFromUserAsync,
 } from '@/reducers/userSlice';
 import { fetchQuotesByIdsAsync } from '@/reducers/quoteSlice';
+import Animated from 'react-native-reanimated';
+import { SlideInDownAnimation } from '@/constants/animations';
 
 const home = () => {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
@@ -127,7 +121,7 @@ const home = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className=''>
+      <Animated.ScrollView entering={SlideInDownAnimation}>
         <View className='border h-[100vh] relative'>
           {/* <View className='absolute top-12 flex-row gap-3 w-full justify-between px-4'>
             <MaterialCommunityIcons
@@ -206,7 +200,7 @@ const home = () => {
             />
           </View>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

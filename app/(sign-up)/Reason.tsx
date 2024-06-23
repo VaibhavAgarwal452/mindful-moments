@@ -10,6 +10,8 @@ import { Fontisto } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
 import { FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import Animated, { FadeInLeft } from 'react-native-reanimated';
+import { SlideInDownAnimation } from '@/constants/animations';
 const reasonForImprovementList = [
   {
     label: 'Family',
@@ -83,7 +85,10 @@ const reasonForImprovementScreen = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className='mt-20 px-7'>
+      <Animated.ScrollView
+        className='mt-20 px-7'
+        entering={SlideInDownAnimation}
+      >
         <View>
           <Text className='text-white text-3xl text-center'>
             What is making you feel that way
@@ -111,7 +116,7 @@ const reasonForImprovementScreen = () => {
           handlePress={handleSubmitButton}
           isLoading={buttonEnabled}
         />
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

@@ -10,6 +10,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
 import { router } from 'expo-router';
+import Animated, { FadeInLeft } from 'react-native-reanimated';
+import { SlideInDownAnimation } from '@/constants/animations';
 
 const areasOfImprovementList = [
   {
@@ -87,7 +89,10 @@ const AreaOfImprovementScreen = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className='mt-20 px-7'>
+      <Animated.ScrollView
+        className='mt-20 px-7'
+        entering={SlideInDownAnimation}
+      >
         <View>
           <Text className='text-white text-3xl text-center'>
             What areas of life, would you like to improve?
@@ -115,7 +120,7 @@ const AreaOfImprovementScreen = () => {
           handlePress={handleSubmitButton}
           isLoading={buttonEnabled}
         />
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };
