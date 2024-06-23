@@ -8,6 +8,7 @@ import { updateUserData } from '@/reducers/userSlice';
 import { Link, router } from 'expo-router';
 import { checkIfUserEmailExists } from '@/reducers/userAPI';
 import { checkValidEmail } from '@/common/utils';
+import Animated, { FadeInLeft } from 'react-native-reanimated';
 
 const getName = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +22,7 @@ const getName = () => {
     message: '',
   });
   const saveuserName = async () => {
-    if (checkValidEmail(email) && password.length > 8) {
+    if (checkValidEmail(email) && password.length >= 8) {
       const { data } = await checkIfUserEmailExists(email);
       if (data) {
         setEmailError({ value: true, message: 'Email Already Exists' });
@@ -60,29 +61,29 @@ const getName = () => {
   }, [password]);
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView>
+      <Animated.ScrollView entering={FadeInLeft.delay(400)}>
         <View className='relative'>
-          <View className='p-4 '>
-            <Text className='text-white text-3xl text-center mt-5'>
+          <View className='p-4'>
+            <Text className='text-white text-2xl text-center mt-5'>
               Let's take it one step at a time. How do you want to be called
             </Text>
             <Text className='text-gray-100 text-xl text-center mt-5'>
               Your name will be displayed in your motivational quotes
             </Text>
-            <View className='pt-6'>
+            <View className='pt-4'>
               <FormField
                 title='Name'
                 placeholder='Your Name'
                 handleChangeText={setName}
                 value={name}
-                otherStyles={'mt-10'}
+                otherStyles={'mt-6'}
               />
               <FormField
                 title='Email'
                 placeholder='Your Email'
                 handleChangeText={setEmail}
                 value={email}
-                otherStyles={`mt-10`}
+                otherStyles={`mt-6`}
                 customError={emailError}
               />
               <FormField
@@ -90,7 +91,7 @@ const getName = () => {
                 placeholder='Your password'
                 handleChangeText={setPassword}
                 value={password}
-                otherStyles={'mt-10'}
+                otherStyles={'mt-6'}
                 customError={passwordError}
               />
             </View>
@@ -109,7 +110,7 @@ const getName = () => {
             </Text>
           </View>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

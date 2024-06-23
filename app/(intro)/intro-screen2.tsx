@@ -1,7 +1,6 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 import React from 'react';
 import { images } from '../../constants';
-
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '@/components/CustomButton';
 import { router } from 'expo-router';
@@ -15,7 +14,7 @@ const index = () => {
       <ScrollView className='flex-1' style={{ marginTop: 100 }}>
         <View className='mx-auto px-4'>
           <Text className='text-white text-4xl text-center'>
-            Where Inspiration Meets Innovation"
+            Where Inspiration Meets Innovation
           </Text>
         </View>
 

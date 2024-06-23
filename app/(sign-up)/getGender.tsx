@@ -6,11 +6,11 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import { styled } from 'nativewind';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { updateUserData } from '@/reducers/userSlice';
 import CustomInputButton from '../../components/CustomInputButton';
 import { router } from 'expo-router';
+import Animated, { FadeInLeft } from 'react-native-reanimated';
 
 const GenderSelectionScreen = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +29,10 @@ const GenderSelectionScreen = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className='mt-20 px-7'>
+      <Animated.ScrollView
+        className='mt-20 px-7'
+        entering={FadeInLeft.delay(600)}
+      >
         <View>
           <Text className='text-white text-3xl text-center'>
             Nice to Meet you, {user.name}. Which option represents you better
@@ -50,7 +53,7 @@ const GenderSelectionScreen = () => {
             </CustomInputButton>
           ))}
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

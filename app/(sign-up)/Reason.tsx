@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { updateUserData } from '@/reducers/userSlice';
@@ -51,10 +51,15 @@ const reasonForImprovementList = [
 const reasonForImprovementScreen = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const [buttonEnabled, setButtonEnabled] = useState(true);
+
   const [reasonForImprovement, setReasonForImprovement] = useState<any>(
     reasonForImprovementList
   );
-
+  useEffect(() => {
+    const abc = reasonForImprovement.some((item: any) => item.isActive);
+    setButtonEnabled(!abc);
+  }, [reasonForImprovement]);
   const handleAreaOfImprovements = (value: any) => {
     const tempReasonOptions = reasonForImprovement.map((item: any) => {
       if (item.value === value) {
@@ -104,6 +109,7 @@ const reasonForImprovementScreen = () => {
           title='Continue'
           containerStyles={'text-white mt-10 w-full'}
           handlePress={handleSubmitButton}
+          isLoading={buttonEnabled}
         />
       </ScrollView>
     </SafeAreaView>

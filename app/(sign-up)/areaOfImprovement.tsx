@@ -1,12 +1,5 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
-import { styled } from 'nativewind';
+import React, { useEffect, useState } from 'react';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { updateUserData } from '@/reducers/userSlice';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -66,7 +59,11 @@ const AreaOfImprovementScreen = () => {
   const [areaOfImprovements, setAreaOfImprovements] = useState<any>(
     areasOfImprovementList
   );
-
+  const [buttonEnabled, setButtonEnabled] = useState(true);
+  useEffect(() => {
+    const abc = areaOfImprovements.some((item: any) => item.isActive);
+    setButtonEnabled(!abc);
+  }, [areaOfImprovements]);
   const handleAreaOfImprovements = (value: any) => {
     const tempGenderOptions = areaOfImprovements.map((item: any) => {
       if (item.value === value) {
@@ -116,6 +113,7 @@ const AreaOfImprovementScreen = () => {
           title='Continue'
           containerStyles={'text-white mt-10 w-full'}
           handlePress={handleSubmitButton}
+          isLoading={buttonEnabled}
         />
       </ScrollView>
     </SafeAreaView>
