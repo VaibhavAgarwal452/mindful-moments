@@ -2,19 +2,20 @@ import {
   View,
   Text,
   SafeAreaView,
-  ScrollView,
   ToastAndroid,
   Share,
+  BackHandler,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-// import { quotes } from '../../data';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
-import { Octicons } from '@expo/vector-icons';
+import {
+  AntDesign,
+  MaterialCommunityIcons,
+  Feather,
+  Fontisto,
+  Octicons,
+} from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { fetchQuotesAsync } from '@/reducers/quoteSlice';
@@ -23,8 +24,10 @@ import {
   removeQuotesFromUserAsync,
   resetState,
 } from '@/reducers/userSlice';
-import Animated, { SlideInUp, SlideInDown } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { SlideInUpAnimation } from '../../constants/animations';
+import { useBackButton } from '@/hooks/useBackButton';
+
 const home = () => {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -32,7 +35,11 @@ const home = () => {
   const user: any = useAppSelector((state) => state.user);
   const quotesRedux: any = useAppSelector((state) => state.quotes.quotes);
   const userId = user._id;
-
+  const handleBackButton = (): any => {
+    BackHandler.exitApp();
+    return false;
+  };
+  useBackButton(handleBackButton);
   useEffect(() => {
     const userQuotesPrefrences = user?.areasOfImprovement?.concat(
       user?.reasonForImprovement

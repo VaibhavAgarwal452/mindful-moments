@@ -25,6 +25,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { getQuotesIdsForCurrentUSer } from '@/common/utils';
 import { FontAwesome } from '@expo/vector-icons';
+import Animated from 'react-native-reanimated';
+import {
+  SlideInLeftAnimation,
+  SlideInUpAnimation,
+} from '@/constants/animations';
 
 const Favorite = () => {
   const user: any = useAppSelector((state) => state.user);
@@ -78,7 +83,7 @@ const Favorite = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <View className='mt-12 mx-4'>
+      <Animated.View className='mt-12 mx-4' entering={SlideInUpAnimation}>
         <View className='flex-row items-center gap-3'>
           <View className='w-[10%]'>
             <Ionicons
@@ -94,7 +99,7 @@ const Favorite = () => {
               }}
             />
           </View>
-          <View className=' w-[80%] '>
+          <View className='w-[80%] '>
             {searchInputVisible ? (
               <View className='w-full h-12 px-4 bg-primary-100 rounded-2xl border-2 border-black-200 focus:border-secondary flex flex-row items-center'>
                 <TextInput
@@ -132,9 +137,12 @@ const Favorite = () => {
             )}
           </View>
         </View>
-      </View>
+      </Animated.View>
 
-      <ScrollView className='my-6 mx-4'>
+      <Animated.ScrollView
+        className='my-6 mx-4'
+        entering={SlideInLeftAnimation}
+      >
         {!inputText
           ? savedQuotes &&
             savedQuotes.map((item: any, index: number) => {
@@ -240,7 +248,7 @@ const Favorite = () => {
                 </Pressable>
               );
             })}
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

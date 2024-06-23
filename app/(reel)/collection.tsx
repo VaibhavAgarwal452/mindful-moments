@@ -9,7 +9,6 @@ import {
 import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
@@ -18,6 +17,8 @@ import {
   addQuotesToCollectionAsync,
   getCollectionsAsync,
 } from '@/reducers/collectionSlice';
+import Animated from 'react-native-reanimated';
+import { SlideInUpAnimation } from '@/constants/animations';
 
 const collection = () => {
   const dispatch = useAppDispatch();
@@ -53,7 +54,7 @@ const collection = () => {
 
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <View className='mt-8 mx-4'>
+      <Animated.View className='mt-8 mx-4' entering={SlideInUpAnimation}>
         <View className='flex-row items-center gap-3'>
           <View className='w-full flex-row items-center gap-3'>
             <Ionicons
@@ -121,7 +122,7 @@ const collection = () => {
             }}
           />
         </View>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 };

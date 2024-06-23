@@ -21,6 +21,8 @@ import {
   removeQuotesFromMyQuotesAsync,
   searchMyQuotes,
 } from '@/reducers/userSlice';
+import Animated from 'react-native-reanimated';
+import { SlideInUpAnimation } from '@/constants/animations';
 
 const MyQuotes = () => {
   const dispatch = useAppDispatch();
@@ -64,7 +66,7 @@ const MyQuotes = () => {
 
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <View className='mt-12 mx-4'>
+      <Animated.View className='mt-12 mx-4' entering={SlideInUpAnimation}>
         <View className='flex-row items-center gap-3'>
           <View className='w-[10%]'>
             <Ionicons
@@ -231,7 +233,7 @@ const MyQuotes = () => {
             }}
           />
         </View>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 };

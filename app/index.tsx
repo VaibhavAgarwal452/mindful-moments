@@ -33,14 +33,11 @@ const index = () => {
   }, []);
   const getUser = async () => {
     const user = await AsyncStorage.getItem('user');
+    console.log(user, 'users');
     if (user) {
       dispatch(updateUserData(JSON.parse(user)));
       router.push('/home');
     }
-  };
-  const handlePress = () => {
-    router.push('/intro-screen2');
-    // router.push('/home');
   };
   const { width: SCREEN_WIDTH } = useWindowDimensions();
   const flatListRef = useAnimatedRef();

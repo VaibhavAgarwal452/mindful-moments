@@ -1,23 +1,13 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableHighlight,
-  TextInput,
-  ScrollView,
-} from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import CustomButton from '@/components/CustomButton';
 import FormField from '@/components/FormField';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import {
-  addQuoteToMyQuotesAsync,
-  updateQuoteFromMyQuotesAsync,
-} from '@/reducers/userSlice';
 import { createAsync, updateNameAsync } from '@/reducers/collectionSlice';
-
+import Animated from 'react-native-reanimated';
+import { SlideInUpAnimation } from '@/constants/animations';
 const AddCollection = () => {
   const [collectionName, setCollectionName] = useState('');
   const dispatch = useAppDispatch();
@@ -53,7 +43,10 @@ const AddCollection = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <View className='mt-12 mx-4 relative h-[100vh]'>
+      <Animated.View
+        className='mt-12 mx-4 relative h-[100vh]'
+        entering={SlideInUpAnimation}
+      >
         <View className='flex-row items-center gap-3'>
           <View>
             <Ionicons
@@ -90,7 +83,7 @@ const AddCollection = () => {
           containerStyles={'absolute bottom-10 text-white w-full'}
           handlePress={saveQuote}
         />
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 };

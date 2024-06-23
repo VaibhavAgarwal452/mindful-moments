@@ -22,8 +22,14 @@ import {
   SlideInDownAnimation,
   SlideInUpAnimation,
 } from '@/constants/animations';
+import { useBackButton } from '@/hooks/useBackButton';
 
 const index = () => {
+  const handleBackButton = () => {
+    router.push('/home');
+    return true;
+  };
+  useBackButton(handleBackButton);
   return (
     <SafeAreaView className='bg-primary h-full'>
       <Animated.ScrollView entering={SlideInDownAnimation}>

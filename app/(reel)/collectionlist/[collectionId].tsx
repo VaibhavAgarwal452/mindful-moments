@@ -10,28 +10,23 @@ import {
   ToastAndroid,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Entypo, Fontisto, FontAwesome } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { Feather } from '@expo/vector-icons';
 import Modal from 'react-native-modal';
-import { Fontisto } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
 import {
   addQuoteToUserAsync,
-  removeQuotesFromMyQuotesAsync,
   removeQuotesFromUserAsync,
-  searchMyQuotes,
 } from '@/reducers/userSlice';
 import {
   removeCollectionAsync,
   removeQuotesFromCollectionAsync,
   searchCollections,
 } from '@/reducers/collectionSlice';
-import collection from '../collection';
+import Animated from 'react-native-reanimated';
+import { SlideInUpAnimation } from '@/constants/animations';
 
 const collectionlist = () => {
   const dispatch = useAppDispatch();
@@ -100,7 +95,7 @@ const collectionlist = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <View className='mt-12 mx-4'>
+      <Animated.View className='mt-12 mx-4' entering={SlideInUpAnimation}>
         <View className='flex-row items-center gap-3'>
           <View className='w-[10%]'>
             <Ionicons
@@ -236,7 +231,10 @@ const collectionlist = () => {
                       <View className='flex-row justify-between mt-2'>
                         {item.author && (
                           <Text className='text-white text-md'>
-                            -{item.author}
+                            -
+                            {item.author.length > 30
+                              ? item.author.substring(0, 30) + '...'
+                              : item.author}
                           </Text>
                         )}
                         <View className='flex-row gap-3'>
@@ -285,17 +283,17 @@ const collectionlist = () => {
               <View className='h-[25vh] flex justify-center bg-primary-100'>
                 <View>
                   <Pressable className='my-4' onPress={handleEdit}>
-                    <Text className='text-white text-2xl mx-auto '>Edit</Text>
+                    <Text className='text-white text-2xl mx-auto'>Edit</Text>
                   </Pressable>
                   <Pressable className='mt-4 mb-4' onPress={handleRemove}>
-                    <Text className='text-white text-2xl mx-auto '>Remove</Text>
+                    <Text className='text-white text-2xl mx-auto'>Remove</Text>
                   </Pressable>
                 </View>
               </View>
             </Modal>
           </ScrollView>
         </View>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 };

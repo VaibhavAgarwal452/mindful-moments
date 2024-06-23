@@ -25,10 +25,16 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
+import { useBackButton } from '@/hooks/useBackButton';
 
 const Profile = () => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const handleBackButton = () => {
+    router.back();
+    return true;
+  };
+  useBackButton(handleBackButton);
   // const { expoPushToken, notification } = usePushNotifications();
   // const data = JSON.stringify(notification, undefined, 2);
   useEffect(() => {

@@ -2,19 +2,17 @@ import { View, Text, SafeAreaView, ToastAndroid, Share } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
+import { AntDesign, Ionicons, Feather, Fontisto } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
   fetchQuotesAsync,
   fetchQuotesByCategoriesAsync,
+  fetchQuotesByIdsAsync,
 } from '@/reducers/quoteSlice';
 import {
   addQuoteToUserAsync,
   removeQuotesFromUserAsync,
 } from '@/reducers/userSlice';
-import { fetchQuotesByIdsAsync } from '@/reducers/quoteSlice';
 import Animated from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
 
@@ -123,16 +121,16 @@ const home = () => {
     <SafeAreaView className='bg-primary h-full'>
       <Animated.ScrollView entering={SlideInDownAnimation}>
         <View className='border h-[100vh] relative'>
-          {/* <View className='absolute top-12 flex-row gap-3 w-full justify-between px-4'>
-            <MaterialCommunityIcons
-              name='account-circle-outline'
-              size={35}
+          <View className='absolute top-12 flex-row gap-3 w-full justify-between px-4'>
+            <Ionicons
+              name='arrow-back'
+              size={30}
               color='white'
               onPress={() => {
-                router.push('/profile');
+                router.back();
               }}
             />
-          </View> */}
+          </View>
           <View className='flex-1 items-center justify-center'>
             {quotesToShow && quotesToShow.length > 0 ? (
               quotesToShow.map((quote: any, index: any) => {

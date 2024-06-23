@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
-import { styled } from 'nativewind';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { updateUserAsync, updateUserData } from '@/reducers/userSlice';
 import Entypo from '@expo/vector-icons/Entypo';

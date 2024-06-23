@@ -3,7 +3,8 @@ import { Text, View, ScrollView, Dimensions, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { addQuoteToQuotes, resetCategoriesQuotes } from '@/reducers/quoteSlice';
-
+import Animated from 'react-native-reanimated';
+import { SlideInLeftAnimation } from '@/constants/animations';
 const screenWidth = Dimensions.get('window').width;
 const caraouselItemWidth = Math.round(screenWidth / 2 - 35);
 
@@ -35,7 +36,7 @@ const TopPlacesCarousel = ({ list, headline }: any) => {
   };
 
   return (
-    <View>
+    <Animated.View entering={SlideInLeftAnimation}>
       {headline && (
         <Text className='text-white text-xl p-2 font-bold'>{headline}</Text>
       )}
@@ -78,7 +79,7 @@ const TopPlacesCarousel = ({ list, headline }: any) => {
             );
           })}
       </ScrollView>
-    </View>
+    </Animated.View>
   );
 };
 

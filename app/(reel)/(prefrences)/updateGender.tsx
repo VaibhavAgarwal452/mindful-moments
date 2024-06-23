@@ -24,7 +24,7 @@ const updateGender = () => {
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView className='mt-10 px-7'>
-        <View className='flex-row start-1 gap-3 items-center'>
+        <View className='mt-4 flex-row start-1 gap-3 items-center'>
           <Ionicons
             name='arrow-back'
             size={25}
@@ -33,7 +33,7 @@ const updateGender = () => {
               router.back();
             }}
           />
-          <Text className='text-white text-3xl'>Content Prefernces</Text>
+          <Text className='text-white text-3xl'>Gender Identity</Text>
         </View>
 
         <View className='mt-10'>
