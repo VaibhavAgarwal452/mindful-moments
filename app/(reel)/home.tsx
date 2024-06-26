@@ -63,13 +63,13 @@ const home = () => {
   };
   const addQuoteToUserSavedQuotes = (userData: any) => {
     dispatch(addQuoteToUserAsync(userData));
-    // setLiked(!liked);
+    setLiked(!liked);
     ToastAndroid.show('Quote add to saved quotes!', ToastAndroid.SHORT);
   };
 
   const removeQuoteToUserSavedQuotes = (userData: any) => {
     dispatch(removeQuotesFromUserAsync(userData));
-    // setLiked(!liked);
+    setLiked(!liked);
     ToastAndroid.show('Quote Removed from saved quotes!', ToastAndroid.SHORT);
   };
 
@@ -95,6 +95,8 @@ const home = () => {
       console.log(error);
     }
   };
+  // console.log('user', user);
+
   return (
     <SafeAreaView className='bg-primary h-full'>
       <Animated.ScrollView entering={SlideInUpAnimation}>

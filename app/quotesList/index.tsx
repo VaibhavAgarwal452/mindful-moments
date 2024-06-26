@@ -48,12 +48,14 @@ const home = () => {
       }
     } else {
       if (
-        currentQuoteIndex === 0 ||
-        currentQuoteIndex === quotesRedux.length - 3
+        (currentQuoteIndex === 0 ||
+          currentQuoteIndex === quotesRedux.length - 3) &&
+        quotesRedux.length === 0
       ) {
         dispatch(fetchQuotesAsync({ userQuotesPrefrences }));
       }
     }
+    setLiked(user?.savedQuotes?.includes(quotesRedux[currentQuoteIndex]?._id));
   }, [currentQuoteIndex]);
   useEffect(() => {
     if (page === 'categories') {

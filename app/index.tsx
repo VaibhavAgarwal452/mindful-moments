@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { updateUserData } from '@/reducers/userSlice';
+import { fetchCurrentUserAsync } from '@/reducers/userSlice';
 import data from '../onboarding/data/data';
 import Pagination from '../onboarding/components/Pagination';
 import CustomButton from '../onboarding/components/CustomButton';
@@ -24,10 +24,11 @@ const index = () => {
     getUser();
   }, []);
   const getUser = async () => {
-    const user = await AsyncStorage.getItem('user');
-    console.log(user, 'users');
-    if (user) {
-      dispatch(updateUserData(JSON.parse(user)));
+    const user = await AsyncStorage.getItem('user').then((response: any) =>
+      JSON.parse(response)
+    );
+    if (user && user?._id) {
+      dispatch(fetchCurrentUserAsync(user._id));
       router.push('/home');
     }
   };

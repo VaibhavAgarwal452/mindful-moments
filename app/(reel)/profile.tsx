@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
+import { View, Text, SafeAreaView, Pressable } from 'react-native';
 import React, { useEffect } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { router } from 'expo-router';
