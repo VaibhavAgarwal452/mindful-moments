@@ -12,6 +12,7 @@ npm-debug.*
 web-build/
 android/
 ios/
+google-services.json
 # macOS
 .DS_Store
 

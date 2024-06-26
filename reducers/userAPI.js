@@ -1,9 +1,9 @@
-import { useAppSelector } from "@/hooks/hooks";
+import Api from "@/common/Api";
 
 export function createUser(userData) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/users/register', {
+            const response = await fetch(Api.user.register, {
                 method: 'POST',
                 body: JSON.stringify(userData),
                 headers: { 'content-type': 'application/json' },
@@ -20,7 +20,7 @@ export function createUser(userData) {
 export function login(email, password) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/users/login', {
+            const response = await fetch(Api.user.login, {
                 method: 'POST',
                 body: JSON.stringify({ email: email, password: password }),
                 headers: { 'content-type': 'application/json' },
@@ -37,7 +37,7 @@ export function login(email, password) {
 export function updateUser(user) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/users/updateUser/' + user._id, {
+            const response = await fetch(Api.user.updateUser + user._id, {
                 method: 'PATCH',
                 body: JSON.stringify({ user: user }),
                 headers: { 'content-type': 'application/json' },
@@ -54,7 +54,7 @@ export function updateUser(user) {
 export function checkIfUserEmailExists(email) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/users/checkEmail', {
+            const response = await fetch(Api.user.checkEmail, {
                 method: 'POST',
                 body: JSON.stringify({ email: email }),
                 headers: { 'content-type': 'application/json' },
@@ -70,7 +70,7 @@ export function checkIfUserEmailExists(email) {
 export function fetchUser(id) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/users/user/' + id, {
+            const response = await fetch(Api.user.fetchUser + id, {
                 method: 'GET',
                 headers: { 'content-type': 'application/json' },
             });
@@ -87,7 +87,7 @@ export function addQuoteToUser(userId, quoteId) {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetch(
-                `http://15.206.72.239:8000/api/v1/users/${userId}/addQuote/${quoteId}`,
+                `${Api.default}users/${userId}/addQuote/${quoteId}`,
                 {
                     method: 'PATCH',
                     headers: { 'content-type': 'application/json' },
@@ -106,7 +106,7 @@ export function removeQuotesFromUser(userId, quoteId) {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetch(
-                `http://15.206.72.239:8000/api/v1/users/${userId}/removeQuote/${quoteId}`,
+                `${Api.default}users/${userId}/removeQuote/${quoteId}`,
                 {
                     method: 'PATCH',
                     headers: { 'content-type': 'application/json' },
@@ -126,7 +126,7 @@ export function addQuoteToMyQuotes(userId, quote, author) {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetch(
-                `http://15.206.72.239:8000/api/v1/users/${userId}/addToMyQuotes`,
+                `${Api.default}users/${userId}/addToMyQuotes`,
                 {
                     method: 'POST',
                     headers: { 'content-type': 'application/json' },
@@ -147,7 +147,7 @@ export function removeQuotesFromMyQuotes(userId, quoteId) {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetch(
-                `http://15.206.72.239:8000/api/v1/users/${userId}/removeFromMyQuotes/${quoteId}`,
+                `${Api.default}users/${userId}/removeFromMyQuotes/${quoteId}`,
                 {
                     method: 'PATCH',
                     headers: { 'content-type': 'application/json' },
@@ -166,7 +166,7 @@ export function updateQuoteFromMyQuotes(userId, quoteId, quote, author) {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetch(
-                `http://15.206.72.239:8000/api/v1/users/${userId}/updateMyQuotes`,
+                `${Api.default}users/${userId}/updateMyQuotes`,
                 {
                     method: 'POST',
                     body: JSON.stringify({ quoteId, quote, author }),

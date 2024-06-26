@@ -9,10 +9,9 @@ import Animated, {
   Extrapolation,
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import CustomButton from '@/components/CustomButton';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { useAppDispatch } from '@/hooks/hooks';
 import { fetchCurrentUserAsync } from '@/reducers/userSlice';
 import data from '../onboarding/data/data';
 import Pagination from '../onboarding/components/Pagination';

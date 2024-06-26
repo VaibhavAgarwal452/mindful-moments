@@ -1,7 +1,9 @@
+import Api from "@/common/Api";
+
 export function getCollections(userId) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/collections/getCollection/' + userId, {
+            const response = await fetch(Api.collection.getCollection + userId, {
                 method: 'GET',
                 headers: { 'content-type': 'application/json' },
             });
@@ -17,7 +19,7 @@ export function getCollections(userId) {
 export function create(userId, collectionName) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/collections/create', {
+            const response = await fetch(Api.collection.create, {
                 method: 'POST',
                 body: JSON.stringify({ userId, collectionName }),
                 headers: { 'content-type': 'application/json' },
@@ -35,7 +37,7 @@ export function create(userId, collectionName) {
 export function updateName(collectionId, newCollectionName) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/collections/updateName/' + collectionId, {
+            const response = await fetch(Api.collection.updateName + collectionId, {
                 method: 'PATCH',
                 body: JSON.stringify({ newCollectionName: newCollectionName }),
                 headers: { 'content-type': 'application/json' },
@@ -52,7 +54,7 @@ export function updateName(collectionId, newCollectionName) {
 export function removeCollection(collectionId) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/collections/updateName/' + collectionId, {
+            const response = await fetch(Api.collection.updateName + collectionId, {
                 method: 'DELETE',
                 headers: { 'content-type': 'application/json' },
             });
@@ -68,7 +70,7 @@ export function removeCollection(collectionId) {
 export function removeQuotesFromCollection(collectionId, quoteId) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/collections/removeQuotesFromCollection', {
+            const response = await fetch(Api.collection.removeQuotesFromCollection, {
                 method: 'PATCH',
                 body: JSON.stringify({ collectionId, quoteId }),
                 headers: { 'content-type': 'application/json' },

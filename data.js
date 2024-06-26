@@ -43,7 +43,7 @@ export const GeneralCategory = [
     {
         id: 2, name: "My Favorites", category: "general", subCategory: "favorites", icon: <Fontisto name='favorite' size={25} color='white' />
     },
-    { id: 3, name: "Based on your Mood", category: "general", subCategory: "basedOnMood", icon: <MaterialIcons name="mood" size={25} color="white" /> },
+    // { id: 3, name: "Based on your Mood", category: "general", subCategory: "basedOnMood", icon: <MaterialIcons name="mood" size={25} color="white" /> },
     {
         id: 4, name: "My own quotes", category: "general", subCategory: "myOwnQuotes", icon: <Foundation name='clipboard-pencil' size={25} color='white' />
     },

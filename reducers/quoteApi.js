@@ -1,7 +1,9 @@
+import Api from "@/common/Api";
+
 export function fetchQuotes(userQuotesPrefrences) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/quotes/random', {
+            const response = await fetch(Api.quote.random, {
                 method: 'POST',
                 body: JSON.stringify({
                     quoteCategory: userQuotesPrefrences,
@@ -21,7 +23,7 @@ export function fetchQuotes(userQuotesPrefrences) {
 export function fetchQuotesByCategories(category) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/quotes/getQuotesByCategory', {
+            const response = await fetch(Api.quote.getQuotesByCategory, {
                 method: 'POST',
                 body: JSON.stringify({
                     quoteCategory: category,
@@ -40,7 +42,7 @@ export function fetchQuotesByCategories(category) {
 export function fetchQuotesByIds(ids) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch('http://15.206.72.239:8000/api/v1/quotes/quote/getQuotesById', {
+            const response = await fetch(Api.quote.getQuotesById, {
                 method: 'POST',
                 body: JSON.stringify({ ids: ids }),
                 headers: { 'content-type': 'application/json' },

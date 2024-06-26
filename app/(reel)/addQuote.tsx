@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableHighlight,
-  TextInput,
-  ScrollView,
-} from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -18,6 +11,7 @@ import {
 } from '@/reducers/userSlice';
 import Animated from 'react-native-reanimated';
 import { SlideInUpAnimation } from '@/constants/animations';
+import { useBackButton } from '@/hooks/useBackButton';
 
 const AddQuote = () => {
   const [searchInputVisible, setSearchInputVisible] = useState(false);
@@ -29,6 +23,12 @@ const AddQuote = () => {
 
   const params = useLocalSearchParams();
   const { quoteId } = params;
+
+  const handleBackButton = () => {
+    router.push('/myQuotes');
+    return true;
+  };
+  useBackButton(handleBackButton);
   useEffect(() => {
     if (quoteId) {
       user.myQuotes.forEach((item: any) => {

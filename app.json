@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.jsm.mindfulmoments",
-      "googleServicesFile": "./android/google-services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",

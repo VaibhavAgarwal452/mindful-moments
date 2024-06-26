@@ -95,7 +95,6 @@ const home = () => {
       console.log(error);
     }
   };
-  // console.log('user', user);
 
   return (
     <SafeAreaView className='bg-primary h-full'>

@@ -19,11 +19,13 @@ export const loginAsync = createAsyncThunk(
 
 export const createUserAsync = createAsyncThunk(
     'user/createUser',
-    async (userData) => {
+    async (userData, thunkAPI) => {
         const response = await createUser(userData.user);
         // The value we return becomes the `fulfilled` action payload
         await AsyncStorage.setItem('user', JSON.stringify(response.data.data));
-
+        thunkAPI.dispatch(
+            fetchCurrentUserAsync(response.data.data._id)
+        )
         return response.data;
     }
 );

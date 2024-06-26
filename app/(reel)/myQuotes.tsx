@@ -23,6 +23,7 @@ import {
 } from '@/reducers/userSlice';
 import Animated from 'react-native-reanimated';
 import { SlideInUpAnimation } from '@/constants/animations';
+import { useBackButton } from '@/hooks/useBackButton';
 
 const MyQuotes = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,11 @@ const MyQuotes = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentQuoteId, setCurrentQuoteId] = useState('');
   const userId = user._id;
-
+  const handleBackButton = () => {
+    router.push('/profile');
+    return true;
+  };
+  useBackButton(handleBackButton);
   useEffect(() => {
     const searchQuote = setTimeout(() => {
       if (inputText) {

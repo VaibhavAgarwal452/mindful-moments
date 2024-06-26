@@ -5,6 +5,7 @@ import {
   ScrollView,
   Share,
   Pressable,
+  BackHandler,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -19,6 +20,7 @@ import {
 } from '@/reducers/collectionSlice';
 import Animated from 'react-native-reanimated';
 import { SlideInUpAnimation } from '@/constants/animations';
+import { useBackButton } from '@/hooks/useBackButton';
 
 const collection = () => {
   const dispatch = useAppDispatch();
@@ -28,9 +30,16 @@ const collection = () => {
   const [currentQuoteId, setCurrentQuoteId] = useState('');
   const userId = user._id;
   const quote = useLocalSearchParams();
+
+  const handleBackButton = (): any => {
+    router.push('/profile');
+    return true;
+  };
+  useBackButton(handleBackButton);
   useEffect(() => {
     dispatch(getCollectionsAsync({ userId }));
   }, []);
+
   const handleShare = async (shareText: string) => {
     try {
       const result = await Share.share({
@@ -62,7 +71,7 @@ const collection = () => {
               size={25}
               color='white'
               onPress={() => {
-                router.back();
+                router.push('/profile');
               }}
             />
             <Text className='text-white text-2xl'>Collections</Text>

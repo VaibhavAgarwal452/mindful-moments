@@ -27,6 +27,7 @@ import {
 } from '@/reducers/collectionSlice';
 import Animated from 'react-native-reanimated';
 import { SlideInUpAnimation } from '@/constants/animations';
+import { useBackButton } from '@/hooks/useBackButton';
 
 const collectionlist = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +43,13 @@ const collectionlist = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentQuoteId, setCurrentQuoteId] = useState('');
   const userId = user._id;
+
+  const handleBackButton = (): any => {
+    router.push('/collection');
+    return true;
+  };
+  useBackButton(handleBackButton);
+
   useEffect(() => {
     const searchQuote = setTimeout(() => {
       if (inputText) {
@@ -106,7 +114,7 @@ const collectionlist = () => {
                 if (searchInputVisible) {
                   setSearchInputVisible(false);
                 } else {
-                  router.push('/profile');
+                  router.push('/collection');
                 }
               }}
             />
