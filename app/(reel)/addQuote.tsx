@@ -16,6 +16,8 @@ import {
   addQuoteToMyQuotesAsync,
   updateQuoteFromMyQuotesAsync,
 } from '@/reducers/userSlice';
+import Animated from 'react-native-reanimated';
+import { SlideInUpAnimation } from '@/constants/animations';
 
 const AddQuote = () => {
   const [searchInputVisible, setSearchInputVisible] = useState(false);
@@ -50,7 +52,10 @@ const AddQuote = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <View className='mt-12 mx-4 relative h-[100vh]'>
+      <Animated.View
+        className='mt-12 mx-4 relative h-[100vh]'
+        entering={SlideInUpAnimation}
+      >
         <View className='flex-row items-center gap-3'>
           <View>
             <Ionicons
@@ -98,7 +103,7 @@ const AddQuote = () => {
           containerStyles={'absolute bottom-10 text-white w-full'}
           handlePress={saveQuote}
         />
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 };

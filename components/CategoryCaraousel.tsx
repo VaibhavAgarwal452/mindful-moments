@@ -9,8 +9,8 @@ const screenWidth = Dimensions.get('window').width;
 const caraouselItemWidth = Math.round(screenWidth / 2 - 35);
 
 const TopPlacesCarousel = ({ list, headline }: any) => {
-  const user = useAppSelector((state) => state.user);
-  const savedQuotes = useAppSelector((state) => state.quotes.savedQuotes);
+  // const user = useAppSelector((state) => state.user);
+  // const savedQuotes = useAppSelector((state) => state.quotes.savedQuotes);
   const dispatch = useAppDispatch();
   const handlePress = (item: any) => {
     if (item.category === 'general') {
@@ -36,7 +36,7 @@ const TopPlacesCarousel = ({ list, headline }: any) => {
   };
 
   return (
-    <Animated.View entering={SlideInLeftAnimation}>
+    <Animated.View>
       {headline && (
         <Text className='text-white text-xl p-2 font-bold'>{headline}</Text>
       )}

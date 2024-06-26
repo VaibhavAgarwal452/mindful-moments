@@ -1,59 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { updateUserAsync, updateUserData } from '@/reducers/userSlice';
-import Entypo from '@expo/vector-icons/Entypo';
+import { updateUserAsync } from '@/reducers/userSlice';
 import CustomMultiSelectInputButton from '@/components/customMultiSelectButton';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome6 } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-
-const areasOfImprovementList = [
-  {
-    label: 'Faith & Spirituality',
-    value: 'faith',
-    icon: <Entypo name='adjust' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Positive Thinking',
-    value: 'positive',
-    icon: (
-      <MaterialCommunityIcons name='head-lightbulb' size={24} color='white' />
-    ),
-    isActive: false,
-  },
-  {
-    label: 'Stress & Anxiety',
-    value: 'stress',
-    icon: (
-      <MaterialCommunityIcons name='head-snowflake' size={24} color='white' />
-    ),
-    isActive: false,
-  },
-  {
-    label: 'Achieving Goals',
-    value: 'achievingGoals',
-    icon: <AntDesign name='totop' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Self Esteem',
-    value: 'selfEsteem',
-    icon: <MaterialIcons name='self-improvement' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Relationships',
-    value: 'relationships',
-    icon: <FontAwesome6 name='handshake-simple' size={24} color='white' />,
-    isActive: false,
-  },
-];
+import Animated from 'react-native-reanimated';
+import { SlideInUpAnimation } from '@/constants/animations';
+import { areasOfImprovementList } from '../../../data';
 
 const ContentPrefernces = () => {
   const dispatch = useAppDispatch();
@@ -95,7 +50,7 @@ const ContentPrefernces = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className='mt-12 px-7'>
+      <Animated.ScrollView className='mt-12 px-7' entering={SlideInUpAnimation}>
         <View className='flex-row start-1 gap-3 items-center'>
           <Ionicons
             name='arrow-back'
@@ -105,7 +60,7 @@ const ContentPrefernces = () => {
               router.back();
             }}
           />
-          <Text className='text-white text-3xl'>Content Prefernces</Text>
+          <Text className='text-white text-3xl'>Content Preferences</Text>
         </View>
         <View className='mt-5'>
           <Text className='text-white text-2xl text-center'>
@@ -133,7 +88,7 @@ const ContentPrefernces = () => {
           containerStyles={'text-white mt-10 w-full'}
           handlePress={handleSubmitButton}
         />
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

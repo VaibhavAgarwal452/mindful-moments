@@ -50,6 +50,7 @@ const home = () => {
     ) {
       dispatch(fetchQuotesAsync({ userQuotesPrefrences }));
     }
+    setLiked(user?.savedQuotes?.includes(quotesRedux[currentQuoteIndex]?._id));
   }, [currentQuoteIndex]);
 
   const handleLike = (quoteId: any, value: any) => {
@@ -62,19 +63,19 @@ const home = () => {
   };
   const addQuoteToUserSavedQuotes = (userData: any) => {
     dispatch(addQuoteToUserAsync(userData));
-    setLiked(!liked);
+    // setLiked(!liked);
     ToastAndroid.show('Quote add to saved quotes!', ToastAndroid.SHORT);
   };
 
   const removeQuoteToUserSavedQuotes = (userData: any) => {
     dispatch(removeQuotesFromUserAsync(userData));
-    setLiked(!liked);
+    // setLiked(!liked);
     ToastAndroid.show('Quote Removed from saved quotes!', ToastAndroid.SHORT);
   };
 
   const handleQuoteChange = () => {
     setCurrentQuoteIndex((index) => index + 1);
-    setLiked(false);
+    // setLiked(false);
   };
   const handlePreviousQuoteChange = () => {
     setCurrentQuoteIndex((index) => index - 1);

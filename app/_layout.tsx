@@ -3,7 +3,6 @@ import { SplashScreen, Stack } from 'expo-router';
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import store from '../store/store';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {

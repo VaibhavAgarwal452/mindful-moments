@@ -1,28 +1,16 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { updateUserData } from '@/reducers/userSlice';
 import CustomInputButton from '../../components/CustomInputButton';
 import { router } from 'expo-router';
-import Animated, { FadeInLeft } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
+import { genderOptions } from '@/data';
 
 const GenderSelectionScreen = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-
-  const genderOptions = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-    { label: 'Others', value: 'others' },
-    { label: 'Prefer not to say', value: 'preferNotToSay' },
-  ];
 
   const handleGender = (value: any) => {
     dispatch(updateUserData({ gender: value }));

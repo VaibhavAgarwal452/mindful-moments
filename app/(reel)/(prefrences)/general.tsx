@@ -8,12 +8,13 @@ import { fetchCurrentUserAsync } from '@/reducers/userSlice';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import Animated from 'react-native-reanimated';
+import { SlideInUpAnimation } from '@/constants/animations';
 
 const General = () => {
-  const user = useAppSelector((state) => state.user);
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className=''>
+      <Animated.ScrollView entering={SlideInUpAnimation}>
         <View className='mt-12 pt-6 m-4'>
           <View className='flex-row start-1 gap-3 items-center'>
             <Ionicons
@@ -132,7 +133,7 @@ const General = () => {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

@@ -1,13 +1,5 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  useWindowDimensions,
-} from 'react-native';
+import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import React, { useEffect } from 'react';
-import { images } from '../constants';
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,

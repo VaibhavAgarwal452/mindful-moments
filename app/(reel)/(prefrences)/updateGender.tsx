@@ -5,17 +5,13 @@ import { updateUserAsync, updateUserData } from '@/reducers/userSlice';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import CustomMultiSelectInputButton from '@/components/customMultiSelectButton';
+import Animated from 'react-native-reanimated';
+import { SlideInUpAnimation } from '@/constants/animations';
+import { genderOptions } from '@/data';
 
 const updateGender = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-
-  const genderOptions = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-    { label: 'Others', value: 'others' },
-    { label: 'Prefer not to say', value: 'preferNotToSay' },
-  ];
 
   const handleGender = (value: any) => {
     dispatch(updateUserAsync({ ...user, gender: value }));
@@ -23,7 +19,7 @@ const updateGender = () => {
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView className='mt-10 px-7'>
+      <Animated.ScrollView className='mt-10 px-7' entering={SlideInUpAnimation}>
         <View className='mt-4 flex-row start-1 gap-3 items-center'>
           <Ionicons
             name='arrow-back'
@@ -61,7 +57,7 @@ const updateGender = () => {
             </CustomMultiSelectInputButton>
           ))}
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

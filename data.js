@@ -459,3 +459,104 @@ export const HealthAndFitnessCategory = [
         id: 12, name: "Training", icon: <FontAwesome6 name="hands-praying" size={24} color="white" />
     }
 ]
+
+export const areasOfImprovementList = [
+    {
+        label: 'Faith & Spirituality',
+        value: 'faith',
+        icon: <Entypo name='adjust' size={24} color='white' />,
+        isActive: false,
+    },
+    {
+        label: 'Positive Thinking',
+        value: 'positive',
+        icon: (
+            <MaterialCommunityIcons name='head-lightbulb' size={24} color='white' />
+        ),
+        isActive: false,
+    },
+    {
+        label: 'Stress & Anxiety',
+        value: 'stress',
+        icon: (
+            <MaterialCommunityIcons name='head-snowflake' size={24} color='white' />
+        ),
+        isActive: false,
+    },
+    {
+        label: 'Achieving Goals',
+        value: 'achievingGoals',
+        icon: <AntDesign name='totop' size={24} color='white' />,
+        isActive: false,
+    },
+    {
+        label: 'Self Esteem',
+        value: 'selfEsteem',
+        icon: <MaterialIcons name='self-improvement' size={24} color='white' />,
+        isActive: false,
+    },
+    {
+        label: 'Relationships',
+        value: 'relationships',
+        icon: <FontAwesome6 name='handshake-simple' size={24} color='white' />,
+        isActive: false,
+    },
+];
+
+export const genderOptions = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+    { label: 'Others', value: 'others' },
+    { label: 'Prefer not to say', value: 'preferNotToSay' },
+];
+
+export const feelings = [
+    {
+        label: 'Awesome',
+        value: 'awesome',
+    },
+    { label: 'Good', value: 'good' },
+    { label: 'Ok', value: 'ok' },
+    { label: 'Bad', value: 'bad' },
+    { label: 'Terrible', value: 'terrible' },
+    { label: 'Other', value: 'other' },
+];
+
+export const reasonForImprovementList = [
+    {
+        label: 'Family',
+        value: 'family',
+        icon: <Fontisto name='home' size={24} color='white' />,
+        isActive: false,
+    },
+    {
+        label: 'Friends',
+        value: 'friends',
+        icon: <FontAwesome6 name='handshake-slash' size={24} color='white' />,
+        isActive: false,
+    },
+    {
+        label: 'Work',
+        value: 'work',
+        icon: <MaterialIcons name='work' size={24} color='white' />,
+        isActive: false,
+    },
+    {
+        label: 'Health',
+        value: 'health',
+        icon: <MaterialIcons name='health-and-safety' size={24} color='white' />,
+        isActive: false,
+    },
+    {
+        label: 'Relationship',
+        value: 'relationship',
+        icon: <FontAwesome name='heartbeat' size={24} color='white' />,
+        isActive: false,
+    },
+    {
+        label: 'Other',
+        value: 'other',
+        icon: <Entypo name='dots-three-horizontal' size={24} color='white' />,
+        isActive: false,
+    },
+];

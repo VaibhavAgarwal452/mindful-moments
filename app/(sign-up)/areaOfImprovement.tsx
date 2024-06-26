@@ -1,63 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { updateUserData } from '@/reducers/userSlice';
-import Entypo from '@expo/vector-icons/Entypo';
 import CustomMultiSelectInputButton from '@/components/customMultiSelectButton';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome6 } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
 import { router } from 'expo-router';
-import Animated, { FadeInLeft } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
+import { areasOfImprovementList } from '@/data';
 
-const areasOfImprovementList = [
-  {
-    label: 'Faith & Spirituality',
-    value: 'faith',
-    icon: <Entypo name='adjust' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Positive Thinking',
-    value: 'positive',
-    icon: (
-      <MaterialCommunityIcons name='head-lightbulb' size={24} color='white' />
-    ),
-    isActive: false,
-  },
-  {
-    label: 'Stress & Anxiety',
-    value: 'stress',
-    icon: (
-      <MaterialCommunityIcons name='head-snowflake' size={24} color='white' />
-    ),
-    isActive: false,
-  },
-  {
-    label: 'Achieving Goals',
-    value: 'achievingGoals',
-    icon: <AntDesign name='totop' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Self Esteem',
-    value: 'selfEsteem',
-    icon: <MaterialIcons name='self-improvement' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Relationships',
-    value: 'relationships',
-    icon: <FontAwesome6 name='handshake-simple' size={24} color='white' />,
-    isActive: false,
-  },
-];
 const AreaOfImprovementScreen = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
   const [areaOfImprovements, setAreaOfImprovements] = useState<any>(
     areasOfImprovementList
   );

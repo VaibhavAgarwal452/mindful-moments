@@ -6,22 +6,11 @@ import CustomInputButton from '../../components/CustomInputButton';
 import { router } from 'expo-router';
 import Animated from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
+import { feelings } from '@/data';
 
 const GenderSelectionScreen = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-
-  const feelings = [
-    {
-      label: 'Awesome',
-      value: 'awesome',
-    },
-    { label: 'Good', value: 'good' },
-    { label: 'Ok', value: 'ok' },
-    { label: 'Bad', value: 'bad' },
-    { label: 'Terrible', value: 'terrible' },
-    { label: 'Other', value: 'other' },
-  ];
 
   const handleGender = async (value: any) => {
     dispatch(updateUserData({ feelingLately: value }));

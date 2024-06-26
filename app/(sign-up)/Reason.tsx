@@ -1,58 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
-import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { View, Text, SafeAreaView } from 'react-native';
+import { useAppDispatch } from '@/hooks/hooks';
 import { updateUserData } from '@/reducers/userSlice';
-import Entypo from '@expo/vector-icons/Entypo';
 import CustomMultiSelectInputButton from '@/components/customMultiSelectButton';
-import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome6 } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
-import { FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import Animated, { FadeInLeft } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
-const reasonForImprovementList = [
-  {
-    label: 'Family',
-    value: 'family',
-    icon: <Fontisto name='home' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Friends',
-    value: 'friends',
-    icon: <FontAwesome6 name='handshake-slash' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Work',
-    value: 'work',
-    icon: <MaterialIcons name='work' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Health',
-    value: 'health',
-    icon: <MaterialIcons name='health-and-safety' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Relationship',
-    value: 'relationship',
-    icon: <FontAwesome name='heartbeat' size={24} color='white' />,
-    isActive: false,
-  },
-  {
-    label: 'Other',
-    value: 'other',
-    icon: <Entypo name='dots-three-horizontal' size={24} color='white' />,
-    isActive: false,
-  },
-];
+import { reasonForImprovementList } from '@/data';
+
 const reasonForImprovementScreen = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
   const [buttonEnabled, setButtonEnabled] = useState(true);
 
   const [reasonForImprovement, setReasonForImprovement] = useState<any>(
