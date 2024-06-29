@@ -1,4 +1,5 @@
-const API_PATH = "http://15.206.72.239:8000/"
+// const API_PATH = "http://15.206.72.239:8000/"
+const API_PATH = "https://mindful-moments-backend.vercel.app/"
 const API_VERSION = "api/v1/"
 
 const Api = {

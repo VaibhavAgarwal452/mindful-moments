@@ -31,17 +31,17 @@ const Profile = () => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const handleBackButton = () => {
-    router.back();
+    router.push('/home');
     return true;
   };
   useBackButton(handleBackButton);
-  // const { expoPushToken, notification } = usePushNotifications();
-  // const data = JSON.stringify(notification, undefined, 2);
+  const { expoPushToken, notification } = usePushNotifications();
+  const data = JSON.stringify(notification, undefined, 2);
   useEffect(() => {
     dispatch(fetchCurrentUserAsync(user._id));
   }, []);
 
-  // console.log(expoPushToken, data);
+  console.log(expoPushToken, data);
   return (
     <SafeAreaView className='bg-primary h-full'>
       <Animated.ScrollView
@@ -81,7 +81,7 @@ const Profile = () => {
               <Pressable
                 className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'
                 onPress={() => {
-                  // sendNotification(expoPushToken);
+                  sendNotification(expoPushToken);
                 }}
               >
                 <View className='flex-row gap-2 items-center'>
