@@ -87,7 +87,7 @@ export function removeQuotesFromCollection(collectionId, quoteId) {
 export function addQuotesToCollection(quoteData) {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch("http://15.206.72.239:8000/api/v1/collections/addQuoteToCollection", {
+            const response = await fetch(Api.collection.addQuoteToCollection, {
                 method: "PATCH",
                 body: JSON.stringify(quoteData),
                 headers: { "content-type": "application/json" },
