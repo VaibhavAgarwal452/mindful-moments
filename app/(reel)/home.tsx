@@ -5,6 +5,8 @@ import {
   ToastAndroid,
   Share,
   BackHandler,
+  Dimensions,
+  Easing,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CustomButton from '@/components/CustomButton';
@@ -24,9 +26,19 @@ import {
   removeQuotesFromUserAsync,
   resetState,
 } from '@/reducers/userSlice';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 import { SlideInUpAnimation } from '../../constants/animations';
 import { useBackButton } from '@/hooks/useBackButton';
+import {
+  PanGestureHandler,
+  State,
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
 
 const home = () => {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
@@ -61,6 +73,7 @@ const home = () => {
       removeQuoteToUserSavedQuotes(userData);
     }
   };
+
   const addQuoteToUserSavedQuotes = (userData: any) => {
     dispatch(addQuoteToUserAsync(userData));
     setLiked(!liked);
@@ -96,103 +109,152 @@ const home = () => {
     }
   };
 
+  const translateY = useSharedValue(0);
+  const currentIndex = useSharedValue(0);
+  const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+  const gestureHandler = ({ nativeEvent }: any) => {
+    if (nativeEvent.state === State.END) {
+      const velocityY = nativeEvent.velocityY;
+      const threshold = SCREEN_HEIGHT / 4;
+
+      if (velocityY < -threshold) {
+        // Swiped up
+        if (currentIndex.value < quotesRedux.length - 1) {
+          currentIndex.value += 1;
+          setCurrentQuoteIndex((index) => index + 1);
+        }
+      } else if (velocityY > threshold) {
+        // Swiped down
+        if (currentIndex.value > 0) {
+          currentIndex.value -= 1;
+          setCurrentQuoteIndex((index) => index - 1);
+        }
+      }
+      translateY.value = withSpring(-currentIndex.value * SCREEN_HEIGHT);
+    }
+  };
+
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <Animated.ScrollView entering={SlideInUpAnimation}>
-        <View className='border h-[100vh] relative'>
-          <View className='absolute top-12 flex-row gap-3 w-full justify-between px-4'>
-            <MaterialCommunityIcons
-              name='account-circle-outline'
-              size={35}
-              color='white'
-              onPress={() => {
-                router.push('/profile');
-              }}
-            />
-            <Octicons
-              name='sign-out'
-              size={35}
-              color='white'
-              onPress={() => {
-                AsyncStorage.removeItem('user');
-                dispatch(resetState());
-                router.push('/login');
-              }}
-            />
-          </View>
-          <View className='flex-1 items-center justify-center'>
-            {quotesRedux && quotesRedux.length > 0 ? (
-              quotesRedux.map((quote: any, index: any) => {
-                if (index === currentQuoteIndex) {
-                  return (
-                    <View key={index}>
-                      <View key={index} className='px-4'>
-                        <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
-                          {quotesRedux[currentQuoteIndex]?.quote}
-                        </Text>
-                        <Text className='text-secondary-100 text-lg mt-4 mx-4'>
-                          {quotesRedux[currentQuoteIndex]?.quote &&
-                            ' - ' + quotesRedux[currentQuoteIndex]?.author}
-                        </Text>
-                      </View>
-                    </View>
-                  );
-                }
-              })
-            ) : (
-              <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
-                Loading...
-              </Text>
-            )}
-          </View>
-          <View className='flex gap-8 py-6 flex-row justify-center'>
-            <AntDesign
-              name='search1'
-              size={35}
-              color='white'
-              onPress={() => router.push('/category')}
-            />
-            <Feather
-              name='share'
-              size={35}
-              color='white'
-              onPress={handleShare}
-            />
-            {!liked ? (
-              <AntDesign
-                name='hearto'
-                size={35}
-                color={'white'}
-                onPress={() =>
-                  handleLike(quotesRedux[currentQuoteIndex]._id, 'add')
-                }
-              />
-            ) : (
-              <Fontisto
-                name='heart'
-                size={35}
-                color='red'
-                onPress={() =>
-                  handleLike(quotesRedux[currentQuoteIndex]._id, 'remove')
-                }
-              />
-            )}
-          </View>
-          <View className='flex-row justify-between w-full px-4'>
-            <CustomButton
-              title={'Previous'}
-              containerStyles={'w-2/5'}
-              isLoading={currentQuoteIndex === 0}
-              handlePress={() => handlePreviousQuoteChange()}
-            />
-            <CustomButton
-              title={'Next'}
-              containerStyles={'w-2/5'}
-              handlePress={() => handleQuoteChange()}
-            />
-          </View>
-        </View>
-      </Animated.ScrollView>
+      <GestureHandlerRootView>
+        <Animated.ScrollView entering={SlideInUpAnimation}>
+          <PanGestureHandler onHandlerStateChange={gestureHandler}>
+            <View className='border h-[100vh] relative'>
+              <View className='absolute top-12 flex-row gap-3 w-full justify-between px-4 z-20'>
+                <MaterialCommunityIcons
+                  name='account-circle-outline'
+                  size={35}
+                  color='white'
+                  onPress={() => {
+                    console.log('hehs');
+                    router.push('/profile');
+                  }}
+                />
+                <Octicons
+                  name='sign-out'
+                  size={35}
+                  color='white'
+                  onPress={() => {
+                    AsyncStorage.removeItem('user');
+                    dispatch(resetState());
+                    router.push('/login');
+                  }}
+                />
+              </View>
+              <Animated.View
+                className='flex-1 items-center justify-center'
+                // style={animatedStyle}
+              >
+                {quotesRedux && quotesRedux.length > 0 ? (
+                  quotesRedux.map((quote: any, index: any) => {
+                    if (index === currentQuoteIndex) {
+                      return (
+                        <Animated.View
+                          key={index}
+                          // style={[
+                          //   {
+                          //     transform: [
+                          //       {
+                          //         translateY:
+                          //           translateY.value +
+                          //           (index - currentIndex.value) *
+                          //             SCREEN_HEIGHT,
+                          //       },
+                          //     ],
+                          //   },
+                          // ]}
+                        >
+                          <View key={index} className='px-4'>
+                            <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
+                              {quotesRedux[currentQuoteIndex]?.quote}
+                            </Text>
+                            <Text className='text-secondary-100 text-lg mt-4 mx-4'>
+                              {quotesRedux[currentQuoteIndex]?.quote &&
+                                ' - ' + quotesRedux[currentQuoteIndex]?.author}
+                            </Text>
+                          </View>
+                        </Animated.View>
+                      );
+                    }
+                  })
+                ) : (
+                  <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
+                    Loading...
+                  </Text>
+                )}
+              </Animated.View>
+
+              <View className='flex gap-8 py-6 flex-row justify-center'>
+                <AntDesign
+                  name='search1'
+                  size={35}
+                  color='white'
+                  onPress={() => router.push('/category')}
+                />
+                <Feather
+                  name='share'
+                  size={35}
+                  color='white'
+                  onPress={handleShare}
+                />
+                {!liked ? (
+                  <AntDesign
+                    name='hearto'
+                    size={35}
+                    color={'white'}
+                    onPress={() =>
+                      handleLike(quotesRedux[currentQuoteIndex]._id, 'add')
+                    }
+                  />
+                ) : (
+                  <Fontisto
+                    name='heart'
+                    size={35}
+                    color='red'
+                    onPress={() =>
+                      handleLike(quotesRedux[currentQuoteIndex]._id, 'remove')
+                    }
+                  />
+                )}
+              </View>
+              <View className='flex-row justify-between w-full px-4'>
+                <CustomButton
+                  title={'Previous'}
+                  containerStyles={'w-2/5'}
+                  isLoading={currentQuoteIndex === 0}
+                  handlePress={() => handlePreviousQuoteChange()}
+                />
+                <CustomButton
+                  title={'Next'}
+                  containerStyles={'w-2/5'}
+                  handlePress={() => handleQuoteChange()}
+                />
+              </View>
+            </View>
+          </PanGestureHandler>
+        </Animated.ScrollView>
+      </GestureHandlerRootView>
     </SafeAreaView>
   );
 };

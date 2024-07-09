@@ -13,6 +13,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState({ value: false, message: '' });
+  const [loginError, setLoginError] = useState({ value: false, message: '' });
   const user: any = useAppSelector((state) => state.user);
 
   const login = async () => {
@@ -33,13 +34,18 @@ const Login = () => {
       setEmailError({ value: false, message: '' });
     }
   }, [email]);
+  useEffect(() => {
+    setLoginError({ value: false, message: '' });
+  }, [email, password]);
 
   useEffect(() => {
     if (user._id) {
       router.push('/home');
     }
+    if (user.error) {
+      setLoginError({ value: true, message: user.error });
+    }
   }, [user]);
-
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView>
@@ -68,6 +74,11 @@ const Login = () => {
               />
             </View>
           </View>
+          {loginError.value && (
+            <Text className='mx-6 text-lg text-red-500'>
+              {loginError.message}
+            </Text>
+          )}
           <CustomButton
             title='Continue'
             containerStyles={'text-white my-10 w-full'}

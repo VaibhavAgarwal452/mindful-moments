@@ -8,6 +8,10 @@ export const loginAsync = createAsyncThunk(
     'user/login',
     async ({ email, password }) => {
         const response = await login(email, password)
+        console.log(response, "response")
+        if (response.status === 401) {
+            return response
+        }
         const user = await AsyncStorage.getItem("user")
         if (user) {
             await AsyncStorage.removeItem("user")
@@ -95,7 +99,8 @@ const initialState = {
     notificationTimeEnd: 12,
     savedQuotes: [],
     myQuotes: [],
-    searchedMyQuotes: []
+    searchedMyQuotes: [],
+    error: "",
 }
 export const userSlice = createSlice({
     name: 'user',
@@ -141,6 +146,10 @@ export const userSlice = createSlice({
                 return { ...state, ...action.payload };
             })
             .addCase(loginAsync.fulfilled, (state, action) => {
+                if (action.payload.status === 401) {
+                    state.error = "Please enter valid creds"
+                    return
+                }
                 return action.payload.user
             })
             .addCase(updateUserAsync.fulfilled, (state, action) => {

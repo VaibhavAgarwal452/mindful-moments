@@ -25,8 +25,12 @@ export function login(email, password) {
                 body: JSON.stringify({ email: email, password: password }),
                 headers: { 'content-type': 'application/json' },
             });
-            const { data } = await response.json();
-            resolve({ data });
+            if (response.status === 200) {
+                const { data } = await response.json();
+                resolve({ data });
+            } else {
+                resolve(response);
+            }
         } catch (error) {
             console.log(error, "error")
             reject(error);
