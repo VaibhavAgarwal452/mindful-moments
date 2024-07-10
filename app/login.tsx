@@ -14,10 +14,12 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState({ value: false, message: '' });
   const [loginError, setLoginError] = useState({ value: false, message: '' });
+  const [continueButtonLoading, setContinueButtonLoading] = useState(false);
   const user: any = useAppSelector((state) => state.user);
 
   const login = async () => {
     if (checkValidEmail(email)) {
+      setContinueButtonLoading(true);
       dispatch(loginAsync({ email, password }));
     } else {
       if (!checkValidEmail(email)) {
@@ -43,6 +45,7 @@ const Login = () => {
       router.push('/home');
     }
     if (user.error) {
+      setContinueButtonLoading(false);
       setLoginError({ value: true, message: user.error });
     }
   }, [user]);
@@ -83,6 +86,7 @@ const Login = () => {
             title='Continue'
             containerStyles={'text-white my-10 w-full'}
             handlePress={login}
+            isLoading={continueButtonLoading}
           />
           <View className='flex-row mb-10 justify-center'>
             <Text className='text-md text-white'>

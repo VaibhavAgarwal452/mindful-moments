@@ -57,7 +57,7 @@ const home = () => {
       user?.reasonForImprovement
     );
     if (
-      currentQuoteIndex === 0 ||
+      (currentQuoteIndex === 0 && quotesRedux.length === 0) ||
       currentQuoteIndex === quotesRedux.length - 3
     ) {
       dispatch(fetchQuotesAsync({ userQuotesPrefrences }));
@@ -148,7 +148,7 @@ const home = () => {
                   color='white'
                   onPress={() => {
                     console.log('hehs');
-                    router.push('/profile');
+                    router.navigate('/profile');
                   }}
                 />
                 <Octicons

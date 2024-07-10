@@ -14,16 +14,7 @@ import {
   usePushNotifications,
   sendNotification,
 } from '@/hooks/usePushNotifications';
-import Animated, {
-  FadeInDown,
-  BounceInUp,
-  BounceInDown,
-  ReduceMotion,
-  SlideInDown,
-  SlideInUp,
-  SlideOutLeft,
-  Easing,
-} from 'react-native-reanimated';
+import Animated, { SlideOutLeft, Easing } from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
 import { useBackButton } from '@/hooks/useBackButton';
 
@@ -35,19 +26,17 @@ const Profile = () => {
     return true;
   };
   useBackButton(handleBackButton);
-  const { expoPushToken, notification } = usePushNotifications();
-  const data = JSON.stringify(notification, undefined, 2);
+  // const { expoPushToken, notification } = usePushNotifications();
+  // const data = JSON.stringify(notification, undefined, 2);
   useEffect(() => {
+    console.log('hehe');
     dispatch(fetchCurrentUserAsync(user._id));
   }, []);
 
-  console.log(expoPushToken, data);
+  // console.log(expoPushToken, data);
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <Animated.ScrollView
-        entering={SlideInDownAnimation}
-        exiting={SlideOutLeft.duration(1500).easing(Easing.ease)}
-      >
+      <Animated.ScrollView entering={SlideInDownAnimation}>
         <View className='mt-12 mx-4'>
           <View className='flex-row start-1 gap-3 items-center'>
             <Entypo

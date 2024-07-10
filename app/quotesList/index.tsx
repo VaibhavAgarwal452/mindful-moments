@@ -1,4 +1,11 @@
-import { View, Text, SafeAreaView, ToastAndroid, Share } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ToastAndroid,
+  Share,
+  Dimensions,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
@@ -13,8 +20,13 @@ import {
   addQuoteToUserAsync,
   removeQuotesFromUserAsync,
 } from '@/reducers/userSlice';
-import Animated from 'react-native-reanimated';
+import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
+import {
+  State,
+  GestureHandlerRootView,
+  PanGestureHandler,
+} from 'react-native-gesture-handler';
 
 const home = () => {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
@@ -119,88 +131,119 @@ const home = () => {
       console.log(error);
     }
   };
+
+  const translateY = useSharedValue(0);
+  const currentIndex = useSharedValue(0);
+  const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+  const gestureHandler = ({ nativeEvent }: any) => {
+    if (nativeEvent.state === State.END) {
+      const velocityY = nativeEvent.velocityY;
+      const threshold = SCREEN_HEIGHT / 4;
+
+      if (velocityY < -threshold) {
+        // Swiped up
+        if (currentIndex.value < quotesRedux.length - 1) {
+          currentIndex.value += 1;
+          setCurrentQuoteIndex((index) => index + 1);
+        }
+      } else if (velocityY > threshold) {
+        // Swiped down
+        if (currentIndex.value > 0) {
+          currentIndex.value -= 1;
+          setCurrentQuoteIndex((index) => index - 1);
+        }
+      }
+      translateY.value = withSpring(-currentIndex.value * SCREEN_HEIGHT);
+    }
+  };
+
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <Animated.ScrollView entering={SlideInDownAnimation}>
-        <View className='border h-[100vh] relative'>
-          <View className='absolute top-12 flex-row gap-3 w-full justify-between px-4'>
-            <Ionicons
-              name='arrow-back'
-              size={30}
-              color='white'
-              onPress={() => {
-                router.back();
-              }}
-            />
-          </View>
-          <View className='flex-1 items-center justify-center'>
-            {quotesToShow && quotesToShow.length > 0 ? (
-              quotesToShow.map((quote: any, index: any) => {
-                if (index === currentQuoteIndex) {
-                  return (
-                    <View key={index}>
-                      <View key={index} className='px-4'>
-                        <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
-                          {quotesToShow[currentQuoteIndex]?.quote}
-                        </Text>
-                        <Text className='text-secondary-100 text-lg mt-4 mx-4'>
-                          {quotesToShow[currentQuoteIndex]?.quote &&
-                            ' - ' + quotesToShow[currentQuoteIndex]?.author}
-                        </Text>
-                      </View>
-                    </View>
-                  );
-                }
-              })
-            ) : (
-              <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
-                Loading...
-              </Text>
-            )}
-          </View>
-          <View className='flex gap-8 py-6 flex-row justify-center'>
-            <Feather
-              name='share'
-              size={35}
-              color='white'
-              onPress={handleShare}
-            />
-            {!liked ? (
-              <AntDesign
-                name='hearto'
-                size={35}
-                color={'white'}
-                onPress={() =>
-                  handleLike(quotesToShow[currentQuoteIndex]._id, 'add')
-                }
-              />
-            ) : (
-              <Fontisto
-                name='heart'
-                size={35}
-                color='red'
-                onPress={() =>
-                  handleLike(quotesToShow[currentQuoteIndex]._id, 'remove')
-                }
-              />
-            )}
-          </View>
-          <View className='flex-row justify-between w-full px-4'>
-            <CustomButton
-              title={'Previous'}
-              containerStyles={'w-2/5'}
-              isLoading={currentQuoteIndex === 0}
-              handlePress={() => handlePreviousQuoteChange()}
-            />
-            <CustomButton
-              title={'Next'}
-              containerStyles={'w-2/5'}
-              isLoading={currentQuoteIndex === quotesToShow.length}
-              handlePress={() => handleQuoteChange()}
-            />
-          </View>
-        </View>
-      </Animated.ScrollView>
+      <GestureHandlerRootView>
+        <Animated.ScrollView entering={SlideInDownAnimation}>
+          <PanGestureHandler onHandlerStateChange={gestureHandler}>
+            <View className='border h-[100vh] relative'>
+              <View className='absolute top-12 flex-row gap-3 w-full justify-between px-4'>
+                <Ionicons
+                  name='arrow-back'
+                  size={30}
+                  color='white'
+                  onPress={() => {
+                    router.back();
+                  }}
+                />
+              </View>
+              <View className='flex-1 items-center justify-center'>
+                {quotesToShow && quotesToShow.length > 0 ? (
+                  quotesToShow.map((quote: any, index: any) => {
+                    if (index === currentQuoteIndex) {
+                      return (
+                        <View key={index}>
+                          <View key={index} className='px-4'>
+                            <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
+                              {quotesToShow[currentQuoteIndex]?.quote}
+                            </Text>
+                            <Text className='text-secondary-100 text-lg mt-4 mx-4'>
+                              {quotesToShow[currentQuoteIndex]?.quote &&
+                                ' - ' + quotesToShow[currentQuoteIndex]?.author}
+                            </Text>
+                          </View>
+                        </View>
+                      );
+                    }
+                  })
+                ) : (
+                  <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
+                    Loading...
+                  </Text>
+                )}
+              </View>
+              <View className='flex gap-8 py-6 flex-row justify-center'>
+                <Feather
+                  name='share'
+                  size={35}
+                  color='white'
+                  onPress={handleShare}
+                />
+                {!liked ? (
+                  <AntDesign
+                    name='hearto'
+                    size={35}
+                    color={'white'}
+                    onPress={() =>
+                      handleLike(quotesToShow[currentQuoteIndex]._id, 'add')
+                    }
+                  />
+                ) : (
+                  <Fontisto
+                    name='heart'
+                    size={35}
+                    color='red'
+                    onPress={() =>
+                      handleLike(quotesToShow[currentQuoteIndex]._id, 'remove')
+                    }
+                  />
+                )}
+              </View>
+              <View className='flex-row justify-between w-full px-4'>
+                <CustomButton
+                  title={'Previous'}
+                  containerStyles={'w-2/5'}
+                  isLoading={currentQuoteIndex === 0}
+                  handlePress={() => handlePreviousQuoteChange()}
+                />
+                <CustomButton
+                  title={'Next'}
+                  containerStyles={'w-2/5'}
+                  isLoading={currentQuoteIndex === quotesToShow.length}
+                  handlePress={() => handleQuoteChange()}
+                />
+              </View>
+            </View>
+          </PanGestureHandler>
+        </Animated.ScrollView>
+      </GestureHandlerRootView>
     </SafeAreaView>
   );
 };
