@@ -29,7 +29,6 @@ const Profile = () => {
   // const { expoPushToken, notification } = usePushNotifications();
   // const data = JSON.stringify(notification, undefined, 2);
   useEffect(() => {
-    console.log('hehe');
     dispatch(fetchCurrentUserAsync(user._id));
   }, []);
 

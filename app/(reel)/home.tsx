@@ -147,7 +147,6 @@ const home = () => {
                   size={35}
                   color='white'
                   onPress={() => {
-                    console.log('hehs');
                     router.navigate('/profile');
                   }}
                 />
