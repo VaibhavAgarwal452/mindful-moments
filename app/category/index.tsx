@@ -49,12 +49,12 @@ const index = () => {
               </Text>
             </View>
             <View className='flex-row gap-3 items-center'>
-              <AntDesign
+              {/* <AntDesign
                 name='search1'
                 size={30}
                 color='white'
                 // onPress={() => router.push('/category')}
-              />
+              /> */}
               {/* <Text className='text-white text-2xl'>Edit</Text> */}
             </View>
           </View>

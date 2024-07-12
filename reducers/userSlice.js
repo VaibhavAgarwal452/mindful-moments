@@ -100,6 +100,7 @@ const initialState = {
     savedQuotes: [],
     myQuotes: [],
     searchedMyQuotes: [],
+    expoPushToken: "",
     error: "",
 }
 export const userSlice = createSlice({

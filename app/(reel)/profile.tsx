@@ -1,20 +1,17 @@
 import { View, Text, SafeAreaView, Pressable } from 'react-native';
 import React, { useEffect } from 'react';
-import { Entypo } from '@expo/vector-icons';
+import {
+  Entypo,
+  SimpleLineIcons,
+  MaterialCommunityIcons,
+  AntDesign,
+  Fontisto,
+  Foundation,
+} from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { SimpleLineIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
-import { Foundation } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { fetchCurrentUserAsync } from '@/reducers/userSlice';
-import * as Notifications from 'expo-notifications';
-import {
-  usePushNotifications,
-  sendNotification,
-} from '@/hooks/usePushNotifications';
-import Animated, { SlideOutLeft, Easing } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
 import { useBackButton } from '@/hooks/useBackButton';
 
@@ -26,13 +23,11 @@ const Profile = () => {
     return true;
   };
   useBackButton(handleBackButton);
-  // const { expoPushToken, notification } = usePushNotifications();
-  // const data = JSON.stringify(notification, undefined, 2);
+
   useEffect(() => {
     dispatch(fetchCurrentUserAsync(user._id));
   }, []);
 
-  // console.log(expoPushToken, data);
   return (
     <SafeAreaView className='bg-primary h-full'>
       <Animated.ScrollView entering={SlideInDownAnimation}>
@@ -66,10 +61,11 @@ const Profile = () => {
                 </View>
                 <AntDesign name='right' size={20} color='white' />
               </Pressable>
-              <Pressable
+              {/* <Pressable
                 className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'
                 onPress={() => {
-                  sendNotification(expoPushToken);
+                  // sendNotification(expoPushToken);
+                  console.log('pressed');
                 }}
               >
                 <View className='flex-row gap-2 items-center'>
@@ -81,7 +77,7 @@ const Profile = () => {
                   <Text className='text-white p-2 text-xl'>Widgets</Text>
                 </View>
                 <AntDesign name='right' size={20} color='white' />
-              </Pressable>
+              </Pressable> */}
             </View>
           </View>
 

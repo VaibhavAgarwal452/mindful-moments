@@ -71,7 +71,7 @@ const General = () => {
             </View>
           </View>
 
-          <View className='mt-12'>
+          {/* <View className='mt-12'>
             <View>
               <Text className='text-white text-xl'>FOLLOW US</Text>
             </View>
@@ -97,15 +97,15 @@ const General = () => {
                 </View>
                 <AntDesign name='right' size={20} color='white' />
               </Pressable>
-              {/* <Pressable className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'>
+              <Pressable className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'>
                 <View className='flex-row gap-2 items-center'>
                   <AntDesign name='linkedin-square' size={20} color='white' />
                   <Text className='text-white p-2 text-xl'>LinkedIn</Text>
                 </View>
                 <AntDesign name='right' size={20} color='white' />
-              </Pressable> */}
+              </Pressable>
             </View>
-          </View>
+          </View> */}
 
           <View className='mt-12'>
             <View>

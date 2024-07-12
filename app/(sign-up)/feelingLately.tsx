@@ -16,12 +16,7 @@ const GenderSelectionScreen = () => {
     dispatch(updateUserData({ feelingLately: value }));
 
     setTimeout(() => {
-      dispatch(
-        // createUserAsync({
-        //   userData: { user: { ...user, feelingLately: value } },
-        // })
-        createUserAsync({ user: { ...user, feelingLately: value } })
-      );
+      dispatch(createUserAsync({ user: { ...user, feelingLately: value } }));
 
       router.push('/home');
     }, 100);

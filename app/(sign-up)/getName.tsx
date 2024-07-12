@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import FormField from '@/components/FormField';
@@ -8,12 +8,12 @@ import { updateUserData } from '@/reducers/userSlice';
 import { Link, router } from 'expo-router';
 import { checkIfUserEmailExists } from '@/reducers/userAPI';
 import { checkValidEmail } from '@/common/utils';
-import Animated, { FadeInLeft } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
+import { usePushNotifications } from '@/hooks/usePushNotifications';
 
 const getName = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,6 +22,19 @@ const getName = () => {
     value: false,
     message: '',
   });
+  const { expoPushToken } = usePushNotifications();
+
+  useEffect(() => {
+    if (email) {
+      setEmailError({ value: false, message: '' });
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (password) {
+      setPasswordError({ value: false, message: '' });
+    }
+  }, [password]);
   const saveuserName = async () => {
     if (checkValidEmail(email) && password.length >= 8) {
       const { data } = await checkIfUserEmailExists(email);
@@ -29,7 +42,12 @@ const getName = () => {
         setEmailError({ value: true, message: 'Email Already Exists' });
       } else {
         dispatch(
-          updateUserData({ name: name, email: email, password: password })
+          updateUserData({
+            name: name,
+            email: email,
+            password: password,
+            expoPushToken: expoPushToken,
+          })
         );
         router.push('/getGender');
       }
@@ -49,17 +67,6 @@ const getName = () => {
     }
   };
 
-  useEffect(() => {
-    if (email) {
-      setEmailError({ value: false, message: '' });
-    }
-  }, [email]);
-
-  useEffect(() => {
-    if (password) {
-      setPasswordError({ value: false, message: '' });
-    }
-  }, [password]);
   return (
     <SafeAreaView className='bg-primary h-full'>
       <Animated.ScrollView entering={SlideInDownAnimation}>
