@@ -16,27 +16,19 @@ const getName = () => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('123456789');
   const [emailError, setEmailError] = useState({ value: false, message: '' });
-  const [passwordError, setPasswordError] = useState({
-    value: false,
-    message: '',
-  });
+  const [continueLoading, setContinueLoading] = useState(false);
   const { expoPushToken } = usePushNotifications();
 
+  const password = '123456789';
   useEffect(() => {
     if (email) {
       setEmailError({ value: false, message: '' });
     }
   }, [email]);
 
-  useEffect(() => {
-    if (password) {
-      setPasswordError({ value: false, message: '' });
-    }
-  }, [password]);
   const saveuserName = async () => {
-    if (checkValidEmail(email) && password.length >= 8) {
+    if (checkValidEmail(email)) {
       const { data } = await checkIfUserEmailExists(email);
       if (data) {
         setEmailError({ value: true, message: 'Email Already Exists' });
@@ -46,7 +38,7 @@ const getName = () => {
             name: name,
             email: email,
             password: password,
-            expoPushToken: expoPushToken?.data,
+            // expoPushToken: expoPushToken?.data,
           })
         );
         router.push('/getGender');
@@ -56,12 +48,6 @@ const getName = () => {
         setEmailError({
           value: true,
           message: 'Please enter correct email Address',
-        });
-      }
-      if (password.length < 8) {
-        setPasswordError({
-          value: true,
-          message: 'Please enter the password with 8 digits',
         });
       }
     }
@@ -94,20 +80,13 @@ const getName = () => {
                 otherStyles={`mt-6`}
                 customError={emailError}
               />
-              {/* <FormField
-                title='Password'
-                placeholder='Your password'
-                handleChangeText={setPassword}
-                value={password}
-                otherStyles={'mt-6'}
-                customError={passwordError}
-              /> */}
             </View>
           </View>
           <CustomButton
             title='Continue'
             containerStyles={'text-white mt-10 mb-5 w-full'}
             handlePress={saveuserName}
+            loading={continueLoading}
           />
           {/* <View className='flex-row mb-10 justify-center'>
             <Text className='text-md text-white'>

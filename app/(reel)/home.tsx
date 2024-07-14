@@ -18,20 +18,15 @@ import {
   Fontisto,
   Octicons,
 } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { fetchQuotesAsync } from '@/reducers/quoteSlice';
 import {
   addQuoteToUserAsync,
   removeQuotesFromUserAsync,
-  resetState,
+  // resetState,
 } from '@/reducers/userSlice';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 import { SlideInUpAnimation } from '../../constants/animations';
 import { useBackButton } from '@/hooks/useBackButton';
 import {
@@ -48,7 +43,6 @@ const home = () => {
   const quotesRedux: any = useAppSelector((state) => state.quotes.quotes);
   const userId = user._id;
   const handleBackButton = (): any => {
-    BackHandler.exitApp();
     return false;
   };
   useBackButton(handleBackButton);
@@ -147,7 +141,7 @@ const home = () => {
                   size={35}
                   color='white'
                   onPress={() => {
-                    router.navigate('/profile');
+                    router.push('/profile');
                   }}
                 />
                 {/* <Octicons

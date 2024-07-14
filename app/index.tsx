@@ -28,7 +28,7 @@ const index = () => {
     );
     if (user && user?._id) {
       dispatch(fetchCurrentUserAsync(user._id));
-      router.push('/home');
+      router.replace('/home');
     }
   };
   const { width: SCREEN_WIDTH } = useWindowDimensions();
