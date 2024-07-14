@@ -1,6 +1,7 @@
 import Api from "@/common/Api";
 
 export function createUser(userData) {
+    console.log("userData", userData);
     return new Promise(async (resolve, reject) => {
         try {
             const response = await fetch(Api.user.register, {

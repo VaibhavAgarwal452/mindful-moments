@@ -150,7 +150,7 @@ const home = () => {
                     router.navigate('/profile');
                   }}
                 />
-                <Octicons
+                {/* <Octicons
                   name='sign-out'
                   size={35}
                   color='white'
@@ -159,7 +159,7 @@ const home = () => {
                     dispatch(resetState());
                     router.push('/login');
                   }}
-                />
+                /> */}
               </View>
               <Animated.View
                 className='flex-1 items-center justify-center'

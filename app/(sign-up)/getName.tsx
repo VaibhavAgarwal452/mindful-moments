@@ -16,7 +16,7 @@ const getName = () => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('123456789');
   const [emailError, setEmailError] = useState({ value: false, message: '' });
   const [passwordError, setPasswordError] = useState({
     value: false,
@@ -46,7 +46,7 @@ const getName = () => {
             name: name,
             email: email,
             password: password,
-            expoPushToken: expoPushToken,
+            expoPushToken: expoPushToken?.data,
           })
         );
         router.push('/getGender');
@@ -94,14 +94,14 @@ const getName = () => {
                 otherStyles={`mt-6`}
                 customError={emailError}
               />
-              <FormField
+              {/* <FormField
                 title='Password'
                 placeholder='Your password'
                 handleChangeText={setPassword}
                 value={password}
                 otherStyles={'mt-6'}
                 customError={passwordError}
-              />
+              /> */}
             </View>
           </View>
           <CustomButton
@@ -109,14 +109,14 @@ const getName = () => {
             containerStyles={'text-white mt-10 mb-5 w-full'}
             handlePress={saveuserName}
           />
-          <View className='flex-row mb-10 justify-center'>
+          {/* <View className='flex-row mb-10 justify-center'>
             <Text className='text-md text-white'>
               Already have an account{' '}
               <Link href='/login' className='text-blue-500'>
                 Login
               </Link>
             </Text>
-          </View>
+          </View> */}
         </View>
       </Animated.ScrollView>
     </SafeAreaView>
