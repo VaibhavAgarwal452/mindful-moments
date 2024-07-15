@@ -26,7 +26,14 @@ import {
   removeQuotesFromUserAsync,
   // resetState,
 } from '@/reducers/userSlice';
-import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
+import Animated, {
+  useSharedValue,
+  withSpring,
+  SlideOutDown,
+  SlideOutUp,
+  SlideInUp,
+  SlideInDown,
+} from 'react-native-reanimated';
 import { SlideInUpAnimation } from '../../constants/animations';
 import { useBackButton } from '@/hooks/useBackButton';
 import {
@@ -38,6 +45,7 @@ import {
 const home = () => {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [liked, setLiked] = useState(false);
+  const [currentSwipe, setCurrentSwipe] = useState('');
   const dispatch = useAppDispatch();
   const user: any = useAppSelector((state) => state.user);
   const quotesRedux: any = useAppSelector((state) => state.quotes.quotes);
@@ -115,12 +123,14 @@ const home = () => {
       if (velocityY < -threshold) {
         // Swiped up
         if (currentIndex.value < quotesRedux.length - 1) {
+          setCurrentSwipe('up');
           currentIndex.value += 1;
           setCurrentQuoteIndex((index) => index + 1);
         }
       } else if (velocityY > threshold) {
         // Swiped down
         if (currentIndex.value > 0) {
+          setCurrentSwipe('down');
           currentIndex.value -= 1;
           setCurrentQuoteIndex((index) => index - 1);
         }
@@ -129,6 +139,10 @@ const home = () => {
     }
   };
 
+  const swipeEnteringAnimation = () =>
+    currentSwipe === 'down' ? SlideInUp : SlideInDown;
+  const swipeExitingAnimation = () =>
+    currentSwipe === 'down' ? SlideOutDown : SlideOutUp;
   return (
     <SafeAreaView className='bg-primary h-full'>
       <GestureHandlerRootView>
@@ -155,28 +169,15 @@ const home = () => {
                   }}
                 /> */}
               </View>
-              <Animated.View
-                className='flex-1 items-center justify-center'
-                // style={animatedStyle}
-              >
+              <Animated.View className='flex-1 items-center justify-center'>
                 {quotesRedux && quotesRedux.length > 0 ? (
                   quotesRedux.map((quote: any, index: any) => {
                     if (index === currentQuoteIndex) {
                       return (
                         <Animated.View
                           key={index}
-                          // style={[
-                          //   {
-                          //     transform: [
-                          //       {
-                          //         translateY:
-                          //           translateY.value +
-                          //           (index - currentIndex.value) *
-                          //             SCREEN_HEIGHT,
-                          //       },
-                          //     ],
-                          //   },
-                          // ]}
+                          entering={swipeEnteringAnimation()}
+                          exiting={swipeExitingAnimation()}
                         >
                           <View key={index} className='px-4'>
                             <Text className='justify-center items-center italic  px-4  text-white text-2xl'>

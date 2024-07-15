@@ -100,6 +100,7 @@ const collectionlist = () => {
 
   const handleCollection = (quoteId: any) => {
     dispatch(removeQuotesFromCollectionAsync({ collectionId, quoteId }));
+    ToastAndroid.show('Quote Removed from collection', ToastAndroid.SHORT);
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -180,7 +181,7 @@ const collectionlist = () => {
                   <View key={index} className='bg-primary-100 rounded-xl mt-5'>
                     <View className='p-4'>
                       <View className='flex-row justify-between'>
-                        <Text className='text-white text-lg w-[80%]'>
+                        <Text className='text-white text-lg w-[100%]'>
                           {item.quote}
                         </Text>
                       </View>
@@ -190,25 +191,25 @@ const collectionlist = () => {
                             -{item.author}
                           </Text>
                         )}
-                        <View className='flex-row gap-3'>
+                        <View className='flex-row gap-5'>
                           {user.savedQuotes.includes(item._id) ? (
                             <Fontisto
                               name='heart'
-                              size={20}
+                              size={24}
                               color='white'
                               onPress={() => handleLike(item._id, 'remove')}
                             />
                           ) : (
                             <AntDesign
                               name='hearto'
-                              size={20}
+                              size={24}
                               color={'white'}
                               onPress={() => handleLike(item._id, 'add')}
                             />
                           )}
                           <FontAwesome
                             name='bookmark'
-                            size={20}
+                            size={24}
                             color='white'
                             onPress={() => {
                               handleCollection(item._id);
@@ -232,7 +233,7 @@ const collectionlist = () => {
                   <View key={index} className='bg-primary-100 rounded-xl mt-5'>
                     <View className='p-4'>
                       <View className='flex-row justify-between'>
-                        <Text className='text-white text-lg w-[80%]'>
+                        <Text className='text-white text-lg w-[100%]'>
                           {item.quote}
                         </Text>
                       </View>
@@ -240,30 +241,30 @@ const collectionlist = () => {
                         {item.author && (
                           <Text className='text-white text-md'>
                             -
-                            {item.author.length > 30
-                              ? item.author.substring(0, 30) + '...'
+                            {item.author.length > 25
+                              ? item.author.substring(0, 25) + '...'
                               : item.author}
                           </Text>
                         )}
-                        <View className='flex-row gap-3'>
+                        <View className='flex-row gap-5'>
                           {user.savedQuotes.includes(item._id) ? (
                             <Fontisto
                               name='heart'
-                              size={20}
+                              size={24}
                               color='white'
                               onPress={() => handleLike(item._id, 'remove')}
                             />
                           ) : (
                             <AntDesign
                               name='hearto'
-                              size={20}
+                              size={24}
                               color={'white'}
                               onPress={() => handleLike(item._id, 'add')}
                             />
                           )}
                           <FontAwesome
                             name='bookmark'
-                            size={20}
+                            size={24}
                             color='white'
                             onPress={() => {
                               handleCollection(item._id);
@@ -271,7 +272,7 @@ const collectionlist = () => {
                           />
                           <Feather
                             name='share'
-                            size={20}
+                            size={24}
                             color='white'
                             onPress={() => handleShare(item.quote)}
                           />

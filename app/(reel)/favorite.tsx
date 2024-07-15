@@ -29,6 +29,7 @@ import {
   SlideInLeftAnimation,
   SlideInUpAnimation,
 } from '@/constants/animations';
+import { removeQuotesFromCollectionAsync } from '@/reducers/collectionSlice';
 
 const Favorite = () => {
   const user: any = useAppSelector((state) => state.user);
@@ -163,26 +164,26 @@ const Favorite = () => {
                     </View>
                     <View className='flex-row justify-between mt-2'>
                       <Text className='text-secondary-100 text-sm'> </Text>
-                      <View className='flex-row gap-3'>
+                      <View className='flex-row gap-5'>
                         <Fontisto
                           name='heart'
-                          size={20}
+                          size={24}
                           color='white'
                           onPress={() => handleLike(item._id)}
                         />
                         {checkIfQuoteIsInCollection(item._id) ? (
                           <FontAwesome
                             name='bookmark'
-                            size={20}
+                            size={24}
                             color='white'
                             onPress={() => {
-                              // handleCollection(item._id);
+                              // handleRemoveCollection(item._id);
                             }}
                           />
                         ) : (
                           <Feather
                             name='bookmark'
-                            size={20}
+                            size={24}
                             color='white'
                             onPress={() => {
                               handleCollection(item);

@@ -17,6 +17,10 @@ const AddQuote = () => {
   const [searchInputVisible, setSearchInputVisible] = useState(false);
   const [quote, setQuote] = useState('');
   const [author, setAuthor] = useState('');
+  const [quoteError, setQuoteError] = useState({
+    value: false,
+    message: '',
+  });
   const dispatch = useAppDispatch();
   const user: any = useAppSelector((state) => state.user);
   const userId = user._id;
@@ -40,15 +44,24 @@ const AddQuote = () => {
     }
   }, []);
 
-  const saveQuote = async () => {
-    if (quoteId) {
-      dispatch(
-        updateQuoteFromMyQuotesAsync({ userId, quoteId, quote, author })
-      );
-    } else {
-      dispatch(addQuoteToMyQuotesAsync({ userId, quote, author }));
+  useEffect(() => {
+    if (quote) {
+      setQuoteError({ value: false, message: '' });
     }
-    router.push('/myQuotes');
+  }, [quote]);
+  const saveQuote = async () => {
+    if (quote.trim() !== '') {
+      if (quoteId) {
+        dispatch(
+          updateQuoteFromMyQuotesAsync({ userId, quoteId, quote, author })
+        );
+      } else {
+        dispatch(addQuoteToMyQuotesAsync({ userId, quote, author }));
+      }
+      router.push('/myQuotes');
+    } else {
+      setQuoteError({ value: true, message: 'Please enter some quote' });
+    }
   };
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -89,6 +102,7 @@ const AddQuote = () => {
             handleChangeText={setQuote}
             value={quote}
             otherStyles={'mt-10'}
+            customError={quoteError}
           />
           <FormField
             title='Author'

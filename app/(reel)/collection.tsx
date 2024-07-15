@@ -81,7 +81,9 @@ const collection = () => {
         <View className='h-[80vh] '>
           <ScrollView className='mt-4'>
             {loading ? (
-              <Text>Loading...</Text>
+              <Text className='text-white text-2xl text-center'>
+                Loading...
+              </Text>
             ) : collections && collections.length > 0 ? (
               collections.map((item: any, index: any) => {
                 return (

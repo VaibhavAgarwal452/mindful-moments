@@ -38,7 +38,7 @@ const getName = () => {
             name: name,
             email: email,
             password: password,
-            // expoPushToken: expoPushToken?.data,
+            expoPushToken: expoPushToken?.data,
           })
         );
         router.push('/getGender');
