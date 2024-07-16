@@ -8,7 +8,6 @@ export const loginAsync = createAsyncThunk(
     'user/login',
     async ({ email, password }) => {
         const response = await login(email, password)
-        console.log(response, "response")
         if (response.status === 401) {
             return response
         }

@@ -1,6 +1,6 @@
 import { View, Text, TextInput, Pressable, Image } from 'react-native';
 import React, { useState } from 'react';
-import { icons } from '@/constants';
+import { Feather } from '@expo/vector-icons';
 
 const FormField = ({
   title,
@@ -35,11 +35,11 @@ const FormField = ({
 
         {title === 'Password' && (
           <Pressable onPress={() => setShowPassword(!showPassword)}>
-            <Image
-              source={!showPassword ? icons.eye : icons.eyeHide}
-              className='w-6 h-6'
-              resizeMode='contain'
-            />
+            {!showPassword ? (
+              <Feather name='eye' size={24} color='white' />
+            ) : (
+              <Feather name='eye-off' size={24} color='white' />
+            )}
           </Pressable>
         )}
       </View>

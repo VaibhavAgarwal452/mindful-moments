@@ -21,7 +21,6 @@ const GenderSelectionScreen = () => {
       router.push('/home');
     }, 100);
   };
-  console.log(user, 'user');
   return (
     <SafeAreaView className='bg-primary h-full'>
       <Animated.ScrollView
