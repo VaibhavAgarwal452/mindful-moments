@@ -51,6 +51,7 @@ const home = () => {
   const quotesRedux: any = useAppSelector((state) => state.quotes.quotes);
   const userId = user._id;
   const handleBackButton = (): any => {
+    BackHandler.exitApp();
     return false;
   };
   useBackButton(handleBackButton);

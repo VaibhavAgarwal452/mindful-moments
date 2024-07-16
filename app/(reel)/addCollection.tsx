@@ -11,6 +11,10 @@ import { SlideInUpAnimation } from '@/constants/animations';
 
 const AddCollection = () => {
   const [collectionName, setCollectionName] = useState('');
+  const [collectionError, setCollectionError] = useState({
+    value: false,
+    message: '',
+  });
   const dispatch = useAppDispatch();
   const user: any = useAppSelector((state) => state.user);
   const collection: any = useAppSelector((state) => state.collection);
@@ -29,17 +33,28 @@ const AddCollection = () => {
       });
     }
   }, []);
-
-  const saveQuote = async () => {
-    if (collectionId) {
-      dispatch(
-        updateNameAsync({ collectionId, newCollectionName: collectionName })
-      );
-    } else {
-      dispatch(createAsync({ userId, collectionName }));
+  useEffect(() => {
+    if (collectionName) {
+      setCollectionError({ value: false, message: '' });
     }
-    if (!collection.loading) {
-      router.push('/collection');
+  }, [collectionName]);
+  const saveQuote = async () => {
+    if (collectionName.trim() !== '') {
+      if (collectionId) {
+        dispatch(
+          updateNameAsync({ collectionId, newCollectionName: collectionName })
+        );
+      } else {
+        dispatch(createAsync({ userId, collectionName }));
+      }
+      if (!collection.loading) {
+        router.push('/collection');
+      }
+    } else {
+      setCollectionError({
+        value: true,
+        message: 'Please enter some collection Name',
+      });
     }
   };
   return (
@@ -77,6 +92,7 @@ const AddCollection = () => {
             handleChangeText={setCollectionName}
             value={collectionName}
             otherStyles={'mt-10'}
+            customError={collectionError}
           />
         </View>
         <CustomButton
