@@ -20,7 +20,14 @@ import {
   addQuoteToUserAsync,
   removeQuotesFromUserAsync,
 } from '@/reducers/userSlice';
-import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
+import Animated, {
+  useSharedValue,
+  withSpring,
+  SlideOutDown,
+  SlideOutUp,
+  SlideInUp,
+  SlideInDown,
+} from 'react-native-reanimated';
 import { SlideInDownAnimation } from '@/constants/animations';
 import {
   State,
@@ -32,6 +39,7 @@ const home = () => {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [liked, setLiked] = useState(false);
   const [quotesToShow, setQuotesToShow] = useState([]);
+  const [currentSwipe, setCurrentSwipe] = useState('');
   const dispatch = useAppDispatch();
   const user: any = useAppSelector((state) => state.user);
   const savedQuotes = useAppSelector((state) => state.quotes.savedQuotes);
@@ -110,10 +118,12 @@ const home = () => {
   };
 
   const handleQuoteChange = () => {
+    setCurrentSwipe('up');
     setCurrentQuoteIndex((index) => index + 1);
     setLiked(false);
   };
   const handlePreviousQuoteChange = () => {
+    setCurrentSwipe('down');
     setCurrentQuoteIndex((index) => index - 1);
   };
 
@@ -144,12 +154,14 @@ const home = () => {
       if (velocityY < -threshold) {
         // Swiped up
         if (currentIndex.value < quotesRedux.length - 1) {
+          setCurrentSwipe('up');
           currentIndex.value += 1;
           setCurrentQuoteIndex((index) => index + 1);
         }
       } else if (velocityY > threshold) {
         // Swiped down
         if (currentIndex.value > 0) {
+          setCurrentSwipe('down');
           currentIndex.value -= 1;
           setCurrentQuoteIndex((index) => index - 1);
         }
@@ -157,6 +169,10 @@ const home = () => {
       translateY.value = withSpring(-currentIndex.value * SCREEN_HEIGHT);
     }
   };
+  const swipeEnteringAnimation = () =>
+    currentSwipe === 'down' ? SlideInUp : SlideInDown;
+  const swipeExitingAnimation = () =>
+    currentSwipe === 'down' ? SlideOutDown : SlideOutUp;
 
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -179,7 +195,11 @@ const home = () => {
                   quotesToShow.map((quote: any, index: any) => {
                     if (index === currentQuoteIndex) {
                       return (
-                        <View key={index}>
+                        <Animated.View
+                          key={index}
+                          entering={swipeEnteringAnimation()}
+                          exiting={swipeExitingAnimation()}
+                        >
                           <View key={index} className='px-4'>
                             <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
                               {quotesToShow[currentQuoteIndex]?.quote}
@@ -189,7 +209,7 @@ const home = () => {
                                 ' - ' + quotesToShow[currentQuoteIndex]?.author}
                             </Text>
                           </View>
-                        </View>
+                        </Animated.View>
                       );
                     }
                   })

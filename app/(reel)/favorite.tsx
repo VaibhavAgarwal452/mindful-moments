@@ -29,7 +29,6 @@ import {
   SlideInLeftAnimation,
   SlideInUpAnimation,
 } from '@/constants/animations';
-import { removeQuotesFromCollectionAsync } from '@/reducers/collectionSlice';
 
 const Favorite = () => {
   const user: any = useAppSelector((state) => state.user);

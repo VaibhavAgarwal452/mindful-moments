@@ -89,10 +89,12 @@ const home = () => {
   };
 
   const handleQuoteChange = () => {
+    setCurrentSwipe('up');
     setCurrentQuoteIndex((index) => index + 1);
     // setLiked(false);
   };
   const handlePreviousQuoteChange = () => {
+    setCurrentSwipe('down');
     setCurrentQuoteIndex((index) => index - 1);
   };
 

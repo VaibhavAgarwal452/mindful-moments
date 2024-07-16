@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { createAsync, updateNameAsync } from '@/reducers/collectionSlice';
 import Animated from 'react-native-reanimated';
 import { SlideInUpAnimation } from '@/constants/animations';
+
 const AddCollection = () => {
   const [collectionName, setCollectionName] = useState('');
   const dispatch = useAppDispatch();
