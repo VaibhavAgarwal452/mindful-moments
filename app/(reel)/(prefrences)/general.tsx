@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
+import { View, Text, SafeAreaView, Pressable, Linking } from 'react-native';
 import React, { useEffect } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -112,7 +112,14 @@ const General = () => {
               <Text className='text-white text-xl'>OTHER</Text>
             </View>
             <View className='bg-primary-100 rounded-xl mt-5'>
-              <Pressable className='flex-row py-2 justify-between items-center border border-top-2 px-4'>
+              <Pressable
+                className='flex-row py-2 justify-between items-center border border-top-2 px-4'
+                onPress={() =>
+                  Linking.openURL(
+                    'https://sites.google.com/view/mindfulmomentsapp/home'
+                  )
+                }
+              >
                 <View className='flex-row gap-2 items-center'>
                   <MaterialIcons name='privacy-tip' size={20} color='white' />
                   <Text className='text-white p-2 text-xl'>
@@ -121,7 +128,14 @@ const General = () => {
                 </View>
                 <AntDesign name='right' size={20} color='white' />
               </Pressable>
-              <Pressable className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'>
+              <Pressable
+                className='px-4 py-2 justify-between flex-row items-center border border-top-1 border-black'
+                onPress={() =>
+                  Linking.openURL(
+                    'https://sites.google.com/view/mindful-moments-terms/home'
+                  )
+                }
+              >
                 <View className='flex-row gap-2 items-center'>
                   <MaterialIcons name='event-note' size={20} color='white' />
                   <Text className='text-white p-2 text-xl'>
