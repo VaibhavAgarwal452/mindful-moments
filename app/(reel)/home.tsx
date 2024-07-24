@@ -6,7 +6,6 @@ import {
   Share,
   BackHandler,
   Dimensions,
-  Easing,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CustomButton from '@/components/CustomButton';
@@ -16,15 +15,14 @@ import {
   MaterialCommunityIcons,
   Feather,
   Fontisto,
-  Octicons,
 } from '@expo/vector-icons';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { fetchQuotesAsync } from '@/reducers/quoteSlice';
 import {
   addQuoteToUserAsync,
   removeQuotesFromUserAsync,
-  // resetState,
+  resetState,
 } from '@/reducers/userSlice';
 import Animated, {
   useSharedValue,

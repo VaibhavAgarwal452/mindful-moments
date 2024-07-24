@@ -24,7 +24,7 @@ const FormField = ({
         }`}
       >
         <TextInput
-          className={`flex-1 w-full text-white font-psemibold`}
+          className={`flex-1 w-full h-full text-white font-psemibold`}
           value={value}
           placeholder={placeholder}
           onChangeText={handleChangeText}

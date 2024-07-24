@@ -283,7 +283,9 @@ const collectionlist = () => {
                 );
               })
             ) : (
-              <Text>No Quotes Found</Text>
+              <Text className='text-white text-2xl mx-auto'>
+                No Quotes Found
+              </Text>
             )}
             <Modal
               isVisible={isModalVisible}
