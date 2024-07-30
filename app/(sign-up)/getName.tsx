@@ -5,7 +5,7 @@ import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { updateUserData } from '@/reducers/userSlice';
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import { checkIfUserEmailExists } from '@/reducers/userAPI';
 import { checkValidEmail } from '@/common/utils';
 import Animated from 'react-native-reanimated';
@@ -28,6 +28,7 @@ const getName = () => {
   }, [email]);
 
   const saveuserName = async () => {
+    setContinueLoading(true);
     if (checkValidEmail(email)) {
       const { data } = await checkIfUserEmailExists(email);
       if (data) {
@@ -43,12 +44,14 @@ const getName = () => {
         );
         router.push('/getGender');
       }
+      setContinueLoading(false);
     } else {
       if (!checkValidEmail(email)) {
         setEmailError({
           value: true,
           message: 'Please enter correct email Address',
         });
+        setContinueLoading(false);
       }
     }
   };

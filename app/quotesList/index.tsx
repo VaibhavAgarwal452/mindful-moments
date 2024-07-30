@@ -201,7 +201,10 @@ const home = () => {
                           exiting={swipeExitingAnimation()}
                         >
                           <View key={index} className='px-4'>
-                            <Text className='justify-center items-center italic  px-4  text-white text-2xl'>
+                            <Text
+                              className='justify-center items-center italic  px-4  text-white text-2xl'
+                              selectable={true}
+                            >
                               {quotesToShow[currentQuoteIndex]?.quote}
                             </Text>
                             <Text className='text-secondary-100 text-lg mt-4 mx-4'>
