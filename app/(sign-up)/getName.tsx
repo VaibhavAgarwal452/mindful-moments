@@ -5,7 +5,7 @@ import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { updateUserData } from '@/reducers/userSlice';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { checkIfUserEmailExists } from '@/reducers/userAPI';
 import { checkValidEmail } from '@/common/utils';
 import Animated from 'react-native-reanimated';
@@ -17,19 +17,28 @@ const getName = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState({ value: false, message: '' });
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState({
+    value: false,
+    message: '',
+  });
   const [continueLoading, setContinueLoading] = useState(false);
   const { expoPushToken } = usePushNotifications();
 
-  const password = '123456789';
   useEffect(() => {
     if (email) {
       setEmailError({ value: false, message: '' });
     }
   }, [email]);
+  useEffect(() => {
+    if (password) {
+      setPasswordError({ value: false, message: '' });
+    }
+  }, [password]);
 
   const saveuserName = async () => {
     setContinueLoading(true);
-    if (checkValidEmail(email)) {
+    if (checkValidEmail(email) && password.length >= 8) {
       const { data } = await checkIfUserEmailExists(email);
       if (data) {
         setEmailError({ value: true, message: 'Email Already Exists' });
@@ -52,6 +61,12 @@ const getName = () => {
           message: 'Please enter correct email Address',
         });
         setContinueLoading(false);
+      }
+      if (password.length < 8) {
+        setPasswordError({
+          value: true,
+          message: 'Please enter the password with 8 digits',
+        });
       }
     }
   };
@@ -83,6 +98,13 @@ const getName = () => {
                 otherStyles={`mt-6`}
                 customError={emailError}
               />
+              <FormField
+                title='Password'
+                placeholder='Your password'
+                handleChangeText={setPassword}
+                value={password}
+                otherStyles={'mt-6'}
+              />
             </View>
           </View>
           <CustomButton
@@ -91,14 +113,14 @@ const getName = () => {
             handlePress={saveuserName}
             loading={continueLoading}
           />
-          {/* <View className='flex-row mb-10 justify-center'>
+          <View className='flex-row mb-10 justify-center'>
             <Text className='text-md text-white'>
               Already have an account{' '}
               <Link href='/login' className='text-blue-500'>
                 Login
               </Link>
             </Text>
-          </View> */}
+          </View>
         </View>
       </Animated.ScrollView>
     </SafeAreaView>

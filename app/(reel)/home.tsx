@@ -15,6 +15,7 @@ import {
   MaterialCommunityIcons,
   Feather,
   Fontisto,
+  Octicons
 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
@@ -159,7 +160,7 @@ const home = () => {
                     router.push('/profile');
                   }}
                 />
-                {/* <Octicons
+                <Octicons
                   name='sign-out'
                   size={35}
                   color='white'
@@ -168,7 +169,7 @@ const home = () => {
                     dispatch(resetState());
                     router.push('/login');
                   }}
-                /> */}
+                />
               </View>
               <Animated.View className='flex-1 items-center justify-center'>
                 {quotesRedux && quotesRedux.length > 0 ? (
