@@ -146,7 +146,7 @@ const home = () => {
   const swipeExitingAnimation = () =>
     currentSwipe === 'down' ? SlideOutDown : SlideOutUp;
   return (
-    <SafeAreaView className='bg-primary h-full'>
+    <SafeAreaView className='bg-primary h-full' >
       <GestureHandlerRootView>
         <Animated.ScrollView entering={SlideInUpAnimation}>
           <PanGestureHandler onHandlerStateChange={gestureHandler}>

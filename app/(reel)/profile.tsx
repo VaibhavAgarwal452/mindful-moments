@@ -7,6 +7,7 @@ import {
   AntDesign,
   Fontisto,
   Foundation,
+  FontAwesome5
 } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
@@ -58,6 +59,19 @@ const Profile = () => {
                 <View className='flex-row gap-2 items-center'>
                   <SimpleLineIcons name='settings' size={20} color='white' />
                   <Text className='text-white p-2 text-xl'>General</Text>
+                </View>
+                <AntDesign name='right' size={20} color='white' />
+              </Pressable>
+
+              <Pressable
+                className='flex-row py-2 justify-between items-center border border-top-2 px-4'
+                onPress={() => {
+                  router.push('/themes');
+                }}
+              >
+                <View className='flex-row gap-2 items-center'>
+                  <FontAwesome5 name="affiliatetheme" size={20} color="white" />
+                  <Text className='text-white p-2 text-xl'>Themes</Text>
                 </View>
                 <AntDesign name='right' size={20} color='white' />
               </Pressable>

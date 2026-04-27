@@ -37,6 +37,8 @@ export default function RootLayout() {
         <Stack.Screen name='(reel)' options={{ headerShown: false }} />
         <Stack.Screen name='quotesList' options={{ headerShown: false }} />
         <Stack.Screen name='category' options={{ headerShown: false }} />
+        <Stack.Screen name='themes' options={{ headerShown: false }} />
+
       </Stack>
       {/* </GestureHandlerRootView> */}
     </Provider>
